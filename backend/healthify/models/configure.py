@@ -31,3 +31,13 @@ DELETED_ON = Column(DateTime)
 BOOLEAN_TRUE = Column(TINYINT(1), default=1, nullable=False)
 BOOLEAN_FALSE = Column(TINYINT(1), default=0, nullable=False)
 
+
+NAME = Column(String(255), unique=True)
+NAME_NULLABLE_FALSE = Column(String(255), unique=True, nullable=False)
+AUTO_INCREMENTAL_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+
+USER_ID_FOREIGN_KEY = Column(String(36), ForeignKey('user.id'))
+CHANNEL_ID_FOREIGN_KEY = Column(String(36), ForeignKey('channel.id'))
+MESSAGE_ID_FOREIGN_KEY = Column(String(36), ForeignKey('message.id'))
+
+

@@ -1,0 +1,15 @@
+pydev debugger: process 21904 is connecting
+
+Traceback (most recent call last):
+  File "/home/rahul/Downloads/pycharm-community-4.5.3/helpers/pydev/pydevd.py", line 2358, in <module>
+    globals = debugger.run(setup['file'], None, None, is_module)
+  File "/home/rahul/Downloads/pycharm-community-4.5.3/helpers/pydev/pydevd.py", line 1778, in run
+    pydev_imports.execfile(file, globals, locals)  # execute the script
+  File "/home/rahul/healthify/backend/healthify/app.py", line 12, in <module>
+    from healthify.resources.publish import Publish
+  File "/home/rahul/healthify/backend/healthify/resources/publish.py", line 7, in <module>
+    from functionality.publish import publish_message
+  File "/home/rahul/healthify/backend/healthify/functionality/publish.py", line 24
+    get_channel_by_name
+    ^
+IndentationError: unexpected indent

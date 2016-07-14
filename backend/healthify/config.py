@@ -14,7 +14,9 @@ FLASK_PORT = 3434
 # SQLAlchemy #
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'healthify.db')
 # SQLALCHEMY_DATABASE_URI = 'postgresql://rahul:root@localhost:5433/healthify'
-SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:tunna@localhost/healthify'
+
+# SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:tunna@localhost/healthify'
+SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:root@localhost/healthify'
 
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_POOL_CYCLE = 3600
@@ -23,6 +25,12 @@ SQLALCHEMY_CONVERT_UNICODE = True
 # Flask JWT #
 SECRET_KEY = '\x8c\x1eW\xcd\x07\x87\x82\xef4M\xdc;\x81u\x8c \xe3\x06d\xda\xb6{\xa3\xb2'  # Mandatory
 JWT_EXPIRATION_DELTA = timedelta(hours=8)
+
+
+# Pika - Rabbitmq #
+PIKA_RABBITMQ_HOST = 'localhost'
+PIKA_RABBITMQ_EXCHANGE = 'public'
+PIKA_RABBITMQ_TYPE = 'fanout'
 
 # Logging Conf #
 LOGGING_CONFIG = dict(

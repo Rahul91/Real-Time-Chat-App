@@ -51,7 +51,7 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    from healthify.models import user
+    from healthify.models import user, channel
 
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),
