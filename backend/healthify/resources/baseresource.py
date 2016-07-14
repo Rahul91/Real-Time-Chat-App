@@ -3,14 +3,9 @@ from flask_restful import Resource
 from flask_restful.utils import unpack, OrderedDict
 from werkzeug.wrappers import Response as ResponseBase
 
-# from healthify.config import
 from healthify.utils import logger
 
 log = logger.logger
-# CONFIG = get_config()
-# increment = CONFIG.statsd.incr
-# total_requests = CONFIG.total_requests
-
 
 class BaseResource(Resource):
     def __init__(self, *args, **kwargs):
