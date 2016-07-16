@@ -3,6 +3,7 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
 from healthify.models.configure import Model
+from healthify import models
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -51,7 +52,7 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    from healthify.models import user, channel
+    from healthify.models import user, channel, chat
 
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),

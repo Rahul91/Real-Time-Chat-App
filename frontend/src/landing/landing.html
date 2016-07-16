@@ -1,0 +1,17 @@
+<div ng-init="index=true" >
+	<div ng-show="index">
+		<div id="mySidenav" class="mySidenav sidenav">
+			<a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">×</a>
+			<a href="#/" ng-click="closeNav()">About</a>
+			<a href="#/login">Login</a>
+			<a href="#/signup">Signup</a>
+			<a href="#">Contact</a>
+		</div>
+
+		<div id="main" class="main">
+			<h2>Sidenav Push Example</h2>
+			<p>Click on the element below to open the side navigation menu, and push this content to the right. Notice that we add a black see-through background-color to body when the sidenav is opened.</p>
+			<span style="font-size:30px;cursor:pointer" ng-click="openNav()">☰ open</span>
+		</div>
+	</div>
+</div>

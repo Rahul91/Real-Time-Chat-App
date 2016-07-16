@@ -47,10 +47,13 @@ LOGGING_CONFIG = dict(
                     'formatter': 'compact',
                     'level': 'DEBUG'
                     },
-        'api': {'class': 'logging.FileHandler',
-                'formatter': 'compact',
+        'api': {'class': 'logging.handlers.TimedRotatingFileHandler',
+                'formatter': 'verbose',
+                'level': 'DEBUG',
                 'filename': '%s/%s' % (basedir, '../logs/api/api.log'),
-                'level': 'DEBUG'
+                'interval': 1,
+                'when': 'midnight',
+                'encoding': 'utf8'
                 },
     },
     loggers={

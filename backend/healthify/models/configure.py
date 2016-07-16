@@ -1,4 +1,4 @@
-from uuid import uuid4
+from uuid import uuid1
 from datetime import datetime
 from sqlalchemy import (
     orm, create_engine, Column, String, ForeignKey, DateTime, TIMESTAMP, text, Integer
@@ -21,7 +21,7 @@ session = orm.scoped_session(_Session)
 Model.metadata.bind = engine
 Model.query = session.query_property()
 
-UNIQUE_ID = Column(String(36), primary_key=True, default=uuid4())
+UNIQUE_ID = Column(String(36), primary_key=True, default=str(uuid1()))
 CREATED_ON = Column(DateTime, default=datetime.now())
 CREATED_ON_WITH_SERVER_DEFAULT = Column(TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
 MODIFIED_ON = Column(TIMESTAMP, nullable=False, default=datetime.now(),

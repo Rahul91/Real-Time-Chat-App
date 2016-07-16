@@ -3,14 +3,14 @@
 <head>
 	<title>Demo APP</title>
 	<!--fonts-->
-		<link href='http://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,700,800,900' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+		<!--<link href='http://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,700,800,900' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>-->
 	<!--//fonts-->
 		<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-		<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
-		<link href="css/dashboard.css" rel="stylesheet" type="text/css" media="all" />
+		<!--<link href="css/dashboard.css" rel="stylesheet" type="text/css" media="all" />-->
 		<link href="css/home.css" rel="stylesheet" type="text/css" media="all" />
-		<!--<link href="css/signin.css" rel="stylesheet" type="text/css" media="all">-->
+		<link href="node_modules/angularjs-toaster/toaster.css" rel="stylesheet" type="text/css" media="all">
+		<link href="bower_components/ngModal/dist/ng-modal.css" rel="stylesheet" type="text/css" media="all">
 	<!-- for-mobile-apps -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -18,93 +18,34 @@
 	<!-- //for-mobile-apps -->
 	<!-- js -->
 		<script type="text/javascript" src="js/jquery.min.js"></script>
-		<script type="text/javascript" src="js/angular.min.js"></script>
+		<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
 		<script type="text/javascript" src="node_modules/angular/node_modules/angular-route/angular-route.js"></script>
 		<script type="text/javascript" src="node_modules/ngstorage/ngStorage.min.js"></script>
-		<!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>-->
+		<script type="text/javascript" src="node_modules/angularjs-toaster/toaster.min.js"></script>
+		<script type="text/javascript" src="node_modules/angular-animate/angular-animate.min.js"></script>
+		<script type="text/javascript" src="bower_components/ngModal/dist/ng-modal.min.js"></script>
+		
 	<!-- js -->
-	<!-- start-smooth-scrolling -->
-		<script type="text/javascript" src="js/move-top.js"></script>
-		<script type="text/javascript" src="js/easing.js"></script>
-		<script type="text/javascript" src="js/auth.js"></script>
-		<script type="text/javascript">
-			jQuery(document).ready(function($) {
-				$(".scroll").click(function(event){		
-					event.preventDefault();
-					$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
-				});
-			});
-		</script>
-	<!-- start-smooth-scrolling -->
-
 </head>
 <body>
 	<script type="text/javascript" src="src/mainApp.js"></script>
 
+	<script type="text/javascript" src="src/landing/landing.js"></script>
+
 	<script type="text/javascript" src="src/login/login.js"></script>
 	<script type="text/javascript" src="src/login/loginService.js"></script>
+
+	<script type="text/javascript" src="src/logout/logout.js"></script>
 	
 	<script type="text/javascript" src="src/signup/signup.js"></script>
 	<script type="text/javascript" src="src/signup/signupService.js"></script>
+
+	<script type="text/javascript" src="src/home/home.js"></script>
+	<script type="text/javascript" src="src/home/homeService.js"></script>
+	
 	<div ng-app = "mainApp">
-		<!--<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">Demo Project</a>
-				</div>
-				<div id="navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Dashboard</a></li>
-					<li><a href="#">Settings</a></li>
-					<li><a href="#">Profile</a></li>
-					<li><a href="#">Help</a></li>
-				</ul>
-				<form class="navbar-form navbar-right">
-					<input type="text" class="form-control" placeholder="Search...">
-				</form>
-				</div>
-			</div>
-		</nav>
-
-		    <div class="col-xs-3 col-md-2">
-				<ul class="nav nav-sidebar" ng-init="selectedTab = 'home'">
-				<li ng-class="{'active':selectedTab === 'home'}" ng-click="selectedTab = 'home'"><a href="#">Home <span class="sr-only">(current)</span></a></li>
-				<li ng-class="{'active':selectedTab === 'signup'}" ng-click="selectedTab = 'signup'"><a href="#/signup">Signup</a></li>
-				<li ng-class="{'active':selectedTab === 'login'}" ng-click="selectedTab = 'login'"><a href="#/auth">Login</a></li>
-				<li ng-class="active"><a href="#">Logout</a></li>
-				</ul>
-			</div>
-			
-			<div class="col-xs-6 col-md-6">
-				 <div ng-view></div>
-			</div>
-			
-			<div class="col-xs-3 col-md-4">
-			</div>-->
-			<div >
-				<div id="mySidenav" class="sidenav">
-				<a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">×</a>
-				<a href="#">About</a>
-				<a href="#">Services</a>
-				<a href="#">Clients</a>
-				<a href="#">Contact</a>
-				</div>
-
-				<div id="main">
-				<h2>Sidenav Push Example</h2>
-				<p>Click on the element below to open the side navigation menu, and push this content to the right. Notice that we add a black see-through background-color to body when the sidenav is opened.</p>
-				<span style="font-size:30px;cursor:pointer" ng-click="openNav()">☰ open</span>
-				</div>
-			</div>
-
-
-
-      </div>
+		<div ng-view>
+		</div>
+    </div>
 </body>
 </html>

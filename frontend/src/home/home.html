@@ -1,0 +1,138 @@
+<link href="home.css" rel="stylesheet" type="text/css" media="all">
+
+<nav class="navbar  navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">HealthifyMe</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+        <li><a href="#/logout">Logout</a></li>
+        <li><a href="#">Profile</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<div class="clearfix"></div>
+
+<toaster-container></toaster-container>
+<div class="row">
+  <div class="col-xs-6 col-md-2">.col-xs-6 .col-md-4</div>
+  <div class="col-xs-6 col-md-6">
+    <div class="container">
+    <div class="row">
+        <div class="panel panel-primary" style="max-width: 90%; min-height: 500px;" ng-show="displayChat">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-comment"></span> {{channel_name}}
+            </div>
+            <div class="panel-body" style="max-width: 95%; min-height: 370px;">
+              <ul class="chat">
+                  <li ng-repeat = "message in messageList | limitTo : 10" class="left clearfix"><span class="chat-img pull-left">
+                  </span>
+                    <div class="chat-body clearfix">
+                        <div class="header">
+                            <strong class="primary-font">{{message.published_by}}</strong> <small class="pull-right text-muted">
+                                <span class="glyphicon glyphicon-time"></span>{{message.created_on | date :'yyyy-MM-dd'}}</small>
+                        </div>
+                        <p>
+                            {{message.message_text}}
+                        </p>
+                    </div>
+                  </li>
+              </ul>
+            </div>
+            <div class="panel-footer">
+                <div class="input-group">
+                    <textarea id="btn-input" ng-model="message" type="text" style="max-width: 95%;" class="form-control input-sm" placeholder="Type your message here..." />
+                    </textarea> 
+                    <span class="input-group-btn">
+                        <button class="btn btn-warning btn-lg" id="btn-chat" ng-click="publish(message, channel_name)">
+                            Send</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+  </div>
+
+
+<div class="modal" id="noChannelFound" show="false" data-keyboard="false" data-backdrop="static" ng-show="!displayChat" >
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h4 class="modal-title" id="myModalLabel">Warning</h4>
+                  </div>
+                  <div class="modal-body">
+                     <span>No Channel Found!!!
+						      Click on the link below to create a channel, otherwise use public channel (which will be automatically
+                  created when you send your first message)
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close()" class="close">Dismiss
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="triggerChannelCreation()" class="close">Create New Channel
+                    </button>
+                  </div>
+               </div>
+            </div>
+		</div>
+
+<div class="channelModal" id="createChannel" show="false" data-keyboard="false" data-backdrop="static" ng-show="createNewChannel" >
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Create New Channel</h4>
+        </div>
+        <div class="modal-body">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label  class="col-sm-2 control-label"
+                      for="name">Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" 
+                id="channel_name" placeholder="Name" ng-model="channelName"/>
+            </div>
+          </div>
+          <form class="form-horizontal" role="form">
+            <div class="form-group">
+              <label  class="col-sm-2 control-label"
+                  for="type">Type</label>
+              <div class="col-sm-10">
+                  <input type="text" class="form-control" 
+                  id="channel_type" placeholder="Type(Public/Private)" ng-model="channelType"/>
+              </div>
+            </div>
+      </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
+                    </button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="createChannel(channelName, channelType)">Create Channel
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+
+
+</div>

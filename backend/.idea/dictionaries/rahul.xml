@@ -2,7 +2,9 @@
   <dictionary name="rahul">
     <words>
       <w>fanout</w>
+      <w>firstname</w>
       <w>healthify</w>
+      <w>lastname</w>
       <w>pika</w>
       <w>postgresql</w>
       <w>rabbitmq</w>
