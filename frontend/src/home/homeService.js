@@ -1,6 +1,9 @@
 var mainApp = angular.module("mainApp");
-mainApp.service("homeService", function($http, $localStorage){
-    var url = 'http://127.0.0.1:3434'
+mainApp.service("homeService", function($http, $localStorage, appConfig){
+    var apiendpoint = appConfig[appConfig.env].api_url;
+    var apiendpointport = appConfig[appConfig.env].api_url_port;
+    var url = apiendpoint + ':' + apiendpointport
+    
     token = localStorage['token'].replace(/['"]+/g, '')
     this.publish = function (message, channel) {
         console.log(message, channel)
@@ -26,9 +29,11 @@ mainApp.service("homeService", function($http, $localStorage){
         }); 
     };
 
-    this.fetch_message = function () {
-        console.log()
-        return $http.get(url + "/message", {
+    this.fetch_message = function (channel_name) {
+        console.log(channel_name)
+        return $http.post(url + "/message", {
+            "channel_name": channel_name,
+            }, {
          "headers": {
             "Authorization": 'JWT ' + token
             }

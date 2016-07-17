@@ -2,6 +2,19 @@ var mainApp = angular.module("mainApp", ['ngRoute', 'ngStorage', 'ngAnimate', 't
 
 mainApp.factory('myInterceptor', myInterceptor);
 
+mainApp.constant('appConfig', {
+        env: 'development',
+        development: {
+            api_url: 'http://localhost',
+            api_url_port: '3434'
+        }
+    });
+
+// mainApp.constant("myConfig", {
+//         "url": "http://localhost",
+//         "port": "3434"
+//     })
+
 mainApp.config(function($routeProvider, $httpProvider) {
     $routeProvider.
     when('/login', {
@@ -28,8 +41,6 @@ mainApp.config(function($routeProvider, $httpProvider) {
         redirectTo: '/'
     });
     $httpProvider.interceptors.push('myInterceptor');
-
-    // $rootScope.urlEndPoint = 'http://127.0.0.1:3434'
 });
 
 function myInterceptor() {

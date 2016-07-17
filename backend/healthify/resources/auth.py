@@ -32,6 +32,7 @@ class Singup(Resource):
         params = signup_request_format.parse_args()
         log.info(params)
         try:
+            # session.rollback()
             response = signup(**params)
             session.commit()
             return response
@@ -54,6 +55,8 @@ class Singup(Resource):
         except Exception as e:
             print e
             session.rollback()
+        finally:
+            session.close()
 
 
 class User(Resource):
@@ -91,6 +94,8 @@ class User(Resource):
         except Exception as e:
             print e
             session.rollback()
+        finally:
+            session.close()
 
 
 

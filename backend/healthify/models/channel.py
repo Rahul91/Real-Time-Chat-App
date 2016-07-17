@@ -2,7 +2,7 @@ import uuid
 from sqlalchemy import Column, String, ForeignKey, \
     UniqueConstraint, and_, Integer, Enum
 
-from healthify.models.configure import (Model, UNIQUE_ID, CREATED_ON_WITH_SERVER_DEFAULT,
+from healthify.models.configure import (Model, CREATED_ON_WITH_SERVER_DEFAULT,
                                         DELETED_ON, NAME_NULLABLE_FALSE, USER_ID_FOREIGN_KEY)
 
 __author__ = 'rahul'

@@ -5,13 +5,43 @@
 			<a href="#/" ng-click="closeNav()">About</a>
 			<a href="#/login">Login</a>
 			<a href="#/signup">Signup</a>
-			<a href="#">Contact</a>
+			<a href="http://rahul91.github.io/" >Contact</a>
 		</div>
 
 		<div id="main" class="main">
-			<h2>Sidenav Push Example</h2>
-			<p>Click on the element below to open the side navigation menu, and push this content to the right. Notice that we add a black see-through background-color to body when the sidenav is opened.</p>
-			<span style="font-size:30px;cursor:pointer" ng-click="openNav()">☰ open</span>
+			<h2>Problem Statement</h2>
+			<p>Requirements:
+Anyone visiting the website should be asked for login/signup.
+Once logged in, they should join a public channel where all users can send messages.
+Messages sent by one person should be received by all the other users who are currently logged into the public channel. And this messaging should be realtime.
+There should be an option for the user to clear chat, which should only clear the chat for that user, others should still be able to see all the messages.
+Any new feature that you can think of in addition to the above requirements. Document this in README when you are submitting.
+</p>
+
+		<h2>My approach</h2>
+		<p>
+			Technological Stack:
+			<ul>
+				<li> Flask(Flask-Restful) + MySql(db) + sqlAlchemy(ORM) + Alembic(DB Migration)</li> 
+				<li> Angularjs(Js) + Bootstrap(CSS) </li>
+				<li> RabbitMq (broker) + Pika (MessagingClient)</li>
+				<li> Apidoc(Documentation) </li>
+			</ul>	 
+		</p>
+
+		<h2>Project Setup</h2>
+		<p>
+			<ul>
+				<li> Clone project from github, <a href="https://github.com/Rahul91/healthify"> https://github.com/Rahul91/healthify</a></li> 
+				<li> Create virtualenv, activate it and install requriement using pip from healthify/backend/requirements.txt </li>
+				<li> Change db config in healthify/backend/healthify/config.py and healthify/backend/healthify/models/alembic/alembic.ini </li>
+				<li> Execute script in healthify/backend/migrate_db.sh </li>
+				<li> Now run the healthify/backend/app.py  </li>
+				<li> Do npm install in healthify/frontend, make sure you have package.json in your current directory</li>
+				<li> Change constant in healthify/frontend/src/mainApp.js to point to your flask api </li>
+			</ul>	 
+		</p>
+			<span style="font-size:30px;cursor:pointer" ng-click="openNav()">☰ Dive In: To check the project</span>
 		</div>
 	</div>
 </div>

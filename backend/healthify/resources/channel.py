@@ -25,12 +25,13 @@ class Channel(Resource):
     def post(self):
         create_channel_request_format = reqparse.RequestParser()
         create_channel_request_format.add_argument('channel_name', type=non_empty_str, required=True, help="CHANNEL-REQ-NAME")
-        create_channel_request_format.add_argument('type', type=non_empty_str, required=False, help="CHANNEL-REQ-TYPE")
+        create_channel_request_format.add_argument('type', type=non_empty_str, required=True, help="CHANNEL-REQ-TYPE")
 
         params = create_channel_request_format.parse_args()
         params.update(dict(user_id=current_identity.id))
         log.info('Publish params: {}'.format(params))
         try:
+            # session.rollback()
             response = create_channel(**params)
             session.commit()
             return response
@@ -53,4 +54,6 @@ class Channel(Resource):
         except Exception as e:
             print e
             session.rollback()
+        finally:
+            session.close()
 

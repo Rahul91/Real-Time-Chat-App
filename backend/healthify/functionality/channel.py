@@ -1,5 +1,8 @@
-from models.channel import Channel
-from models.configure import session
+from uuid import uuid4
+
+from healthify.models.channel import Channel
+from healthify.models.user import User
+from healthify.models.configure import session
 from utils import validation
 
 __author__ = 'rahul'
@@ -14,13 +17,13 @@ def create_channel(**kwargs):
     channel_created_by = kwargs['user_id']
 
     channel_create_params = dict(
+        id=str(uuid4()),
         name=channel_name,
         created_by=channel_created_by,
         type=channel_type,
     )
     channel = Channel(**channel_create_params)
     session.add(channel)
-    session.flush()
 
     return dict(
         channel_name=channel.name,
@@ -31,7 +34,7 @@ def create_channel(**kwargs):
 
 @validation.not_empty('channel', 'REQ-CHANNEL-NAME', req=True)
 def get_channel_by_name(**kwargs):
-    channel =  session.query(Channel).filter(Channel.name == kwargs['channel'], Channel.deleted_on.is_(None))\
+    channel = session.query(Channel).filter(Channel.name == kwargs['channel'], Channel.deleted_on.is_(None))\
         .first()
     if not channel:
         return 'INVALID-CHANNEL-NAME'

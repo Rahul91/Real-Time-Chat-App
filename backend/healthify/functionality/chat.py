@@ -1,4 +1,5 @@
 import json
+from uuid import uuid4
 
 from functionality.channel import create_channel, get_channel_by_name
 import pika
@@ -6,6 +7,7 @@ from healthify.utils import logger
 from healthify.config import PIKA_RABBITMQ_HOST, PIKA_RABBITMQ_TYPE
 from healthify.models.configure import session
 from healthify.models.chat import ChatHistory
+from healthify.models.user import User
 from healthify.utils import validation
 from healthify.functionality.auth import get_user_by_id
 
@@ -39,6 +41,9 @@ def publish_message(**kwargs):
                                body=json.dumps(payload))
     connection.close()
 
+    payload.update(dict(
+         id=str(uuid4()),
+    ))
     chat_obj = ChatHistory(**payload)
     session.add(chat_obj)
     session.flush()
@@ -50,7 +55,11 @@ def publish_message(**kwargs):
 
 
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
+@validation.not_empty('channel_name', 'REQ-CHANNEL-ID', req=True)
 def fetch_message(**kwargs):
-    # user = get_user_by_id(user_id=kwargs['user_id'])
-    message_list = session.query(ChatHistory).filter(ChatHistory.deleted_on.is_(None)).all()
+    channel_obj = get_channel_by_name(channel=kwargs['channel_name'])
+    message_list = session.query(ChatHistory). \
+        filter(ChatHistory.channel == channel_obj.id, ChatHistory.deleted_on.is_(None)) \
+        .order_by(ChatHistory.created_on.desc()).all()
+
     return message_list

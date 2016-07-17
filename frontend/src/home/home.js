@@ -1,14 +1,11 @@
 var mainApp = angular.module("mainApp");
-mainApp.controller("homeController", function ($scope, toaster, $rootScope, $location, $timeout, $interval, homeService) {
-    // $scope.listin = function() {
-    //     console.log("$scope.callAtInterval - Interval occurred");
-
-    // }
-    // $interval( function(){ $scope.listin(); }, 3000);
+mainApp.controller("homeController", function ($scope, toaster, $rootScope, $location, $document, $timeout, $interval, homeService) {
+    
     $scope.channel_name = 'public';
     $scope.messageList = [];
     $scope.createNewChannel = false;
     $scope.displayChat = true;
+    $document[0].body.style.backgroundColor = "white";
 
     $scope.get_user = function () {
         var userInfo = homeService.get_user()
@@ -27,8 +24,8 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     }
     $scope.get_user();
 
-    $scope.fetch = function () {
-        var result = homeService.fetch_message()
+    $scope.fetch = function (channel_name) {
+        var result = homeService.fetch_message(channel_name)
         result.then(function(response) {
             console.log(response.data);
             if (response.status ==  200){
@@ -38,13 +35,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                 }else{
                     $scope.channel_name = 'public'
                     $scope.displayChat = false;
-                    //     toaster.pop({
-                    //     type: 'warning',
-                    //     title: 'No Channel Found',
-                    //     body: 'We found no channel, Send a message and a public channel will be created for you',
-                    //     showCloseButton: true,
-                    //     timeout: 10000
-                    // });
                 }
             }else{
                 toaster.pop('error', response.data['message'])
@@ -55,20 +45,25 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         ); 
     }
-    $scope.fetch();
+    $scope.fetch('public');
 
+    $scope.listin = function() {
+        $scope.fetch($scope.channel_name);
+    }
+    $interval( function(){ $scope.listin(); }, 60000);
 
     $scope.publish = function (message, channel) {
         var result = homeService.publish(message, channel)
         result.then(function(response) {
             console.log(response.data);
             if (response.status ==  200){
-                $scope.messageList.push({
-                                'message_text': message,
-                                'created_on': new Date(),
-                                'published_by': $rootScope['first_name'],
-                                'direction': "outgoing"
-                            });
+                // $scope.messageList.append({
+                //                 'message_text': message,
+                //                 'created_on': new Date(),
+                //                 'published_by_name': $rootScope['first_name'],
+                //                 'direction': "outgoing"
+                //             });
+                $scope.fetch(channel);
             }else{
                 toaster.pop('error', response.data['message'])
             }},
@@ -76,8 +71,8 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                 toaster.pop('error', error.data['message'])
                 console.log(error.data)
             }
-        ); 
-
+        );
+        $scope.message=''; 
     }
 
     $scope.close = function () {
@@ -95,9 +90,12 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     }
 
     $scope.triggerChannelCreation = function () {
+        $scope.createNewChannel = true;
+        $scope.displayChat = false;
+        var channelModalClass = angular.element(document.querySelector('.channelModal'));
+        channelModalClass.removeClass('hide')
         var modalClass = angular.element(document.querySelector('.modal'));
         modalClass.addClass('hide');
-        $scope.createNewChannel = true;
     }
 
     // $scope.createNewChannel
@@ -108,7 +106,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             console.log(response.data);
             if (response.status ==  200){
                 $scope.channel_name = response.data['channel_name'];
-                $scope.displayChat = true;
             }else{
                 toaster.pop('error', response.data['message'])
             }},
@@ -117,7 +114,11 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                 console.log(error.data)
             }
         );
-     var channelModalClass = angular.element(document.querySelector('.channelModal'));
-    channelModalClass.addClass('hide') 
+    //  var channelModalClass = angular.element(document.querySelector('.channelModal'));
+    //  channelModalClass.addClass('hide') 
+     $scope.createNewChannel = false;
+     $scope.displayChat = true;
+    //  var modalClass = angular.element(document.querySelector('.modal'));
+    //  modalClass.removeClass('hide');
     }
 });

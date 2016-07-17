@@ -1,4 +1,4 @@
-<link href="home.css" rel="stylesheet" type="text/css" media="all">
+<link href="src/home/home.css" rel="stylesheet" type="text/css" media="all">
 
 <nav class="navbar  navbar-inverse">
   <div class="container-fluid">
@@ -9,12 +9,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">HealthifyMe</a>
+      <a class="navbar-brand" href="#/home">HealthifyMe</a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -25,7 +25,7 @@
           <button type="submit" class="btn btn-default">Submit</button>
       </form>
         <li><a href="#/logout">Logout</a></li>
-        <li><a href="#">Profile</a></li>
+        <li><a href="#/home">Profile</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -33,22 +33,39 @@
 <div class="clearfix"></div>
 
 <toaster-container></toaster-container>
+
+
 <div class="row">
-  <div class="col-xs-6 col-md-2">.col-xs-6 .col-md-4</div>
-  <div class="col-xs-6 col-md-6">
-    <div class="container">
-    <div class="row">
-        <div class="panel panel-primary" style="max-width: 90%; min-height: 500px;" ng-show="displayChat">
+  <div class="col-xs-6 col-sm-3 col-md-2" style="border-style: solid; padding-bottom: 100px;">
+    <!--<div class="col-sm-3 col-md-3 sidebar">-->
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#/home">Channels <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="triggerChannelCreation()" class="close">Create New Channel
+                    </button>
+          </ul>
+        <!--</div>-->
+
+  </div>
+
+  <div class="col-xs-6 col-md-10">
+    <!--<div class="container">-->
+    <!--<div class="row">-->
+        <div class="panel panel-primary" ng-show="displayChat">
             <div class="panel-heading">
                 <span class="glyphicon glyphicon-comment"></span> {{channel_name}}
             </div>
-            <div class="panel-body" style="max-width: 95%; min-height: 370px;">
+            <div class="panel-body" style="max-height: 440px; overflow-y: scroll;">
               <ul class="chat">
-                  <li ng-repeat = "message in messageList | limitTo : 10" class="left clearfix"><span class="chat-img pull-left">
+                  <li ng-repeat = "message in messageList | orderBy:'created_on':false  | limitTo : 10" class="left clearfix"><span class="chat-img pull-left">
                   </span>
                     <div class="chat-body clearfix">
                         <div class="header">
-                            <strong class="primary-font">{{message.published_by}}</strong> <small class="pull-right text-muted">
+                            <strong class="primary-font">{{message.published_by_name}}</strong> <small class="pull-right text-muted">
                                 <span class="glyphicon glyphicon-time"></span>{{message.created_on | date :'yyyy-MM-dd'}}</small>
                         </div>
                         <p>
@@ -69,9 +86,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    <!--</div>-->
 
-    </div>
+    <!--</div>-->
   </div>
 
 
@@ -82,7 +99,7 @@
                      <h4 class="modal-title" id="myModalLabel">Warning</h4>
                   </div>
                   <div class="modal-body">
-                     <span>No Channel Found!!!
+                     <span>No Chat Found!!!
 						      Click on the link below to create a channel, otherwise use public channel (which will be automatically
                   created when you send your first message)
                   </div>
@@ -122,7 +139,6 @@
               </div>
             </div>
       </div>
-
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
                     </button>
@@ -130,6 +146,7 @@
           </button>
         </div>
       </div>
+    </div>
     </div>
 
 

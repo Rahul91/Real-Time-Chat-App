@@ -33,6 +33,7 @@ class Publish(Resource):
         params.update(dict(user_id=current_identity.id))
         log.info('Publish params: {}'.format(params))
         try:
+            # session.rollback()
             response = publish_message(**params)
             session.commit()
             return response
@@ -55,13 +56,15 @@ class Publish(Resource):
         except Exception as e:
             print e
             session.rollback()
+        finally:
+            session.close()
 
 
 def message_transformation(message):
     return dict(
         message_id=message.id,
         message_text=message.message,
-        published_by=message.published_by,
+        published_by_name=message.published_by_name,
         created_on=message.created_on,
     )
 
@@ -73,18 +76,27 @@ class Fetch(Resource):
     message_response_format = dict(
         message_id=fields.String,
         message_text=fields.String,
-        published_by=fields.String,
+        published_by_name=fields.String,
         created_on=fields.DateTime,
     )
 
     @marshal_with(message_response_format)
-    def get(self):
+    def post(self):
+
+        fetch_message_request_format = reqparse.RequestParser()
+        fetch_message_request_format.add_argument('channel_name', type=non_empty_str, required=True, help="PUB-REQ-CHANNEL")
+
+        params = fetch_message_request_format.parse_args()
+        params.update(dict(user_id=current_identity.id))
         try:
-            response = fetch_message(user_id=current_identity.id)
+            message_list = []
+            session.rollback()
+            response = fetch_message(**params)
             session.commit()
             for a_message in response:
-                a_message.published_by = get_user_by_id(user_id=a_message.published_by).first_name
-            return [message_transformation(a_message) for a_message in response]
+                setattr(a_message, 'published_by_name', get_user_by_id(user_id=a_message.published_by).first_name)
+                message_list.append(message_transformation(a_message))
+            return message_list
         except ValueError as val_err:
             log.error(repr(val_err))
             session.rollback()
@@ -104,3 +116,5 @@ class Fetch(Resource):
         except Exception as e:
             print e
             session.rollback()
+        finally:
+            session.close()

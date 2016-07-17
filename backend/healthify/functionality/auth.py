@@ -1,8 +1,4 @@
-from functools import wraps
-from flask import request, jsonify
-from flask_jwt import jwt_required, JWT
-from sqlalchemy import func
-from sqlalchemy.exc import SQLAlchemyError
+from uuid import uuid4
 
 from healthify.models.configure import session
 from healthify.models.user import User
@@ -19,6 +15,9 @@ __author__ = 'rahul'
 @validation.not_empty('last_name', 'SIGNUP-REQ-LASTNAME', req=True)
 def signup(**kwargs):
     if not get_user_by_username(username=kwargs['username']):
+        kwargs.update(dict(
+            id=str(uuid4()),
+        ))
         user = User(**kwargs)
         session.add(user)
         session.flush()

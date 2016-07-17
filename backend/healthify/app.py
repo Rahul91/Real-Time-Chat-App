@@ -35,12 +35,12 @@ api.add_resource(User, '/user')
 api.add_resource(Channel, '/channel')
 
 
-@app.teardown_request
-def close_session(exception):
-    session.remove()
-    return exception
-
-app.teardown_appcontext(close_session)
+# @app.teardown_request
+# def close_session(exception):
+#     session.close()
+#     return exception
+#
+# app.teardown_appcontext(close_session)
 
 if __name__ == "__main__":
     app.run(debug=config.FLASK_DEBUG, port=config.FLASK_PORT)
