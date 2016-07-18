@@ -48,13 +48,10 @@ class Singup(Resource):
             log.exception(io_err)
             session.rollback()
             abort(500, message="API-ERR-IO")
-        # except SQLAlchemyError as sa_err:
-        #     log.exception(sa_err)
-        #     session.rollback()
-        #     abort(500, message="API-ERR-DB")
-        except Exception as e:
-            print e
+        except SQLAlchemyError as sa_err:
+            log.exception(sa_err)
             session.rollback()
+            abort(500, message="API-ERR-DB")
         finally:
             session.close()
 
@@ -87,16 +84,12 @@ class User(Resource):
             log.exception(io_err)
             session.rollback()
             abort(500, message="API-ERR-IO")
-        # except SQLAlchemyError as sa_err:
-        #     log.exception(sa_err)
-        #     session.rollback()
-        #     abort(500, message="API-ERR-DB")
-        except Exception as e:
-            print e
+        except SQLAlchemyError as sa_err:
+            log.exception(sa_err)
             session.rollback()
+            abort(500, message="API-ERR-DB")
         finally:
             session.close()
-
 
 
 class ForgotPassword(Resource):
