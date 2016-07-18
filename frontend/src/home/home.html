@@ -40,9 +40,9 @@
     <!--<div class="col-sm-3 col-md-3 sidebar">-->
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#/home">Channels <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Reports</a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">Export</a></li>
+            <li><a href="#/home">Public</a></li>
+            <!--<li><a href="#/home">Analytics</a></li>
+            <li><a href="#/home">Export</a></li>-->
           </ul>
           <ul class="nav nav-sidebar">
             <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="triggerChannelCreation()" class="close">Create New Channel
@@ -61,7 +61,7 @@
             </div>
             <div class="panel-body" style="max-height: 440px; overflow-y: scroll;">
               <ul class="chat">
-                  <li ng-repeat = "message in messageList | orderBy:'created_on':false  | limitTo : 10" class="left clearfix"><span class="chat-img pull-left">
+                  <li ng-repeat = "message in messageList | reverse" class="left clearfix"><span class="chat-img pull-left">
                   </span>
                     <div class="chat-body clearfix">
                         <div class="header">

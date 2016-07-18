@@ -135,3 +135,10 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
      $scope.createNewChannel = false;
     }
 });
+
+mainApp.filter('reverse', function() {
+    return function(items) {
+    return items.slice().reverse();
+    };
+});
+

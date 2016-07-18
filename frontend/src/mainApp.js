@@ -1,4 +1,4 @@
-var mainApp = angular.module("mainApp", ['ngRoute', 'ngStorage', 'ngAnimate', 'toaster', "ngModal"]);
+var mainApp = angular.module("mainApp", ['ngRoute', 'ngStorage', 'ngAnimate', 'toaster']);
 
 mainApp.factory('myInterceptor', myInterceptor);
 
@@ -67,3 +67,10 @@ function myInterceptor() {
     }
   }
 }
+
+// mainApp.factory('mySocket', function (socketFactory) {
+//   var mySocket = socketFactory();
+//   mySocket.forward('error');
+//   return mySocket;
+// });
+
