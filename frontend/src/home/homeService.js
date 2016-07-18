@@ -9,7 +9,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
         console.log(message, channel)
         return $http.post(url + "/publish", {
             "message": message,
-            "channel": channel
+            "channel_name": channel
             }, {
          "headers": {
             "Authorization": 'JWT ' + token
@@ -32,6 +32,17 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     this.fetch_message = function (channel_name) {
         console.log(channel_name)
         return $http.post(url + "/message", {
+            "channel_name": channel_name,
+            }, {
+         "headers": {
+            "Authorization": 'JWT ' + token
+            }
+        }); 
+    };
+
+    this.streamFetch = function (channel_name) {
+        console.log(channel_name)
+        return $http.post(url + "/stream", {
             "channel_name": channel_name,
             }, {
          "headers": {
