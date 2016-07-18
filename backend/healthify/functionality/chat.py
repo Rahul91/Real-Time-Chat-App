@@ -1,5 +1,6 @@
 import json
 from uuid import uuid4
+from sqlalchemy import desc
 
 from functionality.channel import create_channel, get_channel_by_name
 import pika
@@ -60,7 +61,7 @@ def fetch_message(**kwargs):
     channel_obj = get_channel_by_name(channel=kwargs['channel_name'])
     message_list = session.query(ChatHistory). \
         filter(ChatHistory.channel == channel_obj.id, ChatHistory.deleted_on.is_(None)) \
-        .order_by(ChatHistory.created_on.desc()).all()
+        .order_by(desc(ChatHistory.created_on)).limit(10).all()
 
     return message_list
 
