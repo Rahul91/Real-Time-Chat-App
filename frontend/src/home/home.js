@@ -5,6 +5,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.messageList = [];
     $scope.createNewChannel = false;
     $scope.displayChat = true;
+    $scope.page_num = 0
     $document[0].body.style.backgroundColor = "white";
 
     $scope.get_user = function () {
@@ -24,8 +25,8 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     }
     $scope.get_user();
 
-    $scope.fetch = function (channel_name) {
-        var result = homeService.fetch_message(channel_name)
+    $scope.fetch = function (channel_name, page_num) {
+        var result = homeService.fetch_message(channel_name, page_num)
         result.then(function(response) {
             console.log(response.data);
             if (response.status ==  200){
@@ -45,7 +46,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         ); 
     }
-    $scope.fetch('public');
+    $scope.fetch('public', $scope.page_num);
 
     // $scope.listin = function(channel_name) {
     //     var result = homeService.streamFetch(channel_name)
@@ -120,6 +121,23 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
 
     $scope.createChannel = function (name, type) {
         var channel = homeService.createChannel(name, type)
+        channel.then(function(response) {
+            console.log(response.data);
+            if (response.status ==  200){
+                $scope.channel_name = response.data['channel_name'];
+            }else{
+                toaster.pop('error', response.data['message'])
+            }},
+            function(error) {
+                toaster.pop('error', error.data['message'])
+                console.log(error.data)
+            }
+        );
+     $scope.createNewChannel = false;
+    }
+
+    $scope.deleteChat = function (channelName) {
+        var channel = homeService.deleteChat(channelName)
         channel.then(function(response) {
             console.log(response.data);
             if (response.status ==  200){

@@ -4,14 +4,15 @@ from flask_restful import Resource
 from functionality.auth import get_user_by_id
 from sqlalchemy.exc import SQLAlchemyError
 
-from healthify.utils import logger
-from functionality.chat import publish_message, fetch_message, fetch_stream_messages
+from healthify.utils.logger import get_logger
+from functionality.chat import publish_message, fetch_message, fetch_stream_messages, delete_chat
 from healthify.models.configure import session
 from healthify.utils.validation import non_empty_str
+from healthify.config import PER_PAGE_RESPONSE_LIMIT
 
 __author__ = 'rahul'
 
-log = logger.logger
+log = get_logger()
 
 
 class Publish(Resource):
@@ -82,9 +83,11 @@ class Fetch(Resource):
 
         fetch_message_request_format = reqparse.RequestParser()
         fetch_message_request_format.add_argument('channel_name', type=non_empty_str, required=True, help="MSG-FETCH-REQ-CHANNEL")
+        fetch_message_request_format.add_argument('page_num', type=int, required=True, help="MSG-FETCH-REQ-PAGE-NUM")
 
         params = fetch_message_request_format.parse_args()
         params.update(dict(user_id=current_identity.id))
+        params.update(dict(page_size=PER_PAGE_RESPONSE_LIMIT))
         try:
             message_list = []
             session.rollback()
@@ -106,17 +109,17 @@ class Fetch(Resource):
             log.exception(io_err)
             session.rollback()
             abort(500, message="API-ERR-IO")
-        except SQLAlchemyError as sa_err:
-            log.exception(sa_err)
-            session.rollback()
-            abort(500, message="API-ERR-DB")
+        # except SQLAlchemyError as sa_err:
+        #     log.exception(sa_err)
+        #     session.rollback()
+        #     abort(500, message="API-ERR-DB")
         finally:
             session.close()
 
 
 class MessageStream(Resource):
 
-    decorators = [jwt_required()]
+    # decorators = [jwt_required()]
 
     message_response_format = dict(
         message_id=fields.String,
@@ -128,19 +131,16 @@ class MessageStream(Resource):
     @marshal_with(message_response_format)
     def post(self):
         fetch_message_stream_request_format = reqparse.RequestParser()
-        fetch_message_stream_request_format.add_argument('channel_name', type=non_empty_str, required=True, help="MSG-STREAM-REQ-CHANNEL")
+        fetch_message_stream_request_format.add_argument('channel', type=non_empty_str, required=True, help="MSG-STREAM-REQ-CHANNEL")
+        fetch_message_stream_request_format.add_argument('published_by', type=non_empty_str, required=True, help="MSG-STREAM-REQ-PUBLISHER")
+        fetch_message_stream_request_format.add_argument('message', type=non_empty_str, required=True, help="MSG-STREAM-REQ-MESSAGE")
 
         params = fetch_message_stream_request_format.parse_args()
-        params.update(dict(user_id=current_identity.id))
         try:
-            stream_message_list = []
             session.rollback()
             response = fetch_stream_messages(**params)
             session.commit()
-            for a_message in response:
-                setattr(a_message, 'published_by_name', get_user_by_id(user_id=a_message.published_by).first_name)
-                stream_message_list.append(message_transformation(a_message))
-            return stream_message_list
+            return response
         except ValueError as val_err:
             log.error(repr(val_err))
             session.rollback()
@@ -153,12 +153,41 @@ class MessageStream(Resource):
             log.exception(io_err)
             session.rollback()
             abort(500, message="API-ERR-IO")
-        # except SQLAlchemyError as sa_err:
-        #     log.exception(sa_err)
-        #     session.rollback()
-        #     abort(500, message="API-ERR-DB")
-        except Exception as e:
-            print e
+        except SQLAlchemyError as sa_err:
+            log.exception(sa_err)
             session.rollback()
+            abort(500, message="API-ERR-DB")
+        finally:
+            session.close()
+
+    def delete(self):
+        delete_chat_params = reqparse.RequestParser()
+        delete_chat_params.add_argument('channel_name', type=non_empty_str, required=True, help="MSG-STREAM-REQ-CHANNEL")
+        # fetch_message_stream_request_format.add_argument('published_by', type=non_empty_str, required=True, help="MSG-STREAM-REQ-PUBLISHER")
+        # fetch_message_stream_request_format.add_argument('message', type=non_empty_str, required=True, help="MSG-STREAM-REQ-MESSAGE")
+
+        params = delete_chat_params.parse_args()
+        params.update(dict(user_id=current_identity.id))
+        try:
+            session.rollback()
+            response = delete_chat(**params)
+            session.commit()
+            return response
+        except ValueError as val_err:
+            log.error(repr(val_err))
+            session.rollback()
+            abort(400, message=val_err.message)
+        except KeyError as key_err:
+            log.error(repr(key_err))
+            session.rollback()
+            abort(400, message="MSG-INVALID-PARAM")
+        except IOError as io_err:
+            log.exception(io_err)
+            session.rollback()
+            abort(500, message="API-ERR-IO")
+        except SQLAlchemyError as sa_err:
+            log.exception(sa_err)
+            session.rollback()
+            abort(500, message="API-ERR-DB")
         finally:
             session.close()

@@ -4,13 +4,13 @@ from sqlalchemy.exc import SQLAlchemyError
 from flask_restful import Resource
 
 from healthify.models.configure import session
-from healthify.utils import logger
+from healthify.utils.logger import get_logger
 from healthify.functionality.auth import signup, get_user_by_id
 from healthify.utils.validation import non_empty_str
 
 __author__ = 'rahul'
 
-log = logger.logger
+log = get_logger()
 
 
 class Singup(Resource):

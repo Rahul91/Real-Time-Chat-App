@@ -5,14 +5,14 @@ from flask_cors import CORS
 
 from healthify import config
 from healthify.functionality.auth import identity, authenticate
-from healthify.utils import logger
+from healthify.utils.logger import get_logger
 from healthify.resources.auth import Singup, User, ForgotPassword
 from healthify.resources.chat import Publish, Fetch, MessageStream
 from healthify.resources.channel import Channel
 
 __author__ = 'rahul'
 
-log = logger.logger
+log = get_logger()
 
 app = Flask(config.FLASK_APP_NAME)
 app.config.from_object(config)

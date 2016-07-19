@@ -31,7 +31,10 @@ PIKA_RABBITMQ_HOST = 'localhost'
 PIKA_RABBITMQ_EXCHANGE = 'public'
 PIKA_RABBITMQ_TYPE = 'fanout'
 
+PER_PAGE_RESPONSE_LIMIT = 10
+
 # Logging Conf #
+DEFAULT_LOGGER_NAME = 'api'
 LOGGING_CONFIG = dict(
     version=1,
     formatters={
@@ -57,9 +60,14 @@ LOGGING_CONFIG = dict(
     },
     loggers={
         '': {
+            'handlers': ['default'],
+            'level': 'DEBUG',
+        },
+        'api': {
             'handlers': ['api'],
             'level': 'DEBUG',
             'propagate': False
         },
+
     }
 )

@@ -3,14 +3,14 @@ from flask_restful import marshal_with, reqparse, fields, abort
 from flask_restful import Resource
 from sqlalchemy.exc import SQLAlchemyError
 
-from healthify.utils import logger
+from healthify.utils.logger import get_logger
 from functionality.channel import create_channel
 from healthify.models.configure import session
 from healthify.utils.validation import non_empty_str
 
 __author__ = 'rahul'
 
-log = logger.logger
+log = get_logger()
 
 
 class Channel(Resource):
@@ -48,10 +48,10 @@ class Channel(Resource):
             log.exception(io_err)
             session.rollback()
             abort(500, message="API-ERR-IO")
-        except SQLAlchemyError as sa_err:
-            log.exception(sa_err)
-            session.rollback()
-            abort(500, message="API-ERR-DB")
+        # except SQLAlchemyError as sa_err:
+        #     log.exception(sa_err)
+        #     session.rollback()
+        #     abort(500, message="API-ERR-DB")
         except Exception as e:
             print e
             session.rollback()

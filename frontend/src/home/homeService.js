@@ -29,10 +29,22 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
         }); 
     };
 
-    this.fetch_message = function (channel_name) {
+    this.deleteChat = function (channel_name) {
+        console.log(name, type)
+        return $http.post(url + "/channel/delete", {
+            "channel_name": channel_name
+            }, {
+         "headers": {
+            "Authorization": 'JWT ' + token
+            }
+        }); 
+    };
+
+    this.fetch_message = function (channel_name, page_num) {
         console.log(channel_name)
         return $http.post(url + "/message", {
             "channel_name": channel_name,
+            "page_num": page_num
             }, {
          "headers": {
             "Authorization": 'JWT ' + token

@@ -1,11 +1,16 @@
 from uuid import uuid4
 
+from healthify.models.chat import ChatHistory
+from healthify.models.common import UserChannelMapping
+from healthify.utils.logger import get_logger
 from healthify.models.channel import Channel
 from healthify.models.user import User
 from healthify.models.configure import session
 from utils import validation
 
 __author__ = 'rahul'
+
+log = get_logger()
 
 
 @validation.not_empty('channel_name', 'REQ-CHANNEL-NAME', req=True)
@@ -39,3 +44,40 @@ def get_channel_by_name(**kwargs):
     if not channel:
         return 'INVALID-CHANNEL-NAME'
     return channel
+
+
+@validation.not_empty('channel_id', 'REQ-CHANNEL-ID', req=True)
+def get_channel_by_id(**kwargs):
+    channel = session.query(Channel).filter(Channel.id == kwargs['channel_id'], Channel.deleted_on.is_(None))\
+        .first()
+    if not channel:
+        return 'INVALID-CHANNEL-ID'
+    return channel
+
+
+@validation.not_empty('channel_id', 'REQ-CHANNEL-ID', req=True)
+@validation.not_empty('user_id', 'REQ-USER-ID', req=True)
+def is_channel_unsubscribed(**kwargs):
+    channel_mapping = session.query(UserChannelMapping)\
+        .filter(UserChannelMapping.user_id == kwargs['user_id'], UserChannelMapping.channel_id == kwargs['channel_id']).first()
+    if channel_mapping and channel_mapping.is_unsubscribed:
+        return True
+    return False
+
+
+@validation.not_empty('channel_name', 'REQ-CHANNEL-NAME', req=True)
+@validation.not_empty('user_id', 'REQ-USER-ID', req=True)
+def save_user_channel_mapping(**kwargs):
+    user_id = kwargs['user_id']
+    channel_id = get_channel_by_name(channel=kwargs['channel_name']).id
+    params = dict(
+        id=str(uuid4()),
+        user_id=user_id,
+        channel_id=channel_id,
+    )
+    UserChannelMapping()
+    channel_mapping = session.query(UserChannelMapping)\
+        .filter(UserChannelMapping.user_id == kwargs['user_id'], UserChannelMapping.channel_id == kwargs['channel_id']).first()
+    if channel_mapping and channel_mapping.is_unsubscribed:
+        return True
+    return False

@@ -3,9 +3,9 @@ from uuid import uuid4
 from healthify.models.configure import session
 from healthify.models.user import User
 from healthify.utils import validation
-from healthify.utils import logger
+from healthify.utils.logger import get_logger
 
-log = logger.logger
+log = get_logger()
 
 __author__ = 'rahul'
 
