@@ -8,6 +8,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.page_num = 0
     $document[0].body.style.backgroundColor = "white";
 
+    
     $scope.get_user = function () {
         var userInfo = homeService.get_user()
         userInfo.then(function (response) {
@@ -25,8 +26,27 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     }
     $scope.get_user();
 
-    $scope.fetch = function (channel_name, page_num) {
-        var result = homeService.fetch_message(channel_name, page_num)
+    $scope.get_channel_by_name = function (channel_name) {
+        var result = homeService.get_channel_by_name(channel_name)
+        result.then(function(response) {
+            console.log(response.data);
+            if (response.status ==  200){
+                if (response.data.length == 0){
+                    $scope.createChannel('public', 'public')
+                }
+            }else{
+                toaster.pop('error', response.data['message'])
+            }},
+            function(error) {
+                toaster.pop('error', error.data['message'])
+                console.log(error.data)
+            }
+        );
+    }
+    $scope.get_channel_by_name('public');
+
+    $scope.get_chat_by_channel_name = function (channel_name, page_num) {
+        var result = homeService.get_chat_by_channel_name(channel_name, page_num)
         result.then(function(response) {
             console.log(response.data);
             if (response.status ==  200){
@@ -46,43 +66,37 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         ); 
     }
-    $scope.fetch('public', $scope.page_num);
+    $scope.get_chat_by_channel_name('public', $scope.page_num);
 
-    // $scope.listin = function(channel_name) {
-    //     var result = homeService.streamFetch(channel_name)
-    //     result.then(function(response) {
-    //         console.log(response.data);
-    //         if (response.status ==  200){
-    //             $scope.messageList = response.data;
-    //             if ($scope.messageList.length > 0){
-    //                 $scope.displayChat = true;
-    //             }else{
-    //                 $scope.channel_name = 'public'
-    //                 $scope.displayChat = false;
-    //             }
-    //         }else{
-    //             toaster.pop('error', response.data['message'])
-    //         }},
-    //         function(error) {
-    //             toaster.pop('error', error.data['message'])
-    //             console.log(error.data)
-    //         }
-    //     );
-    // }
-    // $interval( function(){ $scope.listin($scope.channel_name); }, 20000);
-
-    $scope.publish = function (message, channel) {
-        var result = homeService.publish(message, channel)
+    $scope.get_all_channels = function () {
+        var result = homeService.get_all_channels()
         result.then(function(response) {
             console.log(response.data);
             if (response.status ==  200){
-                // $scope.messageList.append({
-                //                 'message_text': message,
-                //                 'created_on': new Date(),
-                //                 'published_by_name': $rootScope['first_name'],
-                //                 'direction': "outgoing"
-                //             });
-                $scope.fetch(channel);
+                $scope.channelList = response.data
+            }else{
+                toaster.pop('error', response.data['message'])
+            }},
+            function(error) {
+                toaster.pop('error', error.data['message'])
+                console.log(error.data)
+            }
+        );
+    }
+    $scope.get_all_channels();
+
+    $scope.publish = function (message, channel_name) {
+        var result = homeService.publish(message, channel_name)
+        result.then(function(response) {
+            console.log(response.data);
+            if (response.status ==  200){
+                $scope.messageList.push({
+                                'message_text': message,
+                                'created_on': new Date(),
+                                'published_by_name': $rootScope['first_name'],
+                                'direction': "outgoing"
+                            });
+                // $scope.fetch(channel_name);
             }else{
                 toaster.pop('error', response.data['message'])
             }},
@@ -116,8 +130,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         var modalClass = angular.element(document.querySelector('.modal'));
         modalClass.addClass('hide');
     }
-
-    // $scope.createNewChannel
 
     $scope.createChannel = function (name, type) {
         var channel = homeService.createChannel(name, type)

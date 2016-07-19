@@ -7,11 +7,7 @@ mainApp.controller("signupController", function ($scope, $timeout, $interval, si
                     console.log('success: ', success.data);
                     if (success.status == 200){
                         toaster.pop('success', 'User Created');
-                        // $timeout(function() {
                             var loginResult = loginService.validate(username, password)
-                            // loginResult.then(function (response) {
-                            // $localStorage.token = response.data["access_token"];
-                            // });
                             loginResult.then(function(response) {
                                 if (response.status == 200){
                                     localStorage.token = response.data["access_token"];
@@ -22,10 +18,6 @@ mainApp.controller("signupController", function ($scope, $timeout, $interval, si
                                     toaster.pop('error', response['statusText']);
                                 }
                             },function(error) {});
-                        // }, 50);
-                        // $timeout(function(){
-                        //     window.location.href='#/home'
-                        // }, 50);
                     }else{
                         toaster.pop('error', success.data['message']);
                     }

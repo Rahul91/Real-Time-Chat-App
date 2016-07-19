@@ -5,13 +5,18 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     var url = apiendpoint + ':' + apiendpointport
     
     token = localStorage['token'].replace(/['"]+/g, '')
-    this.publish = function (message, channel) {
-        console.log(message, channel)
-        return $http.post(url + "/publish", {
-            "message": message,
-            "channel_name": channel
-            }, {
-         "headers": {
+    
+    this.get_all_channels = function () {
+        return $http.get(url + "/channel", {
+            "headers": {
+            "Authorization": 'JWT ' + token
+            }
+        }); 
+    };
+
+    this.get_channel_by_name = function (channel_name) {
+        return $http.get(url + "/channel/" + channel_name, {
+            "headers": {
             "Authorization": 'JWT ' + token
             }
         }); 
@@ -19,7 +24,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
 
     this.createChannel = function (name, type) {
         console.log(name, type)
-        return $http.post(url + "/channel", {
+        return $http.post(url + "/channel/create", {
             "channel_name": name,
             "type": type
             }, {
@@ -40,11 +45,23 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
         }); 
     };
 
-    this.fetch_message = function (channel_name, page_num) {
+    this.get_chat_by_channel_name = function (channel_name, page_num) {
         console.log(channel_name)
         return $http.post(url + "/message", {
             "channel_name": channel_name,
             "page_num": page_num
+            }, {
+         "headers": {
+            "Authorization": 'JWT ' + token
+            }
+        }); 
+    };
+
+    this.publish = function (message, channel) {
+        console.log(message, channel)
+        return $http.post(url + "/message/publish", {
+            "message": message,
+            "channel_name": channel
             }, {
          "headers": {
             "Authorization": 'JWT ' + token
@@ -64,7 +81,6 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     };
 
     this.get_user = function () {
-        console.log()
         return $http.get(url + "/user", {
          "headers": {
             "Authorization": 'JWT ' + token

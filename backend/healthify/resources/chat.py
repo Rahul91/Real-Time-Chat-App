@@ -15,13 +15,13 @@ __author__ = 'rahul'
 log = get_logger()
 
 
-class Publish(Resource):
+class Chat(Resource):
 
     decorators = [jwt_required()]
 
     message_publish_response_format = dict(
         message_id=fields.String,
-        published=fields.Boolean,
+        message_published=fields.Boolean,
     )
 
     @marshal_with(message_publish_response_format)
@@ -34,7 +34,7 @@ class Publish(Resource):
         params.update(dict(user_id=current_identity.id))
         log.info('Publish params: {}'.format(params))
         try:
-            # session.rollback()
+            session.rollback()
             response = publish_message(**params)
             session.commit()
             return response
@@ -57,6 +57,36 @@ class Publish(Resource):
         finally:
             session.close()
 
+    def delete(self):
+        delete_chat_params = reqparse.RequestParser()
+        delete_chat_params.add_argument('channel_name', type=non_empty_str, required=True, help="MSG-DELETE-REQ-CHANNEL")
+
+        params = delete_chat_params.parse_args()
+        params.update(dict(user_id=current_identity.id))
+        try:
+            session.rollback()
+            response = delete_chat(**params)
+            session.commit()
+            return response
+        except ValueError as val_err:
+            log.error(repr(val_err))
+            session.rollback()
+            abort(400, message=val_err.message)
+        except KeyError as key_err:
+            log.error(repr(key_err))
+            session.rollback()
+            abort(400, message="MSG-DELETE-INVALID-PARAM")
+        except IOError as io_err:
+            log.exception(io_err)
+            session.rollback()
+            abort(500, message="API-ERR-IO")
+        except SQLAlchemyError as sa_err:
+            log.exception(sa_err)
+            session.rollback()
+            abort(500, message="API-ERR-DB")
+        finally:
+            session.close()
+
 
 def message_transformation(message):
     return dict(
@@ -67,7 +97,7 @@ def message_transformation(message):
     )
 
 
-class Fetch(Resource):
+class FetchChat(Resource):
 
     decorators = [jwt_required()]
 
@@ -160,34 +190,3 @@ class MessageStream(Resource):
         finally:
             session.close()
 
-    def delete(self):
-        delete_chat_params = reqparse.RequestParser()
-        delete_chat_params.add_argument('channel_name', type=non_empty_str, required=True, help="MSG-STREAM-REQ-CHANNEL")
-        # fetch_message_stream_request_format.add_argument('published_by', type=non_empty_str, required=True, help="MSG-STREAM-REQ-PUBLISHER")
-        # fetch_message_stream_request_format.add_argument('message', type=non_empty_str, required=True, help="MSG-STREAM-REQ-MESSAGE")
-
-        params = delete_chat_params.parse_args()
-        params.update(dict(user_id=current_identity.id))
-        try:
-            session.rollback()
-            response = delete_chat(**params)
-            session.commit()
-            return response
-        except ValueError as val_err:
-            log.error(repr(val_err))
-            session.rollback()
-            abort(400, message=val_err.message)
-        except KeyError as key_err:
-            log.error(repr(key_err))
-            session.rollback()
-            abort(400, message="MSG-INVALID-PARAM")
-        except IOError as io_err:
-            log.exception(io_err)
-            session.rollback()
-            abort(500, message="API-ERR-IO")
-        except SQLAlchemyError as sa_err:
-            log.exception(sa_err)
-            session.rollback()
-            abort(500, message="API-ERR-DB")
-        finally:
-            session.close()

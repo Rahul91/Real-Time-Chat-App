@@ -25,7 +25,7 @@
           <button type="submit" class="btn btn-default">Submit</button>
       </form>
         <li><a href="#/logout">Logout</a></li>
-        <li><a href="#/home">Profile</a></li>
+        <li><a href="#/home">{{first_name}}</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -36,24 +36,20 @@
 
 
 <div class="row">
-  <div class="col-xs-6 col-sm-3 col-md-2" style="border-style: solid; padding-bottom: 100px;">
+  <div class="col-xs-6 col-sm-3 col-md-2">
     <!--<div class="col-sm-3 col-md-3 sidebar">-->
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#/home">Channels <span class="sr-only">(current)</span></a></li>
-            <li><a href="#/home">Public</a></li>
-            <!--<li><a href="#/home">Analytics</a></li>
-            <li><a href="#/home">Export</a></li>-->
+            <li ng-repeat = "channel in channelList" ><a href="#/home">{{channel.channel_name}}</a></li>
           </ul>
           <ul class="nav nav-sidebar">
             <button type="button" class="btn btn-success btn-block" data-dismiss="modal" ng-click="triggerChannelCreation()" class="close">Create Channel
                     </button>
-          </ul>
-          <ul class="nav nav-sidebar">
+
             <li><button type="button" class="btn btn-danger btn-block" data-dismiss="modal" ng-click="deleteChat(channel_name)" class="close">Delete Chat
                     </button></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><button type="button" class="btn btn-warning btn-block" data-dismiss="modal" ng-click="deleteChat(channel_name)" class="close">Delete Chat
+
+            <li><button type="button" class="btn btn-warning btn-block" data-dismiss="modal" ng-click="deleteChat(channel_name)" class="close">Unsubscribe Channel
                     </button></li>
           </ul>
         <!--</div>-->
@@ -61,13 +57,11 @@
   </div>
 
   <div class="col-xs-6 col-md-10">
-    <!--<div class="container">-->
-    <!--<div class="row">-->
         <div class="panel panel-primary" ng-show="displayChat">
             <div class="panel-heading">
                 <span class="glyphicon glyphicon-comment"></span> {{channel_name}}
             </div>
-            <div class="panel-body" style="max-height: 440px; overflow-y: scroll;">
+            <div class="panel-body">
               <ul class="chat">
                   <li ng-repeat = "message in messageList | reverse" class="left clearfix"><span class="chat-img pull-left">
                   </span>
@@ -88,38 +82,34 @@
                     <textarea id="btn-input" ng-model="message" type="text" style="max-width: 95%;" class="form-control input-sm" placeholder="Type your message here..." />
                     </textarea> 
                     <span class="input-group-btn">
-                        <button class="btn btn-warning btn-lg" id="btn-chat" ng-click="publish(message, channel_name)">
+                        <button class="btn btn-warning btn-lg" id="btn-chat" ng-disabled="!message" ng-click="publish(message, channel_name)">
                             Send</button>
                     </span>
                 </div>
             </div>
         </div>
-    <!--</div>-->
-
-    <!--</div>-->
   </div>
 
 
 <div class="modal" id="noChannelFound" show="false" data-keyboard="false" data-backdrop="static" ng-show="!displayChat" >
-            <div class="modal-dialog">
-               <div class="modal-content">
-                  <div class="modal-header">
-                     <h4 class="modal-title" id="myModalLabel">Warning</h4>
-                  </div>
-                  <div class="modal-body">
-                     <span>No Chat Found!!!
-						      Click on the link below to create a channel, otherwise use public channel (which will be automatically
-                  created when you send your first message)
-                  </div>
-                  <div class="modal-footer">
-                     <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close()" class="close">Dismiss
-                    </button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="triggerChannelCreation()" class="close">Create New Channel
-                    </button>
-                  </div>
-               </div>
-            </div>
-		</div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">Warning</h4>
+          </div>
+          <div class="modal-body">
+              <span>Welcome to Healthify Chat Portal!!!<br>
+          We have created a public channel for you, feel free to add more channels.
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close()" class="close">Dismiss
+            </button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="triggerChannelCreation()" class="close">Create New Channel
+            </button>
+          </div>
+        </div>
+    </div>
+	</div>
 
 <div class="channelModal" id="createChannel" show="false" data-keyboard="false" data-backdrop="static" ng-show="createNewChannel" >
   <div class="modal-dialog">
@@ -127,26 +117,19 @@
         <div class="modal-header">
             <h4 class="modal-title" id="myModalLabel">Create New Channel</h4>
         </div>
-        <div class="modal-body">
-        <form class="form-horizontal" role="form">
-          <div class="form-group">
-            <label  class="col-sm-2 control-label"
-                      for="name">Name</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" 
-                id="channel_name" placeholder="Name" ng-model="channelName"/>
-            </div>
-          </div>
-          <form class="form-horizontal" role="form">
-            <div class="form-group">
-              <label  class="col-sm-2 control-label"
-                  for="type">Type</label>
-              <div class="col-sm-10">
-                  <input type="text" class="form-control" 
-                  id="channel_type" placeholder="Type(Public/Private)" ng-model="channelType"/>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="channel_name" class="control-label">Name:</label>
+                <input type="text" class="form-control" id="channel_name" placeholder="Name" ng-model="channelName">
               </div>
-            </div>
-      </div>
+              <div class="form-group">
+                <label for="channel_type" class="control-label">Type:</label>
+                <input type="text" class="form-control" 
+                      id="channel_type" placeholder="Type(Public/Private)" ng-model="channelType"/>
+              </div>
+            </form>
+          </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
                     </button>
@@ -155,7 +138,7 @@
         </div>
       </div>
     </div>
-    </div>
+  </div>
 
 
 

@@ -7,8 +7,8 @@ from healthify import config
 from healthify.functionality.auth import identity, authenticate
 from healthify.utils.logger import get_logger
 from healthify.resources.auth import Singup, User, ForgotPassword
-from healthify.resources.chat import Publish, Fetch, MessageStream
-from healthify.resources.channel import Channel
+from healthify.resources.chat import Chat, MessageStream, FetchChat
+from healthify.resources.channel import Channel, FetchChannel
 
 __author__ = 'rahul'
 
@@ -25,11 +25,15 @@ JWT(app, authenticate, identity)
 
 api.add_resource(Singup, '/signup')
 api.add_resource(ForgotPassword, '/password/forgot')
-api.add_resource(Publish, '/publish')
-api.add_resource(Fetch, '/message')
+api.add_resource(Chat, '/message/publish')
+api.add_resource(Chat, '/message/delete', endpoint='delete_chat')
+api.add_resource(FetchChat, '/message')
 api.add_resource(MessageStream, '/stream')
 api.add_resource(User, '/user')
 api.add_resource(Channel, '/channel')
+api.add_resource(Channel, '/channel/create', endpoint='save_channel')
+api.add_resource(Channel, '/channel/unsubscribe', endpoint='unsubscribe_channel')
+api.add_resource(FetchChannel, '/channel/<string:channel_name>', endpoint='get_channel_details')
 
 
 # @app.teardown_request

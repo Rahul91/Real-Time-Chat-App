@@ -17,10 +17,10 @@ engine = create_engine(SQLALCHEMY_DATABASE_URI,
 
 # Why pool_recycle : http://docs.sqlalchemy.org/en/rel_0_9/dialects/mysql.html#connection-timeouts
 _Session = orm.sessionmaker(autocommit=False, autoflush=True, bind=engine, expire_on_commit=False)
-# session = orm.scoped_session(_Session)
-session = _Session()
+session = orm.scoped_session(_Session)
+# session = _Session()
 Model.metadata.bind = engine
-# Model.query = session.query_property()
+Model.query = session.query_property()
 
 UNIQUE_ID = Column(String(36), primary_key=True, default=str(uuid1()))
 CREATED_ON = Column(DateTime, default=datetime.now())
