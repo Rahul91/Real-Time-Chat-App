@@ -35,10 +35,23 @@
 <toaster-container></toaster-container>
 
 
+<!--<div class="container">-->
 <div class="row">
   <div class="col-xs-6 col-sm-3 col-md-2">
+    <div id="mySidenav" class="mySidenav sidenav">
+      <!--<div class="col-xs-6 col-sm-3 col-md-2">-->
+      <a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">×</a>
+      <a href="#/" ng-click="closeNav()">About</a>
+      <a href="#/login">Login</a>
+      <a href="#/signup">Signup</a>
+      <a href="http://rahul91.github.io/" >Contact</a>
+      </div>
+    <!--</div>-->
+  <span style="font-size:30px;cursor:pointer" ng-click="openNav()">☰ Dive In: To check the project</span>
+</div>
+  <!--<div class="col-xs-6 col-sm-3 col-md-2">-->
     <!--<div class="col-sm-3 col-md-3 sidebar">-->
-          <ul class="nav nav-sidebar">
+          <!--<ul class="nav nav-sidebar">
             <li class="active"><a href="#/home">Channels <span class="sr-only">(current)</span></a></li>
             <li ng-repeat = "channel in channelList" ><a href="#/home">{{channel.channel_name}}</a></li>
           </ul>
@@ -52,9 +65,21 @@
             <li><button type="button" class="btn btn-warning btn-block" data-dismiss="modal" ng-click="deleteChat(channel_name)" class="close">Unsubscribe Channel
                     </button></li>
           </ul>
+          <div class='collapse-nav'>
+          <a class="toggle-nav-collapse" title="Open/Close" href="#"><i class="fa fa-angle-left"></i></a>
+      </div>-->
         <!--</div>-->
 
-  </div>
+        <!--<div id="mySidenav" class="mySidenav sidenav">
+          <a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">×</a>
+          <a href="#/" ng-click="closeNav()">About</a>
+          <a href="#/login">Login</a>
+          <a href="#/signup">Signup</a>
+          <a href="http://rahul91.github.io/" >Contact</a>
+      </div>
+      <span style="font-size:30px;cursor:pointer" ng-click="openNav()">☰ Dive In: To check the project</span>-->
+
+  <!--</div>-->
 
   <div class="col-xs-6 col-md-10">
         <div class="panel panel-primary" ng-show="displayChat">
@@ -139,8 +164,5 @@
       </div>
     </div>
   </div>
-
-
-
-
 </div>
+<!--</div>-->

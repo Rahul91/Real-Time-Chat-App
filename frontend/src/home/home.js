@@ -8,6 +8,17 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.page_num = 0
     $document[0].body.style.backgroundColor = "white";
 
+    $scope.openNav = function(){
+        $document[0].getElementById("mySidenav").style.width = "250px";
+        $document[0].getElementById("main").style.marginLeft = "250px";
+        $document[0].body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    };
+    
+    $scope.closeNav = function(){
+        $document[0].getElementById("mySidenav").style.width = "0";
+        $document[0].getElementById("main").style.marginLeft= "0";
+        $document[0].body.style.backgroundColor = "white";
+    };
     
     $scope.get_user = function () {
         var userInfo = homeService.get_user()
