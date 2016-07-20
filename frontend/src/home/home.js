@@ -43,7 +43,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         );
     }
-    $scope.get_channel_by_name('public');
+    $scope.get_channel_by_name($scope.channel_name);
 
     $scope.get_chat_by_channel_name = function (channel_name, page_num) {
         var result = homeService.get_chat_by_channel_name(channel_name, page_num)
@@ -66,7 +66,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         ); 
     }
-    $scope.get_chat_by_channel_name('public', $scope.page_num);
+    $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
 
     $scope.get_all_channels = function () {
         var result = homeService.get_all_channels()
@@ -90,7 +90,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         result.then(function(response) {
             console.log(response.data);
             if (response.status ==  200){
-                $scope.messageList.push({
+                $scope.messageList.unshift({
                                 'message_text': message,
                                 'created_on': new Date(),
                                 'published_by_name': $rootScope['first_name'],
