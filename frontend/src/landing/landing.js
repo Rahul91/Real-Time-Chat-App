@@ -1,5 +1,6 @@
 var mainApp = angular.module("mainApp");
-mainApp.controller("landingController", function ($scope, $rootScope, loginService, $localStorage, $location, $document) {
+mainApp.controller("landingController", function ($scope, $rootScope, $window, loginService, $localStorage, $location, $document) {
+    // $window.location.reload();
     $document[0].body.style.backgroundColor = "white";
     
     $scope.openNav = function(){

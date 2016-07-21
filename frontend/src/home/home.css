@@ -20,16 +20,6 @@ html {
     max-height: 550px;
 }
 
-.modal-footer {
-    padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
-}
-
- .modal-footer:after {
-    content: " ";
-}
-
 .sidenavbar:before,  .sidenavbar:after{
     content: '';
     position: absolute;

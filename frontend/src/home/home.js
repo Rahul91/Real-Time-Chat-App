@@ -4,10 +4,11 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.channel_name = 'public';
     $scope.messageList = [];
     $scope.createNewChannel = false;
+    $scope.showunsubscribechannel = false;
+    $scope.showdeletechannel = false;
     $scope.displayChat = true;
     $scope.page_num = 0
     $document[0].body.style.backgroundColor = "white";
-    $window.location.reload();
     
     $scope.openNav = function(){
         $document[0].getElementById("mySidenav").style.width = "250px";
@@ -137,6 +138,24 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
 
     $scope.triggerChannelCreation = function () {
         $scope.createNewChannel = true;
+        $scope.displayChat = false;
+        var channelModalClass = angular.element(document.querySelector('.channelModal'));
+        channelModalClass.removeClass('hide')
+        var modalClass = angular.element(document.querySelector('.modal'));
+        modalClass.addClass('hide');
+    }
+
+    $scope.triggerChannelUnsubscription = function () {
+        $scope.showunsubscribechannel = true;
+        $scope.displayChat = false;
+        var channelModalClass = angular.element(document.querySelector('.channelModal'));
+        channelModalClass.removeClass('hide')
+        var modalClass = angular.element(document.querySelector('.modal'));
+        modalClass.addClass('hide');
+    }
+
+    $scope.triggerChatDeletion = function () {
+        $scope.showdeletechannel = true;
         $scope.displayChat = false;
         var channelModalClass = angular.element(document.querySelector('.channelModal'));
         channelModalClass.removeClass('hide')

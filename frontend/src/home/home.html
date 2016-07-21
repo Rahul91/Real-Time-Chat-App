@@ -59,10 +59,10 @@
   <ul>
     <li ng-click="triggerChannelCreation()"><i class="fa fa-plus" aria-hidden="true" style="font-size:20px;color:white;"></i>
     <span style="font-size:15px;color:white;">Add Channel</span>
-    <li ng-click="unsubscibeChannel(channel_name)"><i class="fa fa-times" aria-hidden="true" style="font-size:20px;color:white;"></i>
+    <li ng-click="triggerChannelUnsubscription()"><i class="fa fa-times" aria-hidden="true" style="font-size:20px;color:white;"></i>
     <span style="font-size:15px;color:white;">Unsubscribe </span>
   </li>
-  <li ng-click="deleteChat(channel_name)"><i class="fa fa-trash-o" aria-hidden="true" style="font-size:20px;color:white;"></i>
+  <li ng-click="triggerChatDeletion()"><i class="fa fa-trash-o" aria-hidden="true" style="font-size:20px;color:white;"></i>
     <span style="font-size:15px;color:white;"> Delete Chat</span>
   </li>
   </ul>
@@ -120,6 +120,43 @@
               <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close()" class="close">Dismiss
             </button>
             <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="triggerChannelCreation()" class="close">Create New Channel
+            </button>
+          </div>
+        </div>
+    </div>
+	</div>
+
+  <div class="modal" id="deletechannel" show="false" data-keyboard="false" data-backdrop="static" ng-show="showdeletechannel" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">Warning</h4>
+          </div>
+          <div class="modal-body">
+              <span>Deleting chat will delete your entire chat upto this time, any chat happenning afterwards will be shown<br>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" ng-click="deleteChat(channel_name)"> <i class="fa fa-trash-o fa-lg"></i> Delete</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
+            </button>
+          </div>
+        </div>
+    </div>
+	</div>
+
+  <div class="modal" id="unsubscribechannel" show="false" data-keyboard="false" data-backdrop="static" ng-show="showunsubscribechannel" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">Warning</h4>
+          </div>
+          <div class="modal-body">
+              <span>You can delete chat if you just want to delete the chat, unsubscribing will remove you from the feed.<br>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning" ng-click="unsubscibeChannel(channel_name)"> <i class="fa fa-times"></i> Unsubscribe</button>
+            <button type="button" class="btn btn-danger" ng-click="deleteChat(channel_name)"> <i class="fa fa-trash-o fa-lg"></i> Delete</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
             </button>
           </div>
         </div>

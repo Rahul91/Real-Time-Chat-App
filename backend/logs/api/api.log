@@ -1,68 +1,48 @@
-2016-07-21 00:20:37,253 [INFO    ] api      [channel.py     :76 ]: Publish params: {'channel_name': u'Demo Channel', 'type': u'public', 'user_id': u'a59f9864-59b7-4b62-aac9-fddacc09417f'}
-2016-07-21 00:20:37,497 [ERROR   ] api      [channel.py     :95 ]: (raised as a result of Query-invoked autoflush; consider using a session.no_autoflush block if this flush is occurring prematurely) (_mysql_exceptions.IntegrityError) (1062, "Duplicate entry 'Demo Channel' for key 'name'") [SQL: u'INSERT INTO channel (id, name, created_by, type, deleted_on) VALUES (%s, %s, %s, %s, %s)'] [parameters: ('64478608-eee4-44f5-8982-0f696167abbd', 'Demo Channel', 'a59f9864-59b7-4b62-aac9-fddacc09417f', 'public', None)]
+pydev debugger: process 10803 is connecting
+
+2016-07-20 16:38:07,955 werkzeug     INFO      * Running on http://127.0.0.1:3434/ (Press CTRL+C to quit)
+2016-07-20 16:38:07,956 werkzeug     INFO      * Restarting with stat
+pydev debugger: process 10816 is connecting
+
+2016-07-20 16:38:08,927 werkzeug     WARNING   * Debugger is active!
+2016-07-20 16:38:08,936 werkzeug     INFO      * Debugger pin code: 245-963-413
+2016-07-20 18:25:19,266 werkzeug     INFO     127.0.0.1 - - [20/Jul/2016 18:25:19] "OPTIONS /user HTTP/1.1" 200 -
+2016-07-20 18:25:25,010 werkzeug     INFO     127.0.0.1 - - [20/Jul/2016 18:25:25] "GET /user HTTP/1.1" 200 -
+Exception in thread Thread-6:
 Traceback (most recent call last):
-  File "/home/rahul/healthify/backend/healthify/resources/channel.py", line 79, in post
-    response = create_channel(**params)
-  File "/home/rahul/healthify/backend/healthify/utils/validation.py", line 36, in decorator
-    return fn(*args, **kwargs)
-  File "/home/rahul/healthify/backend/healthify/utils/validation.py", line 36, in decorator
-    return fn(*args, **kwargs)
-  File "/home/rahul/healthify/backend/healthify/utils/validation.py", line 36, in decorator
-    return fn(*args, **kwargs)
-  File "/home/rahul/healthify/backend/healthify/functionality/channel.py", line 35, in create_channel
-    channel_id=get_channel_by_name(channel_name=channel_name).id)
-  File "/home/rahul/healthify/backend/healthify/utils/validation.py", line 36, in decorator
-    return fn(*args, **kwargs)
-  File "/home/rahul/healthify/backend/healthify/functionality/channel.py", line 47, in get_channel_by_name
-    channel = session.query(Channel).filter(Channel.name == kwargs['channel_name'], Channel.deleted_on.is_(None))\
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2659, in first
-    ret = list(self[0:1])
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2457, in __getitem__
-    return list(res)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2760, in __iter__
-    self.session._autoflush()
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/orm/session.py", line 1303, in _autoflush
-    util.raise_from_cause(e)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 202, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/orm/session.py", line 1293, in _autoflush
-    self.flush()
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/orm/session.py", line 2019, in flush
-    self._flush(objects)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/orm/session.py", line 2137, in _flush
-    transaction.rollback(_capture_exception=True)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/util/langhelpers.py", line 60, in __exit__
-    compat.reraise(exc_type, exc_value, exc_tb)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/orm/session.py", line 2101, in _flush
-    flush_context.execute()
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/orm/unitofwork.py", line 373, in execute
-    rec.execute(self)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/orm/unitofwork.py", line 532, in execute
-    uow
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/orm/persistence.py", line 174, in save_obj
-    mapper, table, insert)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/orm/persistence.py", line 767, in _emit_insert_statements
-    execute(statement, multiparams)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 914, in execute
-    return meth(self, multiparams, params)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/sql/elements.py", line 323, in _execute_on_connection
-    return connection._execute_clauseelement(self, multiparams, params)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1010, in _execute_clauseelement
-    compiled_sql, distilled_params
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1146, in _execute_context
-    context)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1341, in _handle_dbapi_exception
-    exc_info
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 202, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1139, in _execute_context
-    context)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 450, in do_execute
-    cursor.execute(statement, parameters)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/MySQLdb/cursors.py", line 205, in execute
-    self.errorhandler(self, exc, value)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/MySQLdb/connections.py", line 36, in defaulterrorhandler
-    raise errorclass, errorvalue
-IntegrityError: (raised as a result of Query-invoked autoflush; consider using a session.no_autoflush block if this flush is occurring prematurely) (_mysql_exceptions.IntegrityError) (1062, "Duplicate entry 'Demo Channel' for key 'name'") [SQL: u'INSERT INTO channel (id, name, created_by, type, deleted_on) VALUES (%s, %s, %s, %s, %s)'] [parameters: ('64478608-eee4-44f5-8982-0f696167abbd', 'Demo Channel', 'a59f9864-59b7-4b62-aac9-fddacc09417f', 'public', None)]
-2016-07-21 00:22:04,423 [INFO    ] api      [channel.py     :76 ]: Publish params: {'channel_name': u'demo', 'type': None, 'user_id': u'a59f9864-59b7-4b62-aac9-fddacc09417f'}
-2016-07-21 07:54:16,754 [ERROR   ] api      [chat.py        :170]: KeyError('REQ-CHANNEL-NAME',)
+  File "/usr/lib/python2.7/threading.py", line 810, in __bootstrap_inner
+    self.run()
+  File "/usr/lib/python2.7/threading.py", line 763, in run
+    self.__target(*self.__args, **self.__kwargs)
+  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 659, in inner
+    srv.serve_forever()
+  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 499, in serve_forever
+    HTTPServer.serve_forever(self)
+  File "/usr/lib/python2.7/SocketServer.py", line 238, in serve_forever
+    self._handle_request_noblock()
+  File "/usr/lib/python2.7/SocketServer.py", line 297, in _handle_request_noblock
+    self.handle_error(request, client_address)
+  File "/usr/lib/python2.7/SocketServer.py", line 295, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python2.7/SocketServer.py", line 321, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python2.7/SocketServer.py", line 334, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python2.7/SocketServer.py", line 649, in __init__
+    self.handle()
+  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 216, in handle
+    rv = BaseHTTPRequestHandler.handle(self)
+  File "/usr/lib/python2.7/BaseHTTPServer.py", line 340, in handle
+    self.handle_one_request()
+  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 251, in handle_one_request
+    return self.run_wsgi()
+  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 193, in run_wsgi
+    execute(self.server.app)
+  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 184, in execute
+    write(data)
+  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 152, in write
+    self.send_header(key, value)
+  File "/usr/lib/python2.7/BaseHTTPServer.py", line 401, in send_header
+    self.wfile.write("%s: %s\r\n" % (keyword, value))
+IOError: [Errno 32] Broken pipe
+
