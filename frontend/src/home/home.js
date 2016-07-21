@@ -7,7 +7,8 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.displayChat = true;
     $scope.page_num = 0
     $document[0].body.style.backgroundColor = "white";
-
+    $window.location.reload();
+    
     $scope.openNav = function(){
         $document[0].getElementById("mySidenav").style.width = "250px";
         $document[0].getElementById("main").style.marginLeft = "250px";
