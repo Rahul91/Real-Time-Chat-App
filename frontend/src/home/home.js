@@ -148,17 +148,15 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.triggerChannelUnsubscription = function () {
         $scope.showunsubscribechannel = true;
         $scope.displayChat = false;
-        var channelModalClass = angular.element(document.querySelector('.channelModal'));
-        channelModalClass.removeClass('hide')
-        var modalClass = angular.element(document.querySelector('.modal'));
-        modalClass.addClass('hide');
+        var unsubscribechannelmodal = angular.element(document.querySelector('.unsubscribechannelmodal'));
+        unsubscribechannelmodal.removeClass('hide')
     }
 
     $scope.triggerChatDeletion = function () {
         $scope.showdeletechannel = true;
         $scope.displayChat = false;
-        var channelModalClass = angular.element(document.querySelector('.channelModal'));
-        channelModalClass.removeClass('hide')
+        var deletechannelmodal = angular.element(document.querySelector('.deletechannelmodal'));
+        deletechannelmodal.removeClass('hide')
         var modalClass = angular.element(document.querySelector('.modal'));
         modalClass.addClass('hide');
     }

@@ -83,7 +83,7 @@
                     <div class="chat-body clearfix">
                         <div class="header">
                             <strong class="primary-font">{{message.published_by_name}}</strong> <small class="pull-right text-muted">
-                                <span class="glyphicon glyphicon-time"></span>{{message.created_on | date :'yyyy-MM-dd'}}</small>
+                                <span class="glyphicon glyphicon-time"></span> <i class="fa fa-clock-o" aria-hidden="true">{{message.created_on | date :'yyyy-MM-dd'}}</i></small>
                         </div>
                         <p>
                             {{message.message_text}}
@@ -126,7 +126,7 @@
     </div>
 	</div>
 
-  <div class="modal" id="deletechannel" show="false" data-keyboard="false" data-backdrop="static" ng-show="showdeletechannel" >
+  <div class="deletechannelmodal" id="deletechannel" show="false" data-keyboard="false" data-backdrop="static" ng-show="showdeletechannel" >
     <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -144,7 +144,7 @@
     </div>
 	</div>
 
-  <div class="modal" id="unsubscribechannel" show="false" data-keyboard="false" data-backdrop="static" ng-show="showunsubscribechannel" >
+  <div class="unsubscribechannelmodal" id="unsubscribechannel" show="false" data-keyboard="false" data-backdrop="static" ng-show="showunsubscribechannel" >
     <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -183,10 +183,13 @@
             </form>
           </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
+          <!--<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
                     </button>
             <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="createChannel(channelName, channelType)">Create Channel
-          </button>
+          </button>-->
+          <button type="button" class="btn btn-danger" ng-click="deleteChat(channel_name)"> <i class="fa fa-trash-o fa-lg"></i> Delete</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
+            </button>
         </div>
       </div>
     </div>

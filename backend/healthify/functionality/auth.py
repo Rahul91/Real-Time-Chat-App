@@ -40,6 +40,30 @@ def get_user_by_username(**kwargs):
 
 
 def authenticate(username, password):
+    """
+    @api {post} /auth Authentication
+    @apiName Authentication/Login
+    @apiGroup User
+
+    @apiHeader {String} Content-Type Should be application/json for /auth
+    @apiParam {String} username Username of the user
+    @apiParam {String} password Password of the user
+
+    @apiSuccess {String} access_code JWT
+
+    @apiSuccessExample Success Response
+    HTTP/1.1 200 OK
+    {
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGl0eSI6IjM5MDA4MGExLWY0ZjctMTFlNS04NTRkLTI4ZDI0NDQyZDNlNyIsImlhdCI6MTQ1OTE3ODE0NSwibmJmIjoxNDU5MTc4MTQ1LCJleHAiOjE0NTkxNzg0NDV9.nx_1a4RmvJ7Vlf1CvnMzqoTfzChcuJnDb1Tjy1_FnXw"
+    }
+
+    @apiErrorExample Invalid Credentials
+    {
+      "description": "Invalid credentials",
+      "error": "Bad Request",
+      "status_code": 401
+    }
+    """
     user = session.query(User).filter(User.username == username, User.deleted_on.is_(None)).first()
     if user:
         if user.password == password:

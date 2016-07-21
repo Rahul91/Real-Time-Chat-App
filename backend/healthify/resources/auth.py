@@ -14,6 +14,41 @@ log = get_logger()
 
 
 class Singup(Resource):
+    """
+    @api {post} /signup User Signup
+    @apiName Signup
+    @apiGroup User
+
+    @apiParam {String} username Username
+    @apiParam {String} password Password
+    @apiParam {String} first_name First Name
+    @apiParam {String} last_name Last Name
+
+    @apiSuccess {String} username Created user
+
+    @apiSuccessExample Success Response
+    HTTP/1.1 200 OK
+    {
+      "created": true,
+      "username": "test@test.com",
+      "user_id" : "010c1f06-3971-4e43-bf27-a03b9f5d1e70"
+    }
+
+    @apiErrorExample Username is required
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "SIGNUP-REQ-USERNAME"
+      }
+    }
+    @apiErrorExample Username already exists
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "SIGNUP-EXISTS-USERNAME"
+      }
+    }
+    """
 
     signup_response_format = dict(
         user_id=fields.String,
@@ -32,7 +67,7 @@ class Singup(Resource):
         params = signup_request_format.parse_args()
         log.info(params)
         try:
-            # session.rollback()
+            session.rollback()
             response = signup(**params)
             session.commit()
             return response
@@ -57,6 +92,30 @@ class Singup(Resource):
 
 
 class User(Resource):
+    """
+    @api {post} /user User
+    @apiName Signup
+    @apiGroup User
+    @apiHeader {String} Authorization
+
+    @apiSuccessExample Success Response
+    HTTP/1.1 200 OK
+    {
+      "created_on": true,
+      "username": "test@test.com",
+      "first_name" : "test",
+      "last_name" : "test",
+    }
+
+    @apiErrorExample Bad Username Provided
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "BAD-USER-ID"
+      }
+    }
+    """
+
     decorators = [jwt_required()]
 
     user_response_format = dict(
