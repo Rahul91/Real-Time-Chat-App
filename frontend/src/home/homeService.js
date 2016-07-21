@@ -23,7 +23,6 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     };
 
     this.createChannel = function (name, type) {
-        console.log(name, type)
         return $http.post(url + "/channel/create", {
             "channel_name": name,
             "type": type
@@ -35,7 +34,6 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     };
 
     this.deleteChat = function (channel_name) {
-        console.log(channel_name)
         return $http.post(url + "/message/delete", {
             "channel_name": channel_name,
             }, {
@@ -46,7 +44,6 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     };
 
     this.unsubscribeChannel = function (channel_name) {
-        console.log(channel_name)
         return $http.post(url + "/channel/unsubscribe", {
             "channel_name": channel_name,
             }, {
@@ -58,7 +55,6 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     
 
     this.get_chat_by_channel_name = function (channel_name, page_num) {
-        console.log(channel_name)
         return $http.post(url + "/message", {
             "channel_name": channel_name,
             "page_num": page_num
@@ -70,7 +66,6 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     };
 
     this.publish = function (message, channel) {
-        console.log(message, channel)
         return $http.post(url + "/message/publish", {
             "message": message,
             "channel_name": channel
@@ -82,7 +77,6 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     };
 
     this.streamFetch = function (channel_name) {
-        console.log(channel_name)
         return $http.post(url + "/stream", {
             "channel_name": channel_name,
             }, {

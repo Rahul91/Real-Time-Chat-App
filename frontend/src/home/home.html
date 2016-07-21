@@ -36,26 +36,17 @@
 
 <div class="row">
   <div class="col-xs-6 col-sm-3 col-md-2 sidenavbar">
-    <div id="mySidenav" class="mySidenav sidenav">
-      <a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">×</a>
-      <a href="#/" ng-click="closeNav()">About</a>
-      <a href="#/login">Login</a>
-      <a href="#/signup">Signup</a>
-      <a href="http://rahul91.github.io/" >Contact</a>
-      </div>
-    <!--</div>-->
-  <div class='collapse-nav center'>
-<span style="font-size:30px;cursor:pointer" ng-click="openNav()"><i class="fa fa-angle-left" style="font-size:60px;color:white;"></i></a></span>
-</div>
-<div class="channels">
+<div class="channels" style="font-size:20px;color:white;">
+  Channels
   <ul>
   <li ng-repeat = "channel in channelList" ng-click="get_chat_by_channel_name(channel.channel_name, 0)"><i class="fa fa-check-square" aria-hidden="true" style="font-size:20px;color:white;"></i>
-    <span style="font-size:15px;color:white;">{{channel.channel_name  | uppercase}}</span>
+    <span style="font-size:10px;color:white;">{{channel.channel_name}}</span>
   </li>
   </ul>
 </div>
 
-<div class="settings">
+<div class="settings" style="font-size:20px;color:white;">
+  Settings
   <ul>
     <li ng-click="triggerChannelCreation()"><i class="fa fa-plus" aria-hidden="true" style="font-size:20px;color:white;"></i>
     <span style="font-size:15px;color:white;">Add Channel</span>
@@ -70,24 +61,25 @@
 
   </div>
 
-<div id="main" class="main">
   <div class="col-xs-6 col-md-10">
         <div class="panel panel-primary" ng-show="displayChat">
             <div class="panel-heading">
-                <span class="glyphicon glyphicon-comment"></span> {{channel_name}}
+                <span>{{channel_name}}</span>
             </div>
             <div class="panel-body">
+              <div class="loader" ng-show="messageList.length > 10">Load More</div>
               <ul class="chat">
                   <li ng-repeat = "message in messageList | reverse" class="left clearfix"><span class="chat-img pull-left">
                   </span>
                     <div class="chat-body clearfix">
-                        <div class="header">
-                            <strong class="primary-font">{{message.published_by_name}}</strong> <small class="pull-right text-muted">
-                                <span class="glyphicon glyphicon-time"></span> <i class="fa fa-clock-o" aria-hidden="true">{{message.created_on | date :'yyyy-MM-dd'}}</i></small>
-                        </div>
-                        <p>
+                      <p><i class="fa fa-comment" aria-hidden="true"></i>
                             {{message.message_text}}
                         </p>
+                        <div class="header">
+                            <small class="primary-font"><i class="fa fa-user" aria-hidden="true"></i>
+{{message.published_by_name}}</small> <small class="pull-right text-muted">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>{{message.created_on | date :'yyyy-MM-dd HH:mm:ss'}}</small>
+                        </div>
                     </div>
                   </li>
               </ul>
@@ -135,7 +127,7 @@
           <div class="modal-body">
               <span>Deleting chat will delete your entire chat upto this time, any chat happenning afterwards will be shown<br>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer" style="max-height: 70px;">
             <button type="button" class="btn btn-danger" ng-click="deleteChat(channel_name)"> <i class="fa fa-trash-o fa-lg"></i> Delete</button>
               <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
             </button>
@@ -153,7 +145,7 @@
           <div class="modal-body">
               <span>You can delete chat if you just want to delete the chat, unsubscribing will remove you from the feed.<br>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer" style="max-height: 70px;">
             <button type="button" class="btn btn-warning" ng-click="unsubscibeChannel(channel_name)"> <i class="fa fa-times"></i> Unsubscribe</button>
             <button type="button" class="btn btn-danger" ng-click="deleteChat(channel_name)"> <i class="fa fa-trash-o fa-lg"></i> Delete</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
@@ -182,18 +174,14 @@
               </div>
             </form>
           </div>
-        <div class="modal-footer">
-          <!--<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
+        <div class="modal-footer" style="max-height: 70px;">
+          <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="createChannel(channelName, channelType)"><i class="fa fa-plus" aria-hidden="true">
+          </i>Create Channel</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
                     </button>
-            <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="createChannel(channelName, channelType)">Create Channel
-          </button>-->
-          <button type="button" class="btn btn-danger" ng-click="deleteChat(channel_name)"> <i class="fa fa-trash-o fa-lg"></i> Delete</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
-            </button>
         </div>
       </div>
     </div>
   </div>
 
-</div>
 </div>

@@ -46,10 +46,6 @@ class Chat(Resource):
             log.error(repr(key_err))
             session.rollback()
             abort(400, message="PUB-INVALID-PARAM")
-        # except IOError as io_err:
-        #     log.exception(io_err)
-        #     session.rollback()
-        #     abort(500, message="API-ERR-IO")
         except SQLAlchemyError as sa_err:
             log.exception(sa_err)
             session.rollback()

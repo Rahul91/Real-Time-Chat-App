@@ -7,6 +7,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.showunsubscribechannel = false;
     $scope.showdeletechannel = false;
     $scope.displayChat = true;
+    $scope.autoRefresh = true;
     $scope.page_num = 0
     $document[0].body.style.backgroundColor = "white";
     
@@ -33,7 +34,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         },function (error) {
             toaster.pop('error', error.data['message'])
-            console.log(error.data)          
             }
         );
     }
@@ -42,7 +42,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.get_channel_by_name = function (channel_name) {
         var result = homeService.get_channel_by_name(channel_name)
         result.then(function(response) {
-            console.log(response.data);
             if (response.status ==  200){
                 if (response.data.length == 0){
                     $scope.createChannel('public', 'public')
@@ -52,7 +51,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }},
             function(error) {
                 toaster.pop('error', error.data['message'])
-                console.log(error.data)
             }
         );
     }
@@ -67,7 +65,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                     $scope.displayChat = true;
                 }else{
                     $scope.channel_name = channel_name;
-                    // $scope.displayChat = false;
                     toaster.pop('warning' + 'No chat found');
                 }
                 $scope.displayChat = true;
@@ -82,10 +79,15 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     }
     $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
 
+    $interval(function () {
+        if ($scope.autoRefresh == true){
+            $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
+        }
+    }, 20000);
+
     $scope.get_all_channels = function () {
         var result = homeService.get_all_channels()
         result.then(function(response) {
-            console.log(response.data);
             if (response.status ==  200){
                 $scope.channelList = response.data
             }else{
@@ -102,7 +104,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.publish = function (message, channel_name) {
         var result = homeService.publish(message, channel_name)
         result.then(function(response) {
-            console.log(response.data);
             if (response.status ==  200){
                 $scope.messageList.unshift({
                                 'message_text': message,
@@ -110,13 +111,11 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                                 'published_by_name': $rootScope['first_name'],
                                 'direction': "outgoing"
                             });
-                // $scope.fetch(channel_name);
             }else{
                 toaster.pop('error', response.data['message'])
             }},
             function(error) {
                 toaster.pop('error', error.data['message'])
-                console.log(error.data)
             }
         );
         $scope.message=''; 
@@ -126,17 +125,22 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         var modalClass = angular.element(document.querySelector('.modal'));
         modalClass.addClass('hide');
         $scope.displayChat = true;
-        $scope.channel_name = 'public';
+        $scope.autoRefresh = true;
+        // $scope.channel_name = 'public';
     }
 
     $scope.dismiss = function () {
         var channelModalClass = angular.element(document.querySelector('.channelModal'));
         channelModalClass.addClass('hide')
         $scope.displayChat = true;
-        $scope.channel_name = 'public';
+        $scope.autoRefresh = true;
+        $scope.showdeletechannel = false;
+        $scope.showunsubscribechannel = false;
+        // $scope.channel_name = 'public';
     }
 
     $scope.triggerChannelCreation = function () {
+        $scope.autoRefresh = false;
         $scope.createNewChannel = true;
         $scope.displayChat = false;
         var channelModalClass = angular.element(document.querySelector('.channelModal'));
@@ -147,6 +151,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
 
     $scope.triggerChannelUnsubscription = function () {
         $scope.showunsubscribechannel = true;
+        $scope.autoRefresh = false;
         $scope.displayChat = false;
         var unsubscribechannelmodal = angular.element(document.querySelector('.unsubscribechannelmodal'));
         unsubscribechannelmodal.removeClass('hide')
@@ -154,17 +159,24 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
 
     $scope.triggerChatDeletion = function () {
         $scope.showdeletechannel = true;
-        $scope.displayChat = false;
+        $scope.autoRefresh = false;
+        $scope.displayChat = true;
         var deletechannelmodal = angular.element(document.querySelector('.deletechannelmodal'));
         deletechannelmodal.removeClass('hide')
         var modalClass = angular.element(document.querySelector('.modal'));
         modalClass.addClass('hide');
     }
 
+    $scope.loadMore = function () {
+        $scope.page_num +=1;
+        $scope.autoRefresh = false;
+        $scope.get_chat_by_channel_name(channelName, $scope.page_num);
+        // $scope.channel_name = 'public';
+    }
+
     $scope.createChannel = function (name, type) {
         var channel = homeService.createChannel(name, type)
         channel.then(function(response) {
-            console.log(response.data);
             if (response.status ==  200){
                 $scope.channel_name = response.data['channel_name'];
             }else{
@@ -172,7 +184,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }},
             function(error) {
                 toaster.pop('error', error.data['message'])
-                console.log(error.data)
             }
         );
      $scope.createNewChannel = false;
@@ -181,7 +192,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.deleteChat = function (channelName) {
         var channel = homeService.deleteChat(channelName)
         channel.then(function(response) {
-        console.log(response.data);
         if (response.status ==  200){
             $scope.get_chat_by_channel_name(channelName, 0);
         }else{
@@ -191,6 +201,8 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             toaster.pop('error', error.data['message'])
             console.log(error.data)
         });
+         $scope.showdeletechannel = false;
+         $scope.displayChat = true;
     }
 
     $scope.unsubscibeChannel = function (channelName) {
@@ -210,6 +222,8 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                 console.log(error.data)
             });
         }
+        $scope.displayChat = true;
+        $scope.showunsubscribechannel = false;
     }
 
 });
