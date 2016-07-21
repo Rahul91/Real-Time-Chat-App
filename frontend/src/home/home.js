@@ -59,15 +59,16 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.get_chat_by_channel_name = function (channel_name, page_num) {
         var result = homeService.get_chat_by_channel_name(channel_name, page_num)
         result.then(function(response) {
-            console.log(response.data);
             if (response.status ==  200){
                 $scope.messageList = response.data;
                 if ($scope.messageList.length > 0){
                     $scope.displayChat = true;
                 }else{
-                    $scope.channel_name = 'public'
-                    $scope.displayChat = false;
+                    $scope.channel_name = channel_name;
+                    // $scope.displayChat = false;
+                    toaster.pop('warning' + 'No chat found');
                 }
+                $scope.displayChat = true;
             }else{
                 toaster.pop('error', response.data['message'])
             }},
@@ -162,19 +163,37 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.deleteChat = function (channelName) {
         var channel = homeService.deleteChat(channelName)
         channel.then(function(response) {
-            console.log(response.data);
+        console.log(response.data);
+        if (response.status ==  200){
+            $scope.get_chat_by_channel_name(channelName, 0);
+        }else{
+            toaster.pop('error', response.data['message'])
+        }},
+        function(error) {
+            toaster.pop('error', error.data['message'])
+            console.log(error.data)
+        });
+    }
+
+    $scope.unsubscibeChannel = function (channelName) {
+        if (channelName == 'public'){
+            toaster.pop('warning', 'You cannnot unsubscribe Public channel');
+        }else{
+            var channel = homeService.unsubscribeChannel(channelName)
+            channel.then(function(response) {
             if (response.status ==  200){
-                $scope.channel_name = response.data['channel_name'];
+                toaster.pop('success', channelName + 'Successfully Unsuscribed')
+                $scope.get_all_channels();
             }else{
                 toaster.pop('error', response.data['message'])
             }},
             function(error) {
                 toaster.pop('error', error.data['message'])
                 console.log(error.data)
-            }
-        );
-     $scope.createNewChannel = false;
+            });
+        }
     }
+
 });
 
 mainApp.filter('reverse', function() {

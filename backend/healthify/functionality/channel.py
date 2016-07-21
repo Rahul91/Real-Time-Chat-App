@@ -92,3 +92,21 @@ def get_channel_by_id(**kwargs):
     if not channel:
         return 'INVALID-CHANNEL-ID'
     return channel
+
+
+@validation.not_empty('channel_name', 'REQ-CHANNEL-NAME', req=True)
+@validation.not_empty('user_id', 'REQ-USER-ID', req=True)
+def unsubscribe_channel(**kwargs):
+    channel = get_channel_by_name(channel_name=kwargs['channel_name'])
+    user_id = kwargs['user_id']
+
+    user_channel_obj = session.query(UserChannelMapping)\
+        .filter(UserChannelMapping.user_id == user_id,
+                UserChannelMapping.channel_id == channel.id, UserChannelMapping.deleted_on.is_(None))\
+        .first()
+    if not user_channel_obj:
+        raise ValueError('INVALID-CHANNEL-MAPPING')
+    else:
+        setattr(user_channel_obj, 'is_unsubscribed', True)
+        session.add(user_channel_obj)
+        return user_channel_obj

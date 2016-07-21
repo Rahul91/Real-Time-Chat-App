@@ -9,6 +9,27 @@ html {
 .sidebar {
   display: none;
 }
+
+#main {
+    transition: margin-left .5s;
+}
+
+.sidenavbar {
+    background-color: #1B242F;
+    min-height: 550px;
+    max-height: 550px;
+}
+
+.sidenavbar:before,  .sidenavbar:after{
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+    left: 0;
+    background: #1B242F;
+}
+
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;
@@ -92,9 +113,10 @@ html {
     margin-left: 50px;
 }
 
-#main {
-    transition: margin-left .5s;
-    padding: 16px;
+.center {
+    margin: auto;
+    width: 60%;
+    /*padding-left: 30px;*/
 }
 
 .chat li.left .chat-body
@@ -142,4 +164,14 @@ html {
 {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #555;
+}
+
+.channels {
+    overflow-y: scroll;
+    min-height: 300px;
+    max-height: 300px;
+}
+
+ul li {
+    cursor: pointer;
 }

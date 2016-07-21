@@ -68,14 +68,17 @@ def fetch_message(**kwargs):
         message_list = session.query(ChatHistory) \
             .filter(ChatHistory.channel == channel_obj.id, ChatHistory.deleted_on.is_(None)) \
             .order_by(desc(ChatHistory.created_on))
-        message_marked_deleted = chat_marked_deleted(user_id=user_id, channel_id=channel_obj.id)
-        if message_marked_deleted:
-            message_list.filter(ChatHistory.created_on > message_marked_deleted)
         if page_size:
             message_list = message_list.limit(10)
         if page:
             message_list = message_list.offset(page*page_size)
-        return message_list.all()
+        message_marked_deleted = chat_marked_deleted(user_id=user_id, channel_id=channel_obj.id)
+        if message_marked_deleted[0]:
+            message_list = [message_list for message in message_list if message.created_on > message_marked_deleted[0]]
+        if message_list:
+            return message_list.all()
+        else:
+            return message_list
 
     return message_list
 
@@ -94,7 +97,7 @@ def fetch_stream_messages(**kwargs):
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 @validation.not_empty('channel_name', 'REQ-CHANNEL-NAME', req=True)
 def delete_chat(**kwargs):
-    channel = get_channel_by_name(channel=kwargs['channel_name'])
+    channel = get_channel_by_name(channel_name=kwargs['channel_name'])
     chat_obj = session.query(UserChannelMapping) \
         .filter(UserChannelMapping.user_id == kwargs['user_id'], UserChannelMapping.channel_id == channel.id)\
         .first()

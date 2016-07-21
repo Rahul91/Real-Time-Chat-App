@@ -4,6 +4,13 @@ body {
   background-color: #eee;
 }
 
+.closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px !important;
+    margin-left: 50px;
+}
 
 .form-signin {
   max-width: 330px;

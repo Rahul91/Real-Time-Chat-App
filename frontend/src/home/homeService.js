@@ -35,15 +35,27 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     };
 
     this.deleteChat = function (channel_name) {
-        console.log(name, type)
-        return $http.post(url + "/channel/delete", {
-            "channel_name": channel_name
+        console.log(channel_name)
+        return $http.post(url + "/message/delete", {
+            "channel_name": channel_name,
             }, {
          "headers": {
             "Authorization": 'JWT ' + token
             }
         }); 
     };
+
+    this.unsubscribeChannel = function (channel_name) {
+        console.log(channel_name)
+        return $http.post(url + "/channel/unsubscribe", {
+            "channel_name": channel_name,
+            }, {
+         "headers": {
+            "Authorization": 'JWT ' + token
+            }
+        }); 
+    };
+    
 
     this.get_chat_by_channel_name = function (channel_name, page_num) {
         console.log(channel_name)

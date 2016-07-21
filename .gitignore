@@ -65,3 +65,4 @@ backend/.idea/dictionaries/rahul.xml
 backend/.idea/
 backend/.idea/*
 backend/logs/api/
+backend/logs/api/*.log

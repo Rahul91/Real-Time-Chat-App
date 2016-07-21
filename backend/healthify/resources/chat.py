@@ -57,35 +57,35 @@ class Chat(Resource):
         finally:
             session.close()
 
-    def delete(self):
-        delete_chat_params = reqparse.RequestParser()
-        delete_chat_params.add_argument('channel_name', type=non_empty_str, required=True, help="MSG-DELETE-REQ-CHANNEL")
-
-        params = delete_chat_params.parse_args()
-        params.update(dict(user_id=current_identity.id))
-        try:
-            session.rollback()
-            response = delete_chat(**params)
-            session.commit()
-            return response
-        except ValueError as val_err:
-            log.error(repr(val_err))
-            session.rollback()
-            abort(400, message=val_err.message)
-        except KeyError as key_err:
-            log.error(repr(key_err))
-            session.rollback()
-            abort(400, message="MSG-DELETE-INVALID-PARAM")
-        except IOError as io_err:
-            log.exception(io_err)
-            session.rollback()
-            abort(500, message="API-ERR-IO")
-        except SQLAlchemyError as sa_err:
-            log.exception(sa_err)
-            session.rollback()
-            abort(500, message="API-ERR-DB")
-        finally:
-            session.close()
+    # def delete(self):
+    #     delete_chat_params = reqparse.RequestParser()
+    #     delete_chat_params.add_argument('channel_name', type=non_empty_str, required=True, help="MSG-DELETE-REQ-CHANNEL")
+    #
+    #     params = delete_chat_params.parse_args()
+    #     params.update(dict(user_id=current_identity.id))
+    #     try:
+    #         session.rollback()
+    #         response = delete_chat(**params)
+    #         session.commit()
+    #         return response
+    #     except ValueError as val_err:
+    #         log.error(repr(val_err))
+    #         session.rollback()
+    #         abort(400, message=val_err.message)
+    #     except KeyError as key_err:
+    #         log.error(repr(key_err))
+    #         session.rollback()
+    #         abort(400, message="MSG-DELETE-INVALID-PARAM")
+    #     except IOError as io_err:
+    #         log.exception(io_err)
+    #         session.rollback()
+    #         abort(500, message="API-ERR-IO")
+    #     except SQLAlchemyError as sa_err:
+    #         log.exception(sa_err)
+    #         session.rollback()
+    #         abort(500, message="API-ERR-DB")
+    #     finally:
+    #         session.close()
 
 
 def message_transformation(message):
@@ -139,13 +139,47 @@ class FetchChat(Resource):
             log.exception(io_err)
             session.rollback()
             abort(500, message="API-ERR-IO")
-        # except SQLAlchemyError as sa_err:
-        #     log.exception(sa_err)
-        #     session.rollback()
-        #     abort(500, message="API-ERR-DB")
+        except SQLAlchemyError as sa_err:
+            log.exception(sa_err)
+            session.rollback()
+            abort(500, message="API-ERR-DB")
         finally:
             session.close()
 
+
+class DeleteChat(Resource):
+    decorators = [jwt_required()]
+
+    def post(self):
+        delete_chat_params = reqparse.RequestParser()
+        delete_chat_params.add_argument('channel_name', type=non_empty_str, required=True,
+                                        help="MSG-DELETE-REQ-CHANNEL")
+
+        params = delete_chat_params.parse_args()
+        params.update(dict(user_id=current_identity.id))
+        try:
+            session.rollback()
+            response = delete_chat(**params)
+            session.commit()
+            return response
+        except ValueError as val_err:
+            log.error(repr(val_err))
+            session.rollback()
+            abort(400, message=val_err.message)
+        except KeyError as key_err:
+            log.error(repr(key_err))
+            session.rollback()
+            abort(400, message="MSG-DELETE-INVALID-PARAM")
+        except IOError as io_err:
+            log.exception(io_err)
+            session.rollback()
+            abort(500, message="API-ERR-IO")
+        except SQLAlchemyError as sa_err:
+            log.exception(sa_err)
+            session.rollback()
+            abort(500, message="API-ERR-DB")
+        finally:
+            session.close()
 
 class MessageStream(Resource):
 

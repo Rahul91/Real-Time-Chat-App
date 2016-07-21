@@ -37,7 +37,7 @@
 
 <!--<div class="container">-->
 <div class="row">
-  <div class="col-xs-6 col-sm-3 col-md-2">
+  <div class="col-xs-6 col-sm-3 col-md-2 sidenavbar">
     <div id="mySidenav" class="mySidenav sidenav">
       <!--<div class="col-xs-6 col-sm-3 col-md-2">-->
       <a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">×</a>
@@ -47,8 +47,38 @@
       <a href="http://rahul91.github.io/" >Contact</a>
       </div>
     <!--</div>-->
-  <span style="font-size:30px;cursor:pointer" ng-click="openNav()">☰ Dive In: To check the project</span>
+    <li class=""><a title="Milestones" href="/dashboard/milestones"><i class="fa fa-clock-o fa-fw"></i>
+<span>
+Milestones
+</span>
+</a></li>
+  <div class='collapse-nav center'>
+<span style="font-size:30px;cursor:pointer" ng-click="openNav()"><i class="fa fa-angle-left" style="font-size:60px;color:white;"></i></a></span>
 </div>
+<div class="channels">
+  <ul>
+  <li ng-repeat = "channel in channelList" ng-click="get_chat_by_channel_name(channel.channel_name, 0)"><i class="fa fa-check-square" aria-hidden="true" style="font-size:20px;color:white;"></i>
+    <span style="font-size:15px;color:white;">{{channel.channel_name  | uppercase}}</span>
+  </li>
+  </ul>
+</div>
+
+<div class="settings">
+  <ul>
+    <li ng-click="triggerChannelCreation()"><i class="fa fa-plus" aria-hidden="true" style="font-size:20px;color:white;"></i>
+    <span style="font-size:15px;color:white;">Add Channel</span>
+    <li ng-click="unsubscibeChannel(channel_name)"><i class="fa fa-times" aria-hidden="true" style="font-size:20px;color:white;"></i>
+    <span style="font-size:15px;color:white;">Unsubscribe </span>
+  </li>
+  <li ng-click="deleteChat(channel_name)"><i class="fa fa-trash-o" aria-hidden="true" style="font-size:20px;color:white;"></i>
+    <span style="font-size:15px;color:white;"> Delete Chat</span>
+  </li>
+  </ul>
+</div>
+
+  </div>
+
+<div id="main" class="main">
   <!--<div class="col-xs-6 col-sm-3 col-md-2">-->
     <!--<div class="col-sm-3 col-md-3 sidebar">-->
           <!--<ul class="nav nav-sidebar">
@@ -164,5 +194,6 @@
       </div>
     </div>
   </div>
+
 </div>
-<!--</div>-->
+</div>
