@@ -24,6 +24,29 @@ def channel_response_transformation(channel):
 
 
 class Channel(Resource):
+    """
+    @api {get} /channel Channel
+    @apiName Channel
+    @apiGroup Channel
+    @apiHeader {String} Authorization
+
+    @apiSuccessExample Success Response
+    HTTP/1.1 200 OK
+    {
+      "created_on": true,
+      "created_by": "test",
+      "channel_name" : "test_channel",
+      "channel_type" : "public",
+    }
+
+    @apiErrorExample Invalid Params Provided
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "PUB-INVALID-PARAM"
+      }
+    }
+    """
 
     decorators = [jwt_required()]
 
@@ -49,10 +72,6 @@ class Channel(Resource):
             log.error(repr(key_err))
             session.rollback()
             abort(400, message="PUB-INVALID-PARAM")
-        except IOError as io_err:
-            log.exception(io_err)
-            session.rollback()
-            abort(500, message="API-ERR-IO")
         except SQLAlchemyError as sa_err:
             log.exception(sa_err)
             session.rollback()
@@ -60,6 +79,30 @@ class Channel(Resource):
         finally:
             session.close()
 
+    """
+    @api {post} /channel/create Create Channel
+    @apiName Channel
+    @apiGroup Channel
+
+    @apiParam {String} channel_name Channel Name
+    @apiParam {String} type Channel type
+    @apiHeader {String} Authorization
+
+    @apiSuccessExample Success Response
+    HTTP/1.1 200 OK
+    {
+      "channel_name" : "test_channel",
+      "channel_type" : "public",
+    }
+
+    @apiErrorExample Channel Name not Provided
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "CHANNEL-REQ-NAME"
+      }
+    }
+    """
     channel_creation_response_format = dict(
         channel_name=fields.String,
         type=fields.String,
@@ -86,11 +129,11 @@ class Channel(Resource):
         except KeyError as key_err:
             log.error(repr(key_err))
             session.rollback()
-            abort(400, message="PUB-INVALID-PARAM")
-        except IOError as io_err:
-            log.exception(io_err)
-            session.rollback()
-            abort(500, message="API-ERR-IO")
+            abort(400, message="CHANNEL-INVALID-PARAM")
+        # except IOError as io_err:
+        #     log.exception(io_err)
+        #     session.rollback()
+        #     abort(500, message="API-ERR-IO")
         except SQLAlchemyError as sa_err:
             log.exception(sa_err)
             session.rollback()
@@ -100,6 +143,30 @@ class Channel(Resource):
 
 
 class UnsubscribeChannel(Resource):
+
+    """
+    @api {post} /channel/unsubscribe Unsubscribe Channel
+    @apiName Unsubscribe Channel
+    @apiGroup Channel
+
+    @apiParam {String} channel_name Channel Name
+    @apiHeader {String} Authorization
+
+    @apiSuccessExample Success Response
+    HTTP/1.1 200 OK
+    {
+      "channel_name" : "test_channel",
+      "channel_type" : "public",
+    }
+
+    @apiErrorExample Channel Name not Provided
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "CHANNEL-REQ-NAME"
+      }
+    }
+    """
 
     # @marshal_with(channel_creation_response_format)
     def post(self):
@@ -136,6 +203,31 @@ class UnsubscribeChannel(Resource):
 
 
 class FetchChannel(Resource):
+    """
+    @api {get} /channel/{channel_name} Fetch Channel
+    @apiName Unsubscribe Channel
+    @apiGroup Channel
+
+    @apiHeader {String} Authorization
+
+    @apiSuccessExample Success Response
+    HTTP/1.1 200 OK
+    {
+        "channel_id": "channel.id",
+        "channel_name": "channel_name",
+        "channel_type": "public",
+        "created_by": "test_user",
+        "created_on": "some date",
+    }
+
+    @apiErrorExample Invalid params Provided
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "GET-CHANNEL-INVALID-PARAM"
+      }
+    }
+    """
 
     def get(self, channel_name):
         try:
@@ -150,7 +242,7 @@ class FetchChannel(Resource):
         except KeyError as key_err:
             log.error(repr(key_err))
             session.rollback()
-            abort(400, message="PUB-INVALID-PARAM")
+            abort(400, message="GET-CHANNEL-INVALID-PARAM")
         except IOError as io_err:
             log.exception(io_err)
             session.rollback()

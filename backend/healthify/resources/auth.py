@@ -93,7 +93,7 @@ class Singup(Resource):
 
 class User(Resource):
     """
-    @api {post} /user User
+    @api {get} /user User
     @apiName Signup
     @apiGroup User
     @apiHeader {String} Authorization
