@@ -6,7 +6,7 @@ import pika
 
 from functionality.channel import create_channel, get_channel_by_name, is_channel_unsubscribed, get_channel_by_id
 from healthify.utils.logger import get_logger
-from healthify.config import PIKA_RABBITMQ_HOST, PIKA_RABBITMQ_TYPE, PIKA_RABBITMQ_EXCHANGE
+from healthify.config import PIKA_RABBITMQ_HOST, PIKA_RABBITMQ_TYPE, PIKA_RABBITMQ_EXCHANGE, PER_PAGE_RESPONSE_LIMIT
 from healthify.models.configure import session
 from healthify.models.chat import ChatHistory
 from healthify.models.common import UserChannelMapping
@@ -68,7 +68,7 @@ def fetch_message(**kwargs):
             .filter(ChatHistory.channel == channel_obj.id, ChatHistory.deleted_on.is_(None)) \
             .order_by(desc(ChatHistory.created_on))
         if page_size:
-            message_list = message_list.limit(10)
+            message_list = message_list.limit(PER_PAGE_RESPONSE_LIMIT)
         if page:
             message_list = message_list.offset(page*page_size)
         message_marked_deleted = chat_marked_deleted(user_id=user_id, channel_id=channel_obj.id)

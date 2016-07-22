@@ -67,8 +67,8 @@
             <div class="panel-heading">
                 <span>{{ channel_name }}</span>
             </div>
-            <div class="panel-body">
-              <div class="loader" ng-show="messageList.length > 10">Load More</div>
+            <div class="panel-body" scroll-bottom="conversationData">
+              <div class="loader" ng-show="messageList.length = 10" ng-show="!fetchingChat" ng-click="fetchPreviousChat()">Load Previous Conversation</div>
               <span ng-show="fetchingChat" style="font-size:30px; padding-left:40%"><i class="fa fa-spinner fa-pulse fa-5x fa-fw" style="margin-top: 10%;"></i></span>
               <ul class="chat">
                   <li ng-repeat = "message in messageList | reverse" class="left clearfix"><span class="chat-img pull-left">

@@ -144,8 +144,17 @@ html {
 .panel-body
 {
     overflow-y: auto;
+    padding: 0px;
     max-height: 420px;
     min-height: 420px;
+}
+
+.loader {
+    padding: 10px;
+    margin-bottom: 10px; 
+    background: #66d9ff;
+    cursor: pointer;
+    padding-left: 40%;
 }
 
 ::-webkit-scrollbar-track

@@ -77,7 +77,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         if ($scope.autoRefresh == true){
             $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
         }
-    }, 20000);
+    }, 200000);
 
     if ($rootScope.showWelcomeMessage == true){
         $scope.welcomeMessage = this;
@@ -126,7 +126,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.displayChat = true;
         $scope.autoRefresh = true;
         $scope.welcomeMessage = false;
-        // $scope.channel_name = 'public';
     }
 
     $scope.dismiss = function () {
@@ -136,7 +135,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.autoRefresh = true;
         $scope.showdeletechannel = false;
         $scope.showunsubscribechannel = false;
-        // $scope.channel_name = 'public';
     }
 
     $scope.triggerChannelCreation = function () {
@@ -153,18 +151,12 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.showunsubscribechannel = true;
         $scope.autoRefresh = false;
         $scope.displayChat = false;
-        // var unsubscribechannelmodal = angular.element(document.querySelector('.unsubscribechannelmodal'));
-        // unsubscribechannelmodal.removeClass('hide')
     }
 
     $scope.triggerChatDeletion = function () {
         $scope.showdeletechannel = true;
         $scope.autoRefresh = false;
         $scope.displayChat = false;
-        // var deletechannelmodal = angular.element(document.querySelector('.deletechannelmodal'));
-        // deletechannelmodal.removeClass('hide')
-        // var modalClass = angular.element(document.querySelector('.modal'));
-        // modalClass.addClass('hide');
     }
 
     $scope.dismissDelete = function () {
@@ -181,11 +173,10 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.showunsubscribechannel = false;
     }
 
-    $scope.loadMore = function () {
+    $scope.fetchPreviousChat = function () {
         $scope.page_num +=1;
         $scope.autoRefresh = false;
-        $scope.get_chat_by_channel_name(channelName, $scope.page_num);
-        // $scope.channel_name = 'public';
+        $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
     }
 
     $scope.createChannel = function (channelName, type) {

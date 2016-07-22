@@ -46,11 +46,11 @@ def create_channel(**kwargs):
 
 @validation.not_empty('channel_name', 'REQ-CHANNEL-NAME', req=True)
 def get_channel_by_name(**kwargs):
-    channel = session.query(Channel).filter(Channel.name == kwargs['channel_name'], Channel.deleted_on.is_(None))\
+    return session.query(Channel).filter(Channel.name == kwargs['channel_name'], Channel.deleted_on.is_(None))\
         .first()
-    if not channel:
-        raise ValueError('INVALID-CHANNEL-NAME')
-    return channel
+    # if not channel:
+    #     raise ValueError('INVALID-CHANNEL-NAME')
+    # return channel
 
 
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
