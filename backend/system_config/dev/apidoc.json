@@ -2,5 +2,5 @@
   "name": "Healthify",
   "version": "0.0.0",
   "description": "Rest api documentation",
-  "sampleUrl": "http://localhost:9999"
+  "sampleUrl": "http://localhost:3434"
 }
