@@ -85,6 +85,11 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         }
     }, 20000);
 
+    if ($rootScope.showWelcomeMessage == true){
+        $scope.welcomeMessage = this;
+        $rootScope.showWelcomeMessage = false;
+    }
+
     $scope.get_all_channels = function () {
         var result = homeService.get_all_channels()
         result.then(function(response) {
@@ -126,6 +131,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         modalClass.addClass('hide');
         $scope.displayChat = true;
         $scope.autoRefresh = true;
+        $scope.welcomeMessage = false;
         // $scope.channel_name = 'public';
     }
 
@@ -153,18 +159,32 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.showunsubscribechannel = true;
         $scope.autoRefresh = false;
         $scope.displayChat = false;
-        var unsubscribechannelmodal = angular.element(document.querySelector('.unsubscribechannelmodal'));
-        unsubscribechannelmodal.removeClass('hide')
+        // var unsubscribechannelmodal = angular.element(document.querySelector('.unsubscribechannelmodal'));
+        // unsubscribechannelmodal.removeClass('hide')
     }
 
     $scope.triggerChatDeletion = function () {
         $scope.showdeletechannel = true;
         $scope.autoRefresh = false;
+        $scope.displayChat = false;
+        // var deletechannelmodal = angular.element(document.querySelector('.deletechannelmodal'));
+        // deletechannelmodal.removeClass('hide')
+        // var modalClass = angular.element(document.querySelector('.modal'));
+        // modalClass.addClass('hide');
+    }
+
+    $scope.dismissDelete = function () {
         $scope.displayChat = true;
-        var deletechannelmodal = angular.element(document.querySelector('.deletechannelmodal'));
-        deletechannelmodal.removeClass('hide')
-        var modalClass = angular.element(document.querySelector('.modal'));
-        modalClass.addClass('hide');
+        $scope.autoRefresh = true;
+        $scope.showdeletechannel = false;
+        $scope.showunsubscribechannel = false;
+    }
+
+    $scope.dismissUnsubscribe = function () {
+        $scope.displayChat = true;
+        $scope.autoRefresh = true;
+        $scope.showdeletechannel = false;
+        $scope.showunsubscribechannel = false;
     }
 
     $scope.loadMore = function () {

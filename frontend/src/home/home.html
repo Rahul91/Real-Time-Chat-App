@@ -98,7 +98,7 @@
   </div>
 
 
-<div class="modal" id="noChannelFound" show="false" data-keyboard="false" data-backdrop="static" ng-show="!displayChat" >
+<div class="modal" id="noChannelFound" show="false" data-keyboard="false" data-backdrop="static" ng-show="welcomeMessage" >
     <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -129,7 +129,7 @@
           </div>
           <div class="modal-footer" style="max-height: 70px;">
             <button type="button" class="btn btn-danger" ng-click="deleteChat(channel_name)"> <i class="fa fa-trash-o fa-lg"></i> Delete</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
+              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismissDelete()" class="close">Dismiss
             </button>
           </div>
         </div>
@@ -148,7 +148,7 @@
           <div class="modal-footer" style="max-height: 70px;">
             <button type="button" class="btn btn-warning" ng-click="unsubscibeChannel(channel_name)"> <i class="fa fa-times"></i> Unsubscribe</button>
             <button type="button" class="btn btn-danger" ng-click="deleteChat(channel_name)"> <i class="fa fa-trash-o fa-lg"></i> Delete</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismissDelete()" class="close">Dismiss
             </button>
           </div>
         </div>

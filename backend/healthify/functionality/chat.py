@@ -74,7 +74,10 @@ def fetch_message(**kwargs):
         message_marked_deleted = chat_marked_deleted(user_id=user_id, channel_id=channel_obj.id)
         if message_marked_deleted[0]:
             message_list = [message_list for message in message_list.all()
-                            if message.created_on > message_marked_deleted[0]][0]
+                            if message.created_on > message_marked_deleted[0]]
+            if not message_list:
+                return message_list
+            message_list = message_list[0]
         if message_list:
             return message_list.all()
         else:
