@@ -183,7 +183,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         channel.then(function(response) {
         console.log(response.data);
         if (response.status ==  200){
-            $scope.get_chat_by_channel_name(channelName, 0);
+            toaster.pop('success', 'Chats deleted')
         }else{
             toaster.pop('error', response.data['message'])
         }},

@@ -62,7 +62,7 @@ class Singup(Resource):
         signup_request_format.add_argument('username', type=non_empty_str, required=True, help="SIGNUP-REQ-USERNAME")
         signup_request_format.add_argument('password', type=non_empty_str, required=True, help="SIGNUP-REQ-PASSWORD")
         signup_request_format.add_argument('first_name', type=non_empty_str, required=True, help="SIGNUP-REQ-FIRSTNAME")
-        signup_request_format.add_argument('last_name', type=non_empty_str, required=True, help="SIGNUP-REQ-LASTNAME")
+        signup_request_format.add_argument('last_name', type=non_empty_str, required=False, help="SIGNUP-REQ-LASTNAME")
 
         params = signup_request_format.parse_args()
         log.info(params)

@@ -85,7 +85,7 @@
                             <strong class="primary-font">{{message.published_by_name}}</strong> <small class="pull-right text-muted">
                                 <span class="glyphicon glyphicon-time"></span> <i class="fa fa-clock-o" aria-hidden="true">{{message.created_on | date :'yyyy-MM-dd'}}</i></small>
                         </div>
-                        <p>
+                        <p><i class="fa fa-comment" aria-hidden="true"></i>
                             {{message.message_text}}
                         </p>
                     </div>
@@ -183,13 +183,8 @@
             </form>
           </div>
         <div class="modal-footer">
-          <!--<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
-                    </button>
-            <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="createChannel(channelName, channelType)">Create Channel
-          </button>-->
-          <button type="button" class="btn btn-danger" ng-click="deleteChat(channel_name)"> <i class="fa fa-trash-o fa-lg"></i> Delete</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss
-            </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismiss()" class="close">Dismiss</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="createChannel(channelName, channelType)">Create Channel</button>
         </div>
       </div>
     </div>

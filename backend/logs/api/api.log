@@ -1,48 +1,49 @@
-pydev debugger: process 10803 is connecting
-
-2016-07-20 16:38:07,955 werkzeug     INFO      * Running on http://127.0.0.1:3434/ (Press CTRL+C to quit)
-2016-07-20 16:38:07,956 werkzeug     INFO      * Restarting with stat
-pydev debugger: process 10816 is connecting
-
-2016-07-20 16:38:08,927 werkzeug     WARNING   * Debugger is active!
-2016-07-20 16:38:08,936 werkzeug     INFO      * Debugger pin code: 245-963-413
-2016-07-20 18:25:19,266 werkzeug     INFO     127.0.0.1 - - [20/Jul/2016 18:25:19] "OPTIONS /user HTTP/1.1" 200 -
-2016-07-20 18:25:25,010 werkzeug     INFO     127.0.0.1 - - [20/Jul/2016 18:25:25] "GET /user HTTP/1.1" 200 -
-Exception in thread Thread-6:
-Traceback (most recent call last):
-  File "/usr/lib/python2.7/threading.py", line 810, in __bootstrap_inner
-    self.run()
-  File "/usr/lib/python2.7/threading.py", line 763, in run
-    self.__target(*self.__args, **self.__kwargs)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 659, in inner
-    srv.serve_forever()
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 499, in serve_forever
-    HTTPServer.serve_forever(self)
-  File "/usr/lib/python2.7/SocketServer.py", line 238, in serve_forever
-    self._handle_request_noblock()
-  File "/usr/lib/python2.7/SocketServer.py", line 297, in _handle_request_noblock
-    self.handle_error(request, client_address)
-  File "/usr/lib/python2.7/SocketServer.py", line 295, in _handle_request_noblock
-    self.process_request(request, client_address)
-  File "/usr/lib/python2.7/SocketServer.py", line 321, in process_request
-    self.finish_request(request, client_address)
-  File "/usr/lib/python2.7/SocketServer.py", line 334, in finish_request
-    self.RequestHandlerClass(request, client_address, self)
-  File "/usr/lib/python2.7/SocketServer.py", line 649, in __init__
-    self.handle()
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 216, in handle
-    rv = BaseHTTPRequestHandler.handle(self)
-  File "/usr/lib/python2.7/BaseHTTPServer.py", line 340, in handle
-    self.handle_one_request()
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 251, in handle_one_request
-    return self.run_wsgi()
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 193, in run_wsgi
-    execute(self.server.app)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 184, in execute
-    write(data)
-  File "/home/rahul/healthify/backend/venv/local/lib/python2.7/site-packages/werkzeug/serving.py", line 152, in write
-    self.send_header(key, value)
-  File "/usr/lib/python2.7/BaseHTTPServer.py", line 401, in send_header
-    self.wfile.write("%s: %s\r\n" % (keyword, value))
-IOError: [Errno 32] Broken pipe
-
+2016-07-22 13:22:51,494 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 13:22:51,497 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 13:22:51,500 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 13:54:19,596 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 13:54:19,598 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 13:54:19,601 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 13:57:39,467 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 13:57:39,469 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 13:57:39,472 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 15:59:49,473 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 15:59:49,476 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 15:59:49,480 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:02:28,657 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:02:28,665 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:02:28,673 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:02:39,900 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:02:39,903 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:02:39,907 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:13:31,637 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:13:31,639 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:13:31,642 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:14:21,883 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:14:21,885 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:14:21,887 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:15:52,162 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:15:52,165 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:15:52,167 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:15:59,774 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:15:59,776 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:15:59,778 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:18:57,316 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:18:57,318 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:18:57,320 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:19:53,836 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:19:53,860 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:19:58,825 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:20:13,783 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:20:13,786 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:20:13,788 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:20:52,153 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:20:52,156 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:20:52,159 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:21:13,400 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:21:13,407 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:21:13,429 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:21:36,796 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:21:36,799 [INFO    ] api      [auth.py        :36 ]: In get_user_by_username
+2016-07-22 16:52:01,338 [INFO    ] api      [auth.py        :37 ]: In get_user_by_username
+2016-07-22 16:52:01,340 [INFO    ] api      [auth.py        :37 ]: In get_user_by_username

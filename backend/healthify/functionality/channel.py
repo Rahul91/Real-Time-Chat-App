@@ -90,7 +90,7 @@ def get_channel_by_id(**kwargs):
     channel = session.query(Channel).filter(Channel.id == kwargs['channel_id'], Channel.deleted_on.is_(None))\
         .first()
     if not channel:
-        return 'INVALID-CHANNEL-ID'
+        raise ValueError('INVALID-CHANNEL-ID')
     return channel
 
 

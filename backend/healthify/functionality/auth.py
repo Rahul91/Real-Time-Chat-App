@@ -11,8 +11,9 @@ __author__ = 'rahul'
 
 
 @validation.valid_username('username', 'SIGNUP-BAD-USERNAME')
+@validation.not_empty('password', 'SIGNUP-REQ-PASSWORD', req=True)
 @validation.not_empty('first_name', 'SIGNUP-REQ-FIRSTNAME', req=True)
-@validation.not_empty('last_name', 'SIGNUP-REQ-LASTNAME', req=True)
+@validation.not_empty('last_name', 'SIGNUP-REQ-LASTNAME', req=False)
 def signup(**kwargs):
     if not get_user_by_username(username=kwargs['username']):
         kwargs.update(dict(
