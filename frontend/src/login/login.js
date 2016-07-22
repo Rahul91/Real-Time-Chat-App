@@ -6,7 +6,6 @@ mainApp.controller("loginController", function ($scope, appConfig, $rootScope, l
         result.then(function(response) {
             if (response.status == 200){
                 localStorage.token = response.data["access_token"];
-                console.log(localStorage.token);
                 toaster.pop('success', 'LOGGED-IN');
                 window.location.href='#/home'
             }else{

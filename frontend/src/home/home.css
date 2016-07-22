@@ -10,10 +10,6 @@ html {
   display: none;
 }
 
-#main {
-    transition: margin-left .5s;
-}
-
 .sidenavbar {
     background-color: #1B242F;
     min-height: 550px;
@@ -52,10 +48,10 @@ html {
   margin-bottom: 20px;
   /*margin-left: -20px;*/
 }
-.nav-sidebar > li > a {
+/*.nav-sidebar > li > a {
   padding-right: 20px;
   padding-left: 20px;
-}
+}*/
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
@@ -66,9 +62,9 @@ html {
 .chat
 {
     list-style: none;
+    font-size: 15px;
     margin: 0;
     padding: 0;
-    /*max-width: 900px;*/
     min-width: 1000px;
 }
 
@@ -77,6 +73,10 @@ html {
     margin-bottom: 10px;
     padding-bottom: 5px;
     border-bottom: 1px dotted #B3A9A9;
+}
+
+.chat ul{
+    font-size: 15px;   
 }
 
 .sidenav {
@@ -143,9 +143,9 @@ html {
 
 .panel-body
 {
-    overflow-y: scroll;
-    max-height: 450px;
-    min-height: 450px;
+    overflow-y: auto;
+    max-height: 420px;
+    min-height: 420px;
 }
 
 ::-webkit-scrollbar-track
@@ -167,9 +167,20 @@ html {
 }
 
 .channels {
-    overflow-y: scroll;
+    padding-top: 20px;
+    overflow: auto;
     min-height: 300px;
     max-height: 300px;
+}
+
+.channels ul {
+    padding-left: 20px;
+    list-style: none;
+}
+
+.settings ul {
+    padding-left: 20px;
+    list-style: none;
 }
 
 ul li {

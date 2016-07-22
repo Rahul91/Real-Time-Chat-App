@@ -1,5 +1,202 @@
 define({ "api": [
   {
+    "type": "get",
+    "url": "/channel",
+    "title": "Channel",
+    "name": "Channel",
+    "group": "Channel",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success Response",
+          "content": "HTTP/1.1 200 OK\n{\n  \"created_on\": true,\n  \"created_by\": \"test\",\n  \"channel_name\" : \"test_channel\",\n  \"channel_type\" : \"public\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Invalid Params Provided",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"PUB-INVALID-PARAM\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "healthify/resources/channel.py",
+    "groupTitle": "Channel"
+  },
+  {
+    "type": "post",
+    "url": "/channel/create",
+    "title": "Create Channel",
+    "name": "Channel",
+    "group": "Channel",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "channel_name",
+            "description": "<p>Channel Name</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>Channel type</p>"
+          }
+        ]
+      }
+    },
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success Response",
+          "content": "HTTP/1.1 200 OK\n{\n  \"channel_name\" : \"test_channel\",\n  \"channel_type\" : \"public\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Channel Name not Provided",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"CHANNEL-REQ-NAME\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "healthify/resources/channel.py",
+    "groupTitle": "Channel"
+  },
+  {
+    "type": "post",
+    "url": "/channel/unsubscribe",
+    "title": "Unsubscribe Channel",
+    "name": "Unsubscribe_Channel",
+    "group": "Channel",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "channel_name",
+            "description": "<p>Channel Name</p>"
+          }
+        ]
+      }
+    },
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success Response",
+          "content": "HTTP/1.1 200 OK\n{\n  \"channel_name\" : \"test_channel\",\n  \"channel_type\" : \"public\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Channel Name not Provided",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"CHANNEL-REQ-NAME\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "healthify/resources/channel.py",
+    "groupTitle": "Channel"
+  },
+  {
+    "type": "get",
+    "url": "/channel/{channel_name}",
+    "title": "Fetch Channel",
+    "name": "Unsubscribe_Channel",
+    "group": "Channel",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success Response",
+          "content": "HTTP/1.1 200 OK\n{\n    \"channel_id\": \"channel.id\",\n    \"channel_name\": \"channel_name\",\n    \"channel_type\": \"public\",\n    \"created_by\": \"test_user\",\n    \"created_on\": \"some date\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Invalid params Provided",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"GET-CHANNEL-INVALID-PARAM\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "healthify/resources/channel.py",
+    "groupTitle": "Channel"
+  },
+  {
     "type": "post",
     "url": "/auth",
     "title": "Authentication",
@@ -69,12 +266,7 @@ define({ "api": [
     },
     "version": "0.0.0",
     "filename": "healthify/functionality/auth.py",
-    "groupTitle": "User",
-    "sampleRequest": [
-      {
-        "url": "http://localhost:9999/auth"
-      }
-    ]
+    "groupTitle": "User"
   },
   {
     "type": "post",
@@ -152,15 +344,10 @@ define({ "api": [
     },
     "version": "0.0.0",
     "filename": "healthify/resources/auth.py",
-    "groupTitle": "User",
-    "sampleRequest": [
-      {
-        "url": "http://localhost:9999/signup"
-      }
-    ]
+    "groupTitle": "User"
   },
   {
-    "type": "post",
+    "type": "get",
     "url": "/user",
     "title": "User",
     "name": "Signup",
@@ -198,11 +385,6 @@ define({ "api": [
     },
     "version": "0.0.0",
     "filename": "healthify/resources/auth.py",
-    "groupTitle": "User",
-    "sampleRequest": [
-      {
-        "url": "http://localhost:9999/user"
-      }
-    ]
+    "groupTitle": "User"
   }
 ] });

@@ -18,26 +18,28 @@ log = get_logger()
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 @validation.not_empty('type', 'REQ-CHANNEL-TYPE', req=False)
 def create_channel(**kwargs):
-    channel_type = kwargs.get('channel_type', 'public').lower()
     channel_name = kwargs['channel_name']
-    channel_created_by = kwargs['user_id']
+    user_id = kwargs['user_id']
+    channel_obj = get_channel_by_name(channel_name=channel_name)
+    channel_type = kwargs.get('channel_type', 'public').lower()
+    if not channel_obj:
+        channel_create_params = dict(
+            id=str(uuid4()),
+            name=channel_name,
+            created_by=user_id,
+            type=channel_type,
+        )
+        channel = Channel(**channel_create_params)
+        session.add(channel)
 
-    channel_create_params = dict(
-        id=str(uuid4()),
-        name=channel_name,
-        created_by=channel_created_by,
-        type=channel_type,
-    )
-    channel = Channel(**channel_create_params)
-    session.add(channel)
-
-    create_user_channel_mapping(user_id=channel_created_by,
-                                channel_id=get_channel_by_name(channel_name=channel_name).id)
-
+        create_user_channel_mapping(user_id=user_id,
+                                    channel_id=get_channel_by_name(channel_name=channel_name).id)
+    else:
+        create_user_channel_mapping(user_id=user_id,
+                                    channel_id=get_channel_by_name(channel_name=channel_name).id)
     return dict(
-        id=channel.id,
-        channel_name=channel.name,
-        type=channel.type,
+        channel_name=channel_name,
+        type=channel_type,
         created=True
     )
 

@@ -23,6 +23,13 @@ def channel_response_transformation(channel):
     )
 
 
+def channel_unsubscribe_transform_response(channel):
+    return dict(
+        channel_id=channel.id,
+        unsubscribed=True,
+    )
+
+
 class Channel(Resource):
     """
     @api {get} /channel Channel
@@ -167,6 +174,7 @@ class UnsubscribeChannel(Resource):
       }
     }
     """
+    decorators = [jwt_required()]
 
     # @marshal_with(channel_creation_response_format)
     def post(self):
@@ -181,7 +189,7 @@ class UnsubscribeChannel(Resource):
             session.rollback()
             response = unsubscribe_channel(**params)
             session.commit()
-            return response
+            return channel_unsubscribe_transform_response(response)
         except ValueError as val_err:
             log.error(repr(val_err))
             session.rollback()
@@ -189,7 +197,7 @@ class UnsubscribeChannel(Resource):
         except KeyError as key_err:
             log.error(repr(key_err))
             session.rollback()
-            abort(400, message="PUB-INVALID-PARAM")
+            abort(400, message="UNSUB-INVALID-PARAM")
         except IOError as io_err:
             log.exception(io_err)
             session.rollback()
@@ -200,6 +208,7 @@ class UnsubscribeChannel(Resource):
             abort(500, message="API-ERR-DB")
         finally:
             session.close()
+
 
 
 class FetchChannel(Resource):

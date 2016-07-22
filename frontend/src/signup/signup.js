@@ -1,6 +1,9 @@
 var mainApp = angular.module("mainApp");
-mainApp.controller("signupController", function ($scope, $timeout, $interval, signupService, loginService, $localStorage, $location, toaster) {
+mainApp.controller("signupController", function ($scope, $timeout, $interval, $rootScope, signupService, loginService, $localStorage, $location, toaster) {
     $scope.index = false;
+    localStorage.token = "";
+    $rootScope.username = "";
+    $rootScope.first_name = "";
     $scope.signup = function (username, password, first_name, last_name) {
         var result = signupService.signup(username, password, first_name, last_name)
         result.then(function(success) {
@@ -11,8 +14,8 @@ mainApp.controller("signupController", function ($scope, $timeout, $interval, si
                             loginResult.then(function(response) {
                                 if (response.status == 200){
                                     localStorage.token = response.data["access_token"];
-                                    console.log(localStorage.token);
                                     toaster.pop('success', 'LOGGED-IN');
+                                    $rootScope.showWelcomeMessage = true;
                                     window.location.href='#/home'
                                 }else{
                                     toaster.pop('error', response['statusText']);

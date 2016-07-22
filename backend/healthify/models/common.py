@@ -21,6 +21,7 @@ class UserChannelMapping(Model):
     user_id = USER_ID_FOREIGN_KEY.copy()
     channel_id = CHANNEL_ID_FOREIGN_KEY.copy()
     is_unsubscribed = BOOLEAN_FALSE.copy()
+    marked_deleted_on = DELETED_ON.copy()
 
     created_on = CREATED_ON_WITH_SERVER_DEFAULT.copy()
     deleted_on = DELETED_ON.copy()
