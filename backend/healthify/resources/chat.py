@@ -17,6 +17,38 @@ log = get_logger()
 
 
 class Chat(Resource):
+    """
+    @api {post} /message/publish Publish/Broadcasts Message
+    @apiName Publish Message
+    @apiGroup Chat
+
+    @apiParam {String} channel_name
+    @apiParam {String} message
+    @apiHeader {String} Authorization
+
+    @apiSuccessExample Success Response
+    HTTP/1.1 200 OK
+    {
+        "message_id": "11010f-1344-1345-acf42245",
+        "message_published": "True"
+    }
+
+    @apiErrorExample Message Payload Missing
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "PUB-REQ-MESSAGE"
+      }
+    }
+
+    @apiErrorExample Channel NameMissing
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "PUB-REQ-CHANNEL"
+      }
+    }
+    """
 
     decorators = [jwt_required()]
 
@@ -76,6 +108,40 @@ def message_transformation(message):
 
 
 class FetchChat(Resource):
+    """
+    @api {post} /message Fetch Messages
+    @apiName Fetch Message
+    @apiGroup Chat
+
+    @apiParam {String} channel_name
+    @apiParam {String} page_num
+    @apiHeader {String} Authorization
+
+    @apiSuccessExample Success Response
+    HTTP/1.1 200 OK
+    {
+        "message_id": "11010f-1344-1345-acf42245",
+        "published_by_name": "Rahul",
+        "message_text": "THis is a test message",
+        "created_on": "2016-10-31"
+    }
+
+    @apiErrorExample Page Num Missing
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "MSG-FETCH-REQ-PAGE-NUM"
+      }
+    }
+
+    @apiErrorExample Channel NameMissing
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "MSG-FETCH-REQ-CHANNEL"
+      }
+    }
+    """
 
     decorators = [jwt_required()]
 
@@ -130,6 +196,29 @@ class FetchChat(Resource):
 
 
 class DeleteChat(Resource):
+    """
+    @api {post} /message/delete Delete Messages
+    @apiName Delete Message
+    @apiGroup Chat
+
+    @apiParam {String} channel_name
+    @apiHeader {String} Authorization
+
+    @apiSuccessExample Success Response
+    HTTP/1.1 200 OK
+    {
+        "chat_deleted": True,
+    }
+
+    @apiErrorExample Channel NameMissing
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "MSG-DELETE-REQ-CHANNEL"
+      }
+    }
+    """
+
     decorators = [jwt_required()]
 
     def post(self):

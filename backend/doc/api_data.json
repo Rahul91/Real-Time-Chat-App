@@ -38,7 +38,12 @@
     },
     "version": "0.0.0",
     "filename": "healthify/resources/channel.py",
-    "groupTitle": "Channel"
+    "groupTitle": "Channel",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3434/channel"
+      }
+    ]
   },
   {
     "type": "post",
@@ -99,7 +104,12 @@
     },
     "version": "0.0.0",
     "filename": "healthify/resources/channel.py",
-    "groupTitle": "Channel"
+    "groupTitle": "Channel",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3434/channel/create"
+      }
+    ]
   },
   {
     "type": "post",
@@ -153,7 +163,12 @@
     },
     "version": "0.0.0",
     "filename": "healthify/resources/channel.py",
-    "groupTitle": "Channel"
+    "groupTitle": "Channel",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3434/channel/unsubscribe"
+      }
+    ]
   },
   {
     "type": "get",
@@ -194,7 +209,213 @@
     },
     "version": "0.0.0",
     "filename": "healthify/resources/channel.py",
-    "groupTitle": "Channel"
+    "groupTitle": "Channel",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3434/channel/{channel_name}"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/message/delete",
+    "title": "Delete Messages",
+    "name": "Delete_Message",
+    "group": "Chat",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "channel_name",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success Response",
+          "content": "HTTP/1.1 200 OK\n{\n    \"chat_deleted\": True,\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Channel NameMissing",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"MSG-DELETE-REQ-CHANNEL\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "healthify/resources/chat.py",
+    "groupTitle": "Chat",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3434/message/delete"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/message",
+    "title": "Fetch Messages",
+    "name": "Fetch_Message",
+    "group": "Chat",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "channel_name",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "page_num",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success Response",
+          "content": "HTTP/1.1 200 OK\n{\n    \"message_id\": \"11010f-1344-1345-acf42245\",\n    \"published_by_name\": \"Rahul\",\n    \"message_text\": \"THis is a test message\",\n    \"created_on\": \"2016-10-31\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Page Num Missing",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"MSG-FETCH-REQ-PAGE-NUM\"\n  }\n}",
+          "type": "json"
+        },
+        {
+          "title": "Channel NameMissing",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"MSG-FETCH-REQ-CHANNEL\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "healthify/resources/chat.py",
+    "groupTitle": "Chat",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3434/message"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/message/publish",
+    "title": "Publish/Broadcasts Message",
+    "name": "Publish_Message",
+    "group": "Chat",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "channel_name",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success Response",
+          "content": "HTTP/1.1 200 OK\n{\n    \"message_id\": \"11010f-1344-1345-acf42245\",\n    \"message_published\": \"True\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Message Payload Missing",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"PUB-REQ-MESSAGE\"\n  }\n}",
+          "type": "json"
+        },
+        {
+          "title": "Channel NameMissing",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"PUB-REQ-CHANNEL\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "healthify/resources/chat.py",
+    "groupTitle": "Chat",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3434/message/publish"
+      }
+    ]
   },
   {
     "type": "post",
@@ -266,7 +487,12 @@
     },
     "version": "0.0.0",
     "filename": "healthify/functionality/auth.py",
-    "groupTitle": "User"
+    "groupTitle": "User",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3434/auth"
+      }
+    ]
   },
   {
     "type": "post",
@@ -344,7 +570,12 @@
     },
     "version": "0.0.0",
     "filename": "healthify/resources/auth.py",
-    "groupTitle": "User"
+    "groupTitle": "User",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3434/signup"
+      }
+    ]
   },
   {
     "type": "get",
@@ -385,6 +616,11 @@
     },
     "version": "0.0.0",
     "filename": "healthify/resources/auth.py",
-    "groupTitle": "User"
+    "groupTitle": "User",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3434/user"
+      }
+    ]
   }
 ]
