@@ -10,19 +10,15 @@ Any new feature that you can think of in addition to the above requirements. Doc
 <h2>My approach</h2>
 
 Technological Stack:
-		
+
 		1. Flask(Flask-Restful) + MySql(db) + sqlAlchemy(ORM) + Alembic(DB Migration) 
 		2. Angularjs(Js) + Bootstrap(CSS)
-		3.  RabbitMq (broker) + Pika (MessagingClient)
+		3. RabbitMq (broker) + Pika (MessagingClient)
 		4. Apidoc(Documentation) 
 	 
-
-
 <h2>Project Setup</h2>
-  1. Clone project from github, https://github.com/Rahul91/healthify 
-  2. Create virtualenv, activate it and install requriement using pip from healthify/backend/requirements.txt
-  3 .Change db config in healthify/backend/healthify/config.py and healthify/backend/healthify/models/alembic/alembic.ini 
-  4. Execute script in healthify/backend/migrate_db.sh
-  5. Now run the healthify/backend/app.py
-  6.Do npm install in healthify/frontend, make sure you have package.json in your current directory
-  7. Change constant in healthify/frontend/src/mainApp.js to point to your flask api
+  1. Clone project: $ git clone https://github.com/Rahul91/healthify.git .
+  2. For backend setup, please follow README.md in healthify/backend/
+  3. For frontend setup, do npm install in healthify/frontend, make sure you have package.json in your current directory
+  4. Change constant in healthify/frontend/src/mainApp.js to point to your flask api
+  
