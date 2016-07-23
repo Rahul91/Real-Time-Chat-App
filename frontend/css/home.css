@@ -47,7 +47,7 @@ body {
     padding: 16px;
 }
 
-.sidebar {
+/*.sidebar {
   display: none;
 }
 @media (min-width: 768px) {
@@ -66,4 +66,4 @@ body {
     border-style: solid;
     border-width: 5px;
   }
-}
+}*/
