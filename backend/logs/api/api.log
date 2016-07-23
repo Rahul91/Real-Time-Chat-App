@@ -1,36 +1,126 @@
-pydev debugger: process 31533 is connecting
+pydev debugger: process 6419 is connecting
 
-2016-07-23 01:57:55,366 werkzeug     INFO      * Running on http://127.0.0.1:3434/ (Press CTRL+C to quit)
-2016-07-23 01:57:55,368 werkzeug     INFO      * Restarting with stat
-pydev debugger: process 31591 is connecting
+2016-07-23 10:34:37,670 werkzeug     INFO      * Running on http://127.0.0.1:3434/ (Press CTRL+C to quit)
+2016-07-23 10:34:37,671 werkzeug     INFO      * Restarting with stat
+pydev debugger: process 6429 is connecting
 
-2016-07-23 01:57:56,227 werkzeug     WARNING   * Debugger is active!
-2016-07-23 01:57:56,238 werkzeug     INFO      * Debugger pin code: 245-963-413
-2016-07-23 01:58:05,434 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 01:58:05] "OPTIONS /user HTTP/1.1" 200 -
-2016-07-23 01:58:11,377 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 01:58:11] "GET /user HTTP/1.1" 200 -
-2016-07-23 01:58:11,384 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 01:58:11] "OPTIONS /channel HTTP/1.1" 200 -
-2016-07-23 01:58:11,391 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 01:58:11] "OPTIONS /message HTTP/1.1" 200 -
-2016-07-23 01:58:11,398 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 01:58:11] "OPTIONS /channel/public HTTP/1.1" 200 -
-2016-07-23 01:58:11,501 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 01:58:11] "GET /channel HTTP/1.1" 200 -
-2016-07-23 01:58:11,521 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 01:58:11] "GET /channel/public HTTP/1.1" 200 -
-2016-07-23 01:58:11,686 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 01:58:11] "POST /message HTTP/1.1" 200 -
-2016-07-23 01:58:24,034 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 01:58:24] "OPTIONS /channel/create HTTP/1.1" 200 -
-2016-07-23 01:58:44,758 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 01:58:44] "POST /channel/create HTTP/1.1" 400 -
-2016-07-23 02:04:22,471 werkzeug     INFO      * Detected change in '/home/rahul/healthify/backend/healthify/functionality/channel.py', reloading
-2016-07-23 02:04:22,511 werkzeug     INFO      * Restarting with stat
-pydev debugger: process 31979 is connecting
+2016-07-23 10:34:38,534 werkzeug     WARNING   * Debugger is active!
+2016-07-23 10:34:38,542 werkzeug     INFO      * Debugger pin code: 245-963-413
+2016-07-23 10:34:45,621 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:34:45] "OPTIONS /auth HTTP/1.1" 200 -
+2016-07-23 10:34:45,704 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:34:45] "POST /auth HTTP/1.1" 200 -
+2016-07-23 10:34:51,613 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:34:51] "OPTIONS /channel HTTP/1.1" 200 -
+2016-07-23 10:34:51,620 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:34:51] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:34:51,627 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:34:51] "OPTIONS /channel/public HTTP/1.1" 200 -
+2016-07-23 10:34:51,632 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:34:51] "OPTIONS /user HTTP/1.1" 200 -
+2016-07-23 10:34:51,692 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:34:51] "GET /channel HTTP/1.1" 200 -
+2016-07-23 10:34:51,834 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:34:51] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:34:51,850 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:34:51] "GET /channel/public HTTP/1.1" 200 -
+2016-07-23 10:37:21,418 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:21] "GET /user HTTP/1.1" 200 -
+2016-07-23 10:37:21,423 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:21] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:37:21,427 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:21] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:37:21,431 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:21] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:37:21,435 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:21] "OPTIONS /auth HTTP/1.1" 200 -
+2016-07-23 10:37:21,440 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:21] "OPTIONS /auth HTTP/1.1" 200 -
+2016-07-23 10:37:21,739 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:21] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:37:21,870 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:21] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:37:22,074 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:22] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:37:22,103 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:22] "POST /auth HTTP/1.1" 200 -
+2016-07-23 10:37:22,122 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:22] "POST /auth HTTP/1.1" 200 -
+2016-07-23 10:37:22,219 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:22] "OPTIONS /channel HTTP/1.1" 200 -
+2016-07-23 10:37:22,223 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:22] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:37:22,229 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:22] "OPTIONS /channel/public HTTP/1.1" 200 -
+2016-07-23 10:37:22,233 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:37:22] "OPTIONS /user HTTP/1.1" 200 -
+2016-07-23 10:38:49,975 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:38:49] "GET /user HTTP/1.1" 200 -
+2016-07-23 10:38:49,998 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:38:49] "GET /channel/public HTTP/1.1" 200 -
+2016-07-23 10:38:50,195 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:38:50] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:38:50,250 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:38:50] "GET /channel HTTP/1.1" 200 -
+2016-07-23 10:38:50,257 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:38:50] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:38:50,548 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:38:50] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:38:55,149 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:38:55] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:38:55,329 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:38:55] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:39:17,562 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:39:17] "OPTIONS /user HTTP/1.1" 200 -
+2016-07-23 10:39:23,188 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:39:23] "GET /user HTTP/1.1" 200 -
+2016-07-23 10:39:23,194 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:39:23] "OPTIONS /channel HTTP/1.1" 200 -
+2016-07-23 10:39:23,201 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:39:23] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:39:23,209 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:39:23] "OPTIONS /channel/public HTTP/1.1" 200 -
+2016-07-23 10:39:23,326 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:39:23] "GET /channel HTTP/1.1" 200 -
+2016-07-23 10:39:23,342 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:39:23] "GET /channel/public HTTP/1.1" 200 -
+2016-07-23 10:39:23,584 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:39:23] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:41:07,405 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:41:07] "OPTIONS /user HTTP/1.1" 200 -
+2016-07-23 10:41:13,404 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:41:13] "GET /user HTTP/1.1" 200 -
+2016-07-23 10:41:13,411 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:41:13] "OPTIONS /channel HTTP/1.1" 200 -
+2016-07-23 10:41:13,418 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:41:13] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:41:13,427 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:41:13] "OPTIONS /channel/public HTTP/1.1" 200 -
+2016-07-23 10:41:13,501 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:41:13] "GET /channel HTTP/1.1" 200 -
+2016-07-23 10:41:13,691 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:41:13] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:41:13,706 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:41:13] "GET /channel/public HTTP/1.1" 200 -
+2016-07-23 10:44:27,345 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:44:27] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:44:27,590 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:44:27] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:45:14,683 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:45:14] "OPTIONS /user HTTP/1.1" 200 -
+2016-07-23 10:45:14,693 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:45:14] "OPTIONS /channel/public HTTP/1.1" 200 -
+2016-07-23 10:45:14,733 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:45:14] "GET /user HTTP/1.1" 200 -
+2016-07-23 10:45:14,742 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:45:14] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:45:14,762 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:45:14] "GET /channel/public HTTP/1.1" 200 -
+2016-07-23 10:45:14,770 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:45:14] "OPTIONS /channel HTTP/1.1" 200 -
+2016-07-23 10:45:15,071 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:45:15] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:45:15,131 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:45:15] "GET /channel HTTP/1.1" 200 -
+2016-07-23 10:46:28,872 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:28] "OPTIONS /user HTTP/1.1" 200 -
+2016-07-23 10:46:28,881 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:28] "OPTIONS /channel/public HTTP/1.1" 200 -
+2016-07-23 10:46:28,891 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:28] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:46:28,898 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:28] "OPTIONS /channel HTTP/1.1" 200 -
+2016-07-23 10:46:28,926 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:28] "GET /user HTTP/1.1" 200 -
+2016-07-23 10:46:28,957 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:28] "GET /channel/public HTTP/1.1" 200 -
+2016-07-23 10:46:29,184 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:29] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:46:29,232 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:29] "GET /channel HTTP/1.1" 200 -
+2016-07-23 10:46:33,763 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:33] "OPTIONS /user HTTP/1.1" 200 -
+2016-07-23 10:46:33,772 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:33] "OPTIONS /channel/public HTTP/1.1" 200 -
+2016-07-23 10:46:33,781 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:33] "OPTIONS /channel HTTP/1.1" 200 -
+2016-07-23 10:46:33,791 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:33] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:46:33,820 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:33] "GET /user HTTP/1.1" 200 -
+2016-07-23 10:46:33,840 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:33] "GET /channel/public HTTP/1.1" 200 -
+2016-07-23 10:46:33,895 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:33] "GET /channel HTTP/1.1" 200 -
+2016-07-23 10:46:34,116 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:46:34] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:47:11,761 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:11] "OPTIONS /user HTTP/1.1" 200 -
+2016-07-23 10:47:11,770 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:11] "OPTIONS /channel/public HTTP/1.1" 200 -
+2016-07-23 10:47:11,778 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:11] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:47:11,786 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:11] "OPTIONS /channel HTTP/1.1" 200 -
+2016-07-23 10:47:11,816 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:11] "GET /user HTTP/1.1" 200 -
+2016-07-23 10:47:11,835 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:11] "GET /channel/public HTTP/1.1" 200 -
+2016-07-23 10:47:12,080 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:12] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:47:12,117 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:12] "GET /channel HTTP/1.1" 200 -
+2016-07-23 10:47:38,031 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:38] "OPTIONS /user HTTP/1.1" 200 -
+2016-07-23 10:47:38,040 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:38] "OPTIONS /channel/public HTTP/1.1" 200 -
+2016-07-23 10:47:38,060 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:38] "GET /user HTTP/1.1" 200 -
+2016-07-23 10:47:38,067 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:38] "OPTIONS /channel HTTP/1.1" 200 -
+2016-07-23 10:47:38,075 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:38] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:47:38,087 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:38] "GET /channel/public HTTP/1.1" 200 -
+2016-07-23 10:47:38,118 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:38] "GET /channel HTTP/1.1" 200 -
+2016-07-23 10:47:38,355 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:38] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:47:43,676 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:43] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:47:43,725 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:47:43] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:50:31,693 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:31] "OPTIONS /user HTTP/1.1" 200 -
+2016-07-23 10:50:31,702 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:31] "OPTIONS /channel/public HTTP/1.1" 200 -
+2016-07-23 10:50:31,711 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:31] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:50:31,719 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:31] "OPTIONS /channel HTTP/1.1" 200 -
+2016-07-23 10:50:31,746 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:31] "GET /user HTTP/1.1" 200 -
+2016-07-23 10:50:31,766 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:31] "GET /channel/public HTTP/1.1" 200 -
+2016-07-23 10:50:31,945 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:31] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:50:31,988 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:31] "GET /channel HTTP/1.1" 200 -
+2016-07-23 10:50:33,592 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:33] "OPTIONS /user HTTP/1.1" 200 -
+2016-07-23 10:50:33,601 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:33] "OPTIONS /channel/public HTTP/1.1" 200 -
+2016-07-23 10:50:33,610 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:33] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:50:33,619 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:33] "OPTIONS /channel HTTP/1.1" 200 -
+2016-07-23 10:50:33,654 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:33] "GET /user HTTP/1.1" 200 -
+2016-07-23 10:50:33,673 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:33] "GET /channel/public HTTP/1.1" 200 -
+2016-07-23 10:50:33,932 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:33] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:50:33,973 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:33] "GET /channel HTTP/1.1" 200 -
+2016-07-23 10:50:55,737 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:55] "OPTIONS /message/delete HTTP/1.1" 200 -
+2016-07-23 10:50:55,849 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:50:55] "POST /message/delete HTTP/1.1" 200 -
+2016-07-23 10:51:00,869 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:51:00] "OPTIONS /message HTTP/1.1" 200 -
+2016-07-23 10:51:00,915 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 10:51:00] "POST /message HTTP/1.1" 200 -
+2016-07-23 10:54:40,466 werkzeug     INFO      * Detected change in '/home/rahul/healthify/backend/healthify/resources/channel.py', reloading
+2016-07-23 10:54:40,497 werkzeug     INFO      * Restarting with stat
+pydev debugger: process 7674 is connecting
 
-2016-07-23 02:04:23,599 werkzeug     WARNING   * Debugger is active!
-2016-07-23 02:04:23,607 werkzeug     INFO      * Debugger pin code: 245-963-413
-2016-07-23 02:04:38,852 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 02:04:38] "OPTIONS /user HTTP/1.1" 200 -
-2016-07-23 02:04:44,778 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 02:04:44] "GET /user HTTP/1.1" 200 -
-2016-07-23 02:04:44,782 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 02:04:44] "OPTIONS /channel HTTP/1.1" 200 -
-2016-07-23 02:04:44,786 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 02:04:44] "OPTIONS /message HTTP/1.1" 200 -
-2016-07-23 02:04:44,790 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 02:04:44] "OPTIONS /channel/public HTTP/1.1" 200 -
-2016-07-23 02:04:44,957 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 02:04:44] "POST /message HTTP/1.1" 200 -
-2016-07-23 02:04:44,989 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 02:04:44] "GET /channel HTTP/1.1" 200 -
-2016-07-23 02:04:45,010 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 02:04:45] "GET /channel/public HTTP/1.1" 200 -
-2016-07-23 02:04:53,740 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 02:04:53] "OPTIONS /message HTTP/1.1" 200 -
-2016-07-23 02:04:53,887 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 02:04:53] "POST /message HTTP/1.1" 200 -
-2016-07-23 02:05:11,181 werkzeug     INFO     127.0.0.1 - - [23/Jul/2016 02:05:11] "OPTIONS /channel/create HTTP/1.1" 200 -
-2016-07-23 02:05:11,213 [INFO    ] api      [channel.py     :126]: Publish params: {'channel_name': u'New channel', 'type': None, 'user_id': u'20b856c4-4b4c-11e6-a3cf-acd1b8e7fb7b'}
+2016-07-23 10:54:41,666 werkzeug     WARNING   * Debugger is active!
+2016-07-23 10:54:41,675 werkzeug     INFO      * Debugger pin code: 245-963-413

@@ -1,6 +1,5 @@
 var mainApp = angular.module("mainApp");
 mainApp.controller("homeController", function ($scope, toaster, $rootScope, $location, $document, $timeout, $interval, homeService) {
-    
     $scope.channel_name = 'public';
     $scope.messageList = [];
     $scope.createNewChannel = false;
@@ -180,6 +179,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     }
 
     $scope.createChannel = function (channelName, type) {
+        $scope.displayChat = true;
         var channel = homeService.createChannel(channelName, type)
         $scope.fetchingChat = true;
         channel.then(function(response) {
@@ -199,10 +199,12 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     }
 
     $scope.deleteChat = function (channelName) {
+        $scope.displayChat = true;
         var channel = homeService.deleteChat(channelName)
         channel.then(function(response) {
         if (response.status ==  200){
-            toaster.pop('success', 'Chats deleted')
+            toaster.pop('success', 'Chats deleted');
+            $scope.get_chat_by_channel_name(channelName, 0);
         }else{
             toaster.pop('error', response.data['message'])
         }},
@@ -216,6 +218,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     }
 
     $scope.unsubscibeChannel = function (channelName) {
+        $scope.displayChat = true;
         if (channelName == 'public'){
             toaster.pop('warning', 'You cannnot unsubscribe Public channel');
         }else{

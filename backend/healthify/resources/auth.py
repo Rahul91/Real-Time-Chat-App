@@ -130,7 +130,12 @@ class User(Resource):
         try:
             response = get_user_by_id(user_id=current_identity.id)
             session.commit()
-            return response
+            return dict(
+                username=response.username,
+                first_name=response.first_name,
+                last_name=response.last_name,
+                created_on=response.created_on,
+            )
         except ValueError as val_err:
             log.error(repr(val_err))
             session.rollback()

@@ -137,10 +137,10 @@ class Channel(Resource):
             log.error(repr(key_err))
             session.rollback()
             abort(400, message="CHANNEL-INVALID-PARAM")
-        # except IOError as io_err:
-        #     log.exception(io_err)
-        #     session.rollback()
-        #     abort(500, message="API-ERR-IO")
+        except IOError as io_err:
+            log.exception(io_err)
+            session.rollback()
+            abort(500, message="API-ERR-IO")
         except SQLAlchemyError as sa_err:
             log.exception(sa_err)
             session.rollback()
@@ -206,6 +206,10 @@ class UnsubscribeChannel(Resource):
             log.exception(sa_err)
             session.rollback()
             abort(500, message="API-ERR-DB")
+        except Exception as excp:
+            log.error(repr(excp))
+            session.rollback()
+            abort(400, message=excp.message)
         finally:
             session.close()
 

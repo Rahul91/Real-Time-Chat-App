@@ -149,12 +149,18 @@ html {
     min-height: 420px;
 }
 
+.panel-heading{
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
 .loader {
     padding: 10px;
     margin-bottom: 10px; 
-    background: #66d9ff;
+    background: #1e3a44;;
     cursor: pointer;
     padding-left: 40%;
+    color: white;
 }
 
 ::-webkit-scrollbar-track

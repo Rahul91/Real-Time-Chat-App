@@ -3,6 +3,7 @@ from flask_restful import marshal_with, reqparse, fields, abort
 from flask_restful import Resource
 from functionality.auth import get_user_by_id
 from sqlalchemy.exc import SQLAlchemyError
+from pika.exceptions import AMQPConnectionError, ConnectionClosed
 
 from healthify.utils.logger import get_logger
 from functionality.chat import publish_message, fetch_message, fetch_stream_messages, delete_chat
@@ -50,6 +51,17 @@ class Chat(Resource):
             log.exception(sa_err)
             session.rollback()
             abort(500, message="API-ERR-DB")
+        except ConnectionClosed as pika_exception:
+            log.error(repr(pika_exception))
+            session.rollback()
+            abort(400, message='PIKA-CONNECTION-ERROR')
+        except AMQPConnectionError as pika_conn_err:
+            log.error(repr(pika_conn_err))
+            session.rollback()
+            abort(400, message='PIKA-CONNECTION-ERROR')
+        except Exception as excp:
+            log.error(repr(excp))
+            session.rollback()
         finally:
             session.close()
 
@@ -109,6 +121,10 @@ class FetchChat(Resource):
             log.exception(sa_err)
             session.rollback()
             abort(500, message="API-ERR-DB")
+        except Exception as excp:
+            log.error(repr(excp))
+            session.rollback()
+            abort(400, message=excp.message)
         finally:
             session.close()
 
@@ -144,8 +160,13 @@ class DeleteChat(Resource):
             log.exception(sa_err)
             session.rollback()
             abort(500, message="API-ERR-DB")
+        except Exception as excp:
+            log.error(repr(excp))
+            session.rollback()
+            abort(400, message=excp.message)
         finally:
             session.close()
+
 
 class MessageStream(Resource):
 
