@@ -14,15 +14,21 @@ Installing supervisor :
   4. Execute script in healthify/backend/migrate_db.sh
   5. Make changes in healthify/backend/system-config/dev/supervisor/* and create softlinks for healthify/backend/system-config/dev/supervisor in /etc/supervisor/conf.d
         
-        sudo ln -s healthify/backend/system-config/dev/supervisor/healthify.conf .
-        sudo ln -s healthify/backend/system-config/dev/supervisor/worker.conf .
-      
+        $ sudo ln -s healthify/backend/system-config/dev/supervisor/healthify.conf .
+        $ sudo ln -s healthify/backend/system-config/dev/supervisor/worker.conf .
+        $ sudo supervisor reread
+        $ sudo supervisor update
+
       Or python app.py  and  python worker.stream_fetch.py, Make sure to add PYTHONPATH upto ~/healthify/backend/
       
   6. Make nginx conf in /etc/nginx/sites-enabled and restart service
-        sudo service restart nginx
-    Or go to /doc and use SimpleHTTPServer to host the files
-        python -m SimpleHTTPServer 8989
-    This will host the apidoc on localhost:8989
+        
+            $ sudo service restart nginx
+    
+Or go to /doc and use SimpleHTTPServer to host the files
+        
+            $ python -m SimpleHTTPServer 8989
+    
+This will host the apidoc on localhost:8989
     
   7. Backend stack is ready to serve the request now.
