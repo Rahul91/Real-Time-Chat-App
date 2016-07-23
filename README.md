@@ -10,15 +10,15 @@ Any new feature that you can think of in addition to the above requirements. Doc
 <h2>My approach</h2>
 
 Technological Stack:
-		
+
 		1. Flask(Flask-Restful) + MySql(db) + sqlAlchemy(ORM) + Alembic(DB Migration) 
 		2. Angularjs(Js) + Bootstrap(CSS)
 		3. RabbitMq (broker) + Pika (MessagingClient)
 		4. Apidoc(Documentation) 
 	 
 <h2>Project Setup</h2>
-  1. Clone project.
-  2. For backend setup, please follow README.md for healthify/backend/
+  1. Clone project: $ git clone https://github.com/Rahul91/healthify.git .
+  2. For backend setup, please follow README.md in healthify/backend/
   3. For frontend setup, do npm install in healthify/frontend, make sure you have package.json in your current directory
   4. Change constant in healthify/frontend/src/mainApp.js to point to your flask api
   
