@@ -2,8 +2,9 @@
 I have used flask-restful framework coupled with Mysql and rabbitmq. I have used pika client to make the message publish async.
 
 ## About:
-User can signup and login and he will be by default subscribed to 'public' channel. User can publish and delete chat and can join, create unsubscribe channel.
-Creation, Unsubscription and deletion are simple, a button is provided to do the same. However if you a trying to create a channel, that already exists, you will be automatically joined to that channel.
+  - User can signup and login and he will be by default subscribed to 'public' channel. 
+  - User can publish and delete chat and can join, create unsubscribe channel.
+  - Creation, Unsubscription and deletion are simple, a button is provided to do the same. However if you a trying to create a channel, that already exists, you will be automatically joined to that channel.
 
 
 ## Installation:
