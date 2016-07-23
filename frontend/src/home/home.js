@@ -76,7 +76,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         if ($scope.autoRefresh == true){
             $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
         }
-    }, 200000);
+    }, 10000);
 
     if ($rootScope.showWelcomeMessage == true){
         $scope.welcomeMessage = this;
