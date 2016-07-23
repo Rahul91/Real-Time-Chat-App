@@ -124,3 +124,5 @@ pydev debugger: process 7674 is connecting
 
 2016-07-23 10:54:41,666 werkzeug     WARNING   * Debugger is active!
 2016-07-23 10:54:41,675 werkzeug     INFO      * Debugger pin code: 245-963-413
+2016-07-23 11:43:24,516 [INFO    ] api      [chat.py        :36 ]: Publish params: {'channel_name': u'public', 'message': u'my name is rahul and I am not a terrorist', 'user_id': u'5940613a-34fc-4e0c-a161-a9b566ea0722'}
+2016-07-23 11:43:24,589 [INFO    ] api      [stream_fetch.py:39 ]: Message payload: {"published_by": "5940613a-34fc-4e0c-a161-a9b566ea0722", "message": "my name is rahul and I am not a terrorist", "created_on": "2016-07-23 11:43:24.581989", "channel": "9ca82960-4b76-11e6-b422-acd1b8e7fb7b"}
