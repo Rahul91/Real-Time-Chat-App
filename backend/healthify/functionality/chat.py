@@ -21,6 +21,7 @@ log = get_logger()
 
 @validation.not_empty('message', 'PUB-REQ-MESSAGE-PAYLOAD', req=True)
 @validation.not_empty('channel_name', 'PUB-REQ-CHANNEL', req=True)
+@validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 def publish_message(**kwargs):
     user = get_user_by_id(user_id=kwargs['user_id'])
 
