@@ -4,7 +4,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     var apiendpointport = appConfig[appConfig.env].api_url_port;
     var url = apiendpoint + ':' + apiendpointport
     
-    token = localStorage['token'].replace(/['"]+/g, '')
+    var token = localStorage['token'].replace(/['"]+/g, '')
     
     this.get_all_channels = function () {
         return $http.get(url + "/channel", {
@@ -89,7 +89,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     this.get_user = function () {
         return $http.get(url + "/user", {
          "headers": {
-            "Authorization": 'JWT ' + token
+            "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
             }
         }); 
     };
