@@ -103,7 +103,7 @@ class TestChannel(TestCase):
         self.assertEqual('REQ-CHANNEL-NAME', err_empty_param.exception.message)
 
     # TODO: Have to write remaining testcases
-    
+
     @classmethod
     def tearDownClass(cls):
         super(TestChannel, cls).tearDownClass()

@@ -9,7 +9,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     this.get_all_channels = function () {
         return $http.get(url + "/channel", {
             "headers": {
-            "Authorization": 'JWT ' + token
+            "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
             }
         }); 
     };
