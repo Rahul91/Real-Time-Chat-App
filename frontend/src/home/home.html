@@ -51,7 +51,7 @@
   <ul>
     <li ng-click="triggerChannelCreation()"><i class="fa fa-plus" aria-hidden="true" style="font-size:20px;color:white;"></i>
     <span style="font-size:15px;color:white;">Add Channel</span>
-    <li ng-click="triggerChannelUnsubscription()"><i class="fa fa-times" aria-hidden="true" style="font-size:20px;color:white;"></i>
+    <li ng-click="triggerChannelUnsubscription()"><i class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size:20px;color:white;"></i>
     <span style="font-size:15px;color:white;">Unsubscribe </span>
   </li>
   <li ng-click="triggerChatDeletion()"><i class="fa fa-trash-o" aria-hidden="true" style="font-size:20px;color:white;"></i>
@@ -147,7 +147,7 @@
               <span>You can delete chat if you just want to delete the chat, unsubscribing will remove you from the feed.<br>
           </div>
           <div class="modal-footer" style="max-height: 70px;">
-            <button type="button" class="btn btn-warning" ng-click="unsubscibeChannel(channel_name)"> <i class="fa fa-times"></i> Unsubscribe</button>
+            <button type="button" class="btn btn-warning" ng-click="unsubscibeChannel(channel_name)"> <i class="fa fa-exclamation-triangle"></i> Unsubscribe</button>
             <button type="button" class="btn btn-danger" ng-click="deleteChat(channel_name)"> <i class="fa fa-trash-o fa-lg"></i> Delete</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismissDelete()" class="close">Dismiss
             </button>

@@ -10,11 +10,6 @@ mainApp.constant('appConfig', {
         }
     });
 
-// mainApp.constant("myConfig", {
-//         "url": "http://localhost",
-//         "port": "3434"
-//     })
-
 mainApp.config(function($routeProvider, $httpProvider) {
     $routeProvider.
     when('/login', {
