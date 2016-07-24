@@ -10,6 +10,7 @@ The overall services are divided into 2 parts:
   
   2. Business layer: Bunisess logic, DB operations, calling other services etc are the part of Business layer. These services are accessible only via api layer, thus making them secure, also, while authentcation could be a part of api layer while authorization could be part of business layer. Althoug this applicaiton does not have any role/permission, but this layer would be the perfect place to implement this.
   
+Async approach: I have used Rabbitmq and pika client to make the chat publish aysnc, why async, because its better. Altough in my case, the async call is not doing much, just a DB write, but large application can really use this technique to increase the throughput and can increase concurrnet requests.
 
 ## About:
   - User can signup and login and he will be by default subscribed to 'public' channel. 
