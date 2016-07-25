@@ -28,7 +28,7 @@ Installing supervisor :
   1. Clone project from github, https://github.com/Rahul91/healthify 
   2. Create virtualenv, activate it and install requriement using pip from healthify/backend/requirements.txt
   3 .Change db config in healthify/backend/healthify/config.py and healthify/backend/system-config/dev/alembic.ini 
-  4. Execute script in healthify/backend/migrate_db.sh
+  4. Execute script in healthify/backend/migrate_db.sh fot DB migration, make sure you have PYTHONPATH corrrect i.e upto ~/healthify/backend/
   5. Make changes in healthify/backend/system-config/dev/supervisor/* and create softlinks for healthify/backend/system-config/dev/supervisor in /etc/supervisor/conf.d
         
         sudo ln -s healthify/backend/system-config/dev/supervisor/healthify.conf .
