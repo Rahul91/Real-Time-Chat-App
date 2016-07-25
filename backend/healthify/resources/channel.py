@@ -214,7 +214,6 @@ class UnsubscribeChannel(Resource):
             session.close()
 
 
-
 class FetchChannel(Resource):
     """
     @api {get} /channel/{channel_name} Fetch Channel

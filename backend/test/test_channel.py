@@ -9,7 +9,6 @@ __author__ = 'rahul'
 
 
 class TestChannel(TestCase):
-
     user_id = 'test-1001-0101-0100010'
     username = 'rahul@testuser.com'
     password = 'test1234'
@@ -44,14 +43,8 @@ class TestChannel(TestCase):
         session.add(cls.channel)
         session.flush()
 
-    # def test_get_channel_by_name_successful(self):
-    #     self.assertIsNotNone(channel.get_channel_by_name(channel_name=self.channel_name))
-
     def test_get_channel_by_id_no_params(self):
         self.assertRaises(KeyError, channel.get_channel_by_id)
-
-    # def test_get_user_by_id_successful(self):
-    #     self.assertIsNotNone(channel.get_channel_by_id(channel_id=self.channel_id))
 
     def test_get_channel_by_id_is_null(self):
         self.assertRaises(KeyError, channel.get_channel_by_id, user_id=None)
@@ -72,7 +65,7 @@ class TestChannel(TestCase):
 
     def test_get_user_by_id_user_for_key_error(self):
         with self.assertRaises(KeyError) as err_empty_param:
-           channel.get_channel_by_id(channel_wrong_id=self.channel_id)
+            channel.get_channel_by_id(channel_wrong_id=self.channel_id)
 
         self.assertEqual('REQ-CHANNEL-ID', err_empty_param.exception.message)
 
@@ -83,24 +76,37 @@ class TestChannel(TestCase):
         self.assertRaises(ValueError, channel.get_channel_by_name, channel_name=None)
 
     def test_get_channel_by_name_for_value_error(self):
-        # with self.assertRaises(ValueError) as err_wrong_param:
-        #     channel.get_channel_by_name(channel_name='wrong-id')
-        # self.channel.deleted_on = '2016-04-04'
-        # session.flush()
-        # with self.assertRaises(ValueError) as err_deleted_param:
-        #     channel.get_channel_by_name(channel_name=self.channel_id)
         with self.assertRaises(ValueError) as err_empty_string_param:
             channel.get_channel_by_name(channel_name='')
-        #
-        # self.assertEqual('INVALID-CHANNEL-NAME', err_wrong_param.exception.message)
-        # self.assertEqual('INVALID-CHANNEL-NAME', err_deleted_param.exception.message)
         self.assertEqual('REQ-CHANNEL-NAME', err_empty_string_param.exception.message)
 
     def test_get_channel_by_name_for_key_error(self):
         with self.assertRaises(KeyError) as err_empty_param:
-           channel.get_channel_by_name(channel_name_wrong=self.channel_id)
+            channel.get_channel_by_name(channel_name_wrong=self.channel_id)
 
         self.assertEqual('REQ-CHANNEL-NAME', err_empty_param.exception.message)
+
+    def test_unsubscribe_channel_for_key_errors(self):
+        with self.assertRaises(KeyError) as err_empty_param:
+            channel.unsubscribe_channel()
+        with self.assertRaises(KeyError) as wrong_param:
+            channel.unsubscribe_channel(channel_id=self.channel_id)
+        with self.assertRaises(KeyError) as missing_param:
+            channel.unsubscribe_channel(channel_name=self.channel_name)
+        with self.assertRaises(KeyError) as missing_user_param:
+            channel.unsubscribe_channel(channel_name=self.channel_name, user_name=self.username)
+        self.assertEqual('REQ-CHANNEL-NAME', err_empty_param.exception.message)
+        self.assertEqual('REQ-CHANNEL-NAME', wrong_param.exception.message)
+        self.assertEqual('REQ-USER-ID', missing_param.exception.message)
+        self.assertEqual('REQ-USER-ID', missing_user_param.exception.message)
+
+    def test_unsubscribe_channel_for_value_errors(self):
+        with self.assertRaises(ValueError) as wrong_param_channel:
+            channel.unsubscribe_channel(channel_name='some-random-channel-name', user_id=self.user_id)
+        with self.assertRaises(ValueError) as wrong_param_user:
+            channel.unsubscribe_channel(channel_name=self.channel_name, user_id='some-random-user-id')
+        self.assertEqual('INVALID-CHANNEL-NAME', wrong_param_channel.exception.message)
+        self.assertEqual('INVALID-CHANNEL-MAPPING', wrong_param_user.exception.message)
 
     # TODO: Have to write remaining testcases
 

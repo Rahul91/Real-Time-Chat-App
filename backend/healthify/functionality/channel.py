@@ -100,6 +100,8 @@ def get_channel_by_id(**kwargs):
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 def unsubscribe_channel(**kwargs):
     channel = get_channel_by_name(channel_name=kwargs['channel_name'])
+    if not channel:
+        raise ValueError('INVALID-CHANNEL-NAME')
     user_id = kwargs['user_id']
 
     user_channel_obj = session.query(UserChannelMapping)\
