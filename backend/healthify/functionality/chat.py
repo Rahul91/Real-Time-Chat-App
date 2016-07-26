@@ -31,7 +31,10 @@ def publish_message(**kwargs):
         channel=get_channel_by_name(channel_name=kwargs['channel_name']).id,
         created_on=str(datetime.now()),
     )
-
+    
+    # Comment the following part upto conneciton.close(), to make the process sync
+    # And uncomment the below commented part, so that db call is done here and not in pika worker.
+    
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=PIKA_RABBITMQ_HOST))
     pika_channel = connection.channel()
     pika_channel.exchange_declare(exchange=PIKA_RABBITMQ_EXCHANGE,
