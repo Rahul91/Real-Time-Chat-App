@@ -8,13 +8,15 @@ The overall services are divided into 2 parts:
   
   1. Api layer: This layer is responsible for taking requests, parsing them, validating request parameters, exception handling, db commits and rollbacks and returning marshalled responses. This layer itself is just an entry and exit point for the entire application. Also, this is the exposed service to the world, any data, logic are not binded to this layer.
   
-  2. Business layer: Bunisess logic, DB operations, calling other services etc are the part of Business layer. These services are accessible only via api layer, thus making them secure, also, while authentcation could be a part of api layer while authorization could be part of business layer. Althoug this applicaiton does not have any role/permission, but this layer would be the perfect place to implement this.
+  2. Business layer: Bunisess logic, DB operations, calling other services etc are the part of Business layer. These services are accessible only via api layer, thus making them secure, also, while authentcation could be a part of api layer, authorization could be part of business layer. Althoug this applicaiton does not have any role/permission, but this layer would be the perfect place to implement this.
   
-Async approach: I have used Rabbitmq and pika client to make the chat publish aysnc, why async, because its better. Altough in my case, the async call is not doing much, just a DB write, but large application can really use this technique to increase the throughput and can increase concurrnet requests.
+Async approach: I have used Rabbitmq and pika client to make the chat publish aysnc, why async, because its better. Altough in my case, the async call is not doing much, just a DB write, but large application can really use this approacg to increase the throughput and can increase concurrunt requests.
 
-## About:
+## About/Expexted Behaviour:
   - User can signup and login and he will be by default subscribed to 'public' channel. 
   - User can publish and delete chat and can join, create unsubscribe channel.
+  - User can unsubscribe any channel, expect for Public channel.
+  - User can delete chat for any channel, however any conversation after deletion will be displayed in the feed.
   - Creation, Unsubscription and deletion are simple, a button is provided to do the same. However if you a trying to create a channel, that already exists, you will be automatically joined to that channel.
 
 
