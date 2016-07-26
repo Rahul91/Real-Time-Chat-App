@@ -1,15 +1,16 @@
 from flask_jwt import jwt_required, current_identity
 from flask_restful import marshal_with, reqparse, fields, abort
 from flask_restful import Resource
-from functionality.auth import get_user_by_id
 from sqlalchemy.exc import SQLAlchemyError
 from pika.exceptions import AMQPConnectionError, ConnectionClosed
 
 from healthify.utils.logger import get_logger
-from functionality.chat import publish_message, fetch_message, fetch_stream_messages, delete_chat
+from healthify.functionality.chat import publish_message, fetch_message, fetch_stream_messages, delete_chat
 from healthify.models.configure import session
+from healthify.functionality.auth import get_user_by_id
 from healthify.utils.validation import non_empty_str
 from healthify.config import PER_PAGE_RESPONSE_LIMIT
+
 
 __author__ = 'rahul'
 

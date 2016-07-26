@@ -31,8 +31,10 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         var result = homeService.get_channel_by_name(channel_name)
         result.then(function(response) {
             if (response.status ==  200){
-                if (response.data.length == 0){
+                if (response.data == null){
                     $scope.createChannel('public', 'public')
+                }else{
+                    $scope.get_all_channels();
                 }
             }else{
                 toaster.pop('error', response.data['message'])
@@ -70,7 +72,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         ); 
     }
-    $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
+    // $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
 
     $interval(function () {
         if ($scope.autoRefresh == true){
@@ -87,7 +89,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         var result = homeService.get_all_channels()
         result.then(function(response) {
             if (response.status ==  200){
-                $scope.channelList = response.data
+                $scope.channelList = response.data;
             }else{
                 toaster.pop('error', response.data['message'])
             }},
@@ -97,7 +99,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         );
     }
-    $scope.get_all_channels();
+    // $scope.get_all_channels();
 
     $scope.publish = function (message, channel_name) {
         var result = homeService.publish(message, channel_name)

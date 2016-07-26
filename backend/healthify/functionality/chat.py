@@ -4,7 +4,8 @@ from datetime import datetime
 from sqlalchemy import desc
 import pika
 
-from functionality.channel import create_channel, get_channel_by_name, is_channel_unsubscribed, get_channel_by_id
+from healthify.functionality.channel import (create_channel, get_channel_by_name,
+                                             is_channel_unsubscribed, get_channel_by_id)
 from healthify.utils.logger import get_logger
 from healthify.config import PIKA_RABBITMQ_HOST, PIKA_RABBITMQ_TYPE, PIKA_RABBITMQ_EXCHANGE, PER_PAGE_RESPONSE_LIMIT
 from healthify.models.configure import session
@@ -43,7 +44,7 @@ def publish_message(**kwargs):
     connection.close()
 
     # payload.update(dict(
-    #      id=str(uuid4()),
+    #     id=str(uuid4()),
     # ))
     # chat_obj = ChatHistory(**payload)
     # session.add(chat_obj)
@@ -62,7 +63,7 @@ def fetch_message(**kwargs):
     message_list = []
     user_id = kwargs['user_id']
     channel_obj = get_channel_by_name(channel_name=kwargs['channel_name'])
-    if not is_channel_unsubscribed(channel_id=channel_obj.id, user_id=user_id):
+    if channel_obj and not is_channel_unsubscribed(channel_id=channel_obj.id, user_id=user_id):
         page_size = kwargs['page_size']
         page = kwargs['page_num']
         message_list = session.query(ChatHistory) \
@@ -110,6 +111,7 @@ def delete_chat(**kwargs):
     return dict(
         chat_deleted=True,
     )
+
 
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 @validation.not_empty('channel_id', 'REQ-CHANNEL-ID', req=True)

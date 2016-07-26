@@ -7,7 +7,7 @@ from healthify.models.channel import Channel
 from healthify.models.user import User
 from healthify.models.common import UserChannelMapping
 from healthify.models.configure import session
-from utils import validation
+from healthify.utils import validation
 
 __author__ = 'rahul'
 
@@ -48,17 +48,22 @@ def create_channel(**kwargs):
 def get_channel_by_name(**kwargs):
     return session.query(Channel).filter(Channel.name == kwargs['channel_name'], Channel.deleted_on.is_(None))\
         .first()
-    # if not channel:
-    #     raise ValueError('INVALID-CHANNEL-NAME')
-    # return channel
 
 
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 def get_user_channels(**kwargs):
-    channel = session.query(UserChannelMapping).\
+    user_id = kwargs['user_id']
+    channel = get_user_channel_mapping(user_id=user_id)
+    if not [get_channel_by_id(channel_id=a_channel.channel_id) for a_channel in channel]:
+        create_user_channel_mapping(channel_id=get_channel_by_name(channel_name='public').id, user_id=kwargs['user_id'])
+    return get_user_channel_mapping(user_id=user_id)
+
+
+@validation.not_empty('user_id', 'REQ-USER-ID', req=True)
+def get_user_channel_mapping(**kwargs):
+    return session.query(UserChannelMapping).\
         filter(UserChannelMapping.user_id == kwargs['user_id'], UserChannelMapping.is_unsubscribed == False).\
         all()
-    return [get_channel_by_id(channel_id=a_channel.channel_id) for a_channel in channel]
 
 
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)

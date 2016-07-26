@@ -4,7 +4,8 @@ from flask_restful import Resource
 from sqlalchemy.exc import SQLAlchemyError
 
 from healthify.utils.logger import get_logger
-from functionality.channel import create_channel, get_user_channels, get_channel_by_name, unsubscribe_channel
+from healthify.functionality.channel import create_channel, get_user_channels, get_channel_by_name, unsubscribe_channel, \
+    get_channel_by_id
 from healthify.models.configure import session
 from healthify.utils.validation import non_empty_str
 
@@ -21,6 +22,11 @@ def channel_response_transformation(channel):
         created_by=channel.created_by,
         created_on=str(channel.created_on),
     )
+
+
+def user_channel_response_transformation(user_channel_mapping):
+    channel_obj = get_channel_by_id(channel_id=user_channel_mapping.channel_id)
+    return channel_response_transformation(channel_obj)
 
 
 def channel_unsubscribe_transform_response(channel):
@@ -70,7 +76,7 @@ class Channel(Resource):
             session.rollback()
             channel_list = get_user_channels(user_id=current_identity.id)
             session.commit()
-            return [channel_response_transformation(channel) for channel in channel_list]
+            return [user_channel_response_transformation(channel) for channel in channel_list] if channel_list else None
         except ValueError as val_err:
             log.error(repr(val_err))
             session.rollback()
@@ -118,7 +124,8 @@ class Channel(Resource):
     @marshal_with(channel_creation_response_format)
     def post(self):
         create_channel_request_format = reqparse.RequestParser()
-        create_channel_request_format.add_argument('channel_name', type=non_empty_str, required=True, help="CHANNEL-REQ-NAME")
+        create_channel_request_format.add_argument('channel_name', type=non_empty_str, required=True,
+                                                   help="CHANNEL-REQ-NAME")
         create_channel_request_format.add_argument('type', type=non_empty_str, required=False, help="CHANNEL-REQ-TYPE")
 
         params = create_channel_request_format.parse_args()
@@ -150,7 +157,6 @@ class Channel(Resource):
 
 
 class UnsubscribeChannel(Resource):
-
     """
     @api {post} /channel/unsubscribe Unsubscribe Channel
     @apiName Unsubscribe Channel
@@ -180,7 +186,7 @@ class UnsubscribeChannel(Resource):
     def post(self):
         unsubscribe_channel_request_format = reqparse.RequestParser()
         unsubscribe_channel_request_format.add_argument('channel_name', type=non_empty_str, required=True,
-                                                   help="CHANNEL-REQ-NAME")
+                                                        help="CHANNEL-REQ-NAME")
 
         params = unsubscribe_channel_request_format.parse_args()
         params.update(dict(user_id=current_identity.id))
@@ -246,7 +252,7 @@ class FetchChannel(Resource):
             session.rollback()
             response = get_channel_by_name(channel_name=channel_name)
             session.commit()
-            return channel_response_transformation(response)
+            return channel_response_transformation(response) if response else None
         except ValueError as val_err:
             log.error(repr(val_err))
             session.rollback()
