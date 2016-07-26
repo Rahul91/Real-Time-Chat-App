@@ -58,7 +58,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                     $scope.channel_name = channel_name;
                 }else{
                     $scope.channel_name = channel_name;
-                    toaster.pop('warning' + 'No chat found');
+                    // toaster.pop('warning', 'No chat found, start a conversation');
                 }
                 $scope.displayChat = true;
             }else{
@@ -74,14 +74,15 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     }
     // $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
 
-    $interval(function () {
+    $scope.fetchMessage = $interval(function () {
         if ($scope.autoRefresh == true){
             $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
         }
     }, 10000);
 
+
     if ($rootScope.showWelcomeMessage == true){
-        $scope.welcomeMessage = this;
+        $scope.welcomeMessage = true;
         $rootScope.showWelcomeMessage = false;
     }
 
@@ -186,6 +187,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.fetchingChat = true;
         channel.then(function(response) {
             if (response.status ==  200){
+                toaster.pop('success', channelName + ': created successfully');
                 $scope.channel_name = response.data['channel_name'];
                 $scope.get_all_channels();
                 $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
@@ -198,6 +200,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         );
      $scope.createNewChannel = false;
      $scope.fetchingChat = false;
+     $scope.autoRefresh = true;
     }
 
     $scope.deleteChat = function (channelName) {
@@ -215,8 +218,10 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             console.log(error.data)
         });
          $scope.showdeletechannel = false;
+         $scope.showunsubscribechannel = false;
          $scope.displayChat = true;
          $scope.fetchingChat = false;
+         $scope.autoRefresh = true;
     }
 
     $scope.unsubscibeChannel = function (channelName) {
@@ -242,7 +247,13 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.displayChat = true;
         $scope.showunsubscribechannel = false;
         $scope.fetchingChat = false;
+        $scope.autoRefresh = true;
     }
+
+    var destoryScope = $scope.$on('$locationChangeSuccess', function() {
+        $interval.cancel($scope.fetchMessage);
+        destoryScope();
+    });
 
 });
 

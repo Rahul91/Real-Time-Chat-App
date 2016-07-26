@@ -187,10 +187,9 @@ class UnsubscribeChannel(Resource):
         unsubscribe_channel_request_format = reqparse.RequestParser()
         unsubscribe_channel_request_format.add_argument('channel_name', type=non_empty_str, required=True,
                                                         help="CHANNEL-REQ-NAME")
-
         params = unsubscribe_channel_request_format.parse_args()
         params.update(dict(user_id=current_identity.id))
-        log.info('Publish params: {}'.format(params))
+        log.info('Channel unsubscibe params: {}'.format(params))
         try:
             session.rollback()
             response = unsubscribe_channel(**params)
@@ -249,6 +248,7 @@ class FetchChannel(Resource):
 
     def get(self, channel_name):
         try:
+            log.info('Fetch Channel name: {}'.format(channel_name))
             session.rollback()
             response = get_channel_by_name(channel_name=channel_name)
             session.commit()

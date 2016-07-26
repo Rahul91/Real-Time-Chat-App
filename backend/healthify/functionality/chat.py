@@ -24,8 +24,9 @@ log = get_logger()
 @validation.not_empty('channel_name', 'PUB-REQ-CHANNEL', req=True)
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 def publish_message(**kwargs):
-    user = get_user_by_id(user_id=kwargs['user_id'])
+    log.info('Publish Message kwargs: {}'.format(kwargs))
 
+    user = get_user_by_id(user_id=kwargs['user_id'])
     payload = dict(
         published_by=user.id,
         message=kwargs['message'],
@@ -63,6 +64,7 @@ def publish_message(**kwargs):
 @validation.not_empty('page_size', 'REQ-PAGE-SIZE', req=True, var_type=int)
 @validation.not_empty('page_num', 'REQ-PAGE-NUM', req=True, var_type=int)
 def fetch_message(**kwargs):
+    log.info('Fetch Message kwargs: {}'.format(kwargs))
     message_list = []
     user_id = kwargs['user_id']
     channel_obj = get_channel_by_name(channel_name=kwargs['channel_name'])
@@ -77,16 +79,11 @@ def fetch_message(**kwargs):
         if page:
             message_list = message_list.offset(page*page_size)
         message_marked_deleted = chat_marked_deleted(user_id=user_id, channel_id=channel_obj.id)
-        if message_marked_deleted[0]:
-            message_list = [message_list for message in message_list.all()
-                            if message.created_on > message_marked_deleted[0]]
-            if not message_list:
-                return message_list
-            message_list = message_list[0]
-        if message_list:
+        if not message_marked_deleted[0]:
             return message_list.all()
         else:
-            return message_list
+            return [message for message in message_list.all()
+                    if message.created_on > message_marked_deleted[0]]
 
     return message_list
 
@@ -94,6 +91,7 @@ def fetch_message(**kwargs):
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 @validation.not_empty('channel_id', 'REQ-CHANNEL-ID', req=True)
 def fetch_stream_messages(**kwargs):
+    log.info('Fetch Message Stream kwargs: {}'.format(kwargs))
     return dict(
         message=kwargs['message'],
         channel=get_channel_by_id(channel_id=kwargs['channel']),
@@ -105,6 +103,7 @@ def fetch_stream_messages(**kwargs):
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 @validation.not_empty('channel_name', 'REQ-CHANNEL-NAME', req=True)
 def delete_chat(**kwargs):
+    log.info('Delete chat kwargs: {}'.format(kwargs))
     channel = get_channel_by_name(channel_name=kwargs['channel_name'])
     chat_obj = session.query(UserChannelMapping) \
         .filter(UserChannelMapping.user_id == kwargs['user_id'], UserChannelMapping.channel_id == channel.id)\

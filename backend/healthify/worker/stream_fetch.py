@@ -36,7 +36,7 @@ class MessageProcessor(object):
                                     queue=queue_name)
 
             def callback_function(ch, method, properties, body):
-                log.info('Message payload: {}'.format(body))
+                log.info('Pika Client Message payload: {}'.format(body))
                 payload = json.loads(body)
                 payload.update(dict(
                     id=str(uuid4()),

@@ -15,6 +15,7 @@ __author__ = 'rahul'
 @validation.not_empty('first_name', 'SIGNUP-REQ-FIRSTNAME', req=True)
 @validation.not_empty('last_name', 'SIGNUP-REQ-LASTNAME', req=False)
 def signup(**kwargs):
+    log.info('Create user kwargs: {}'.format(kwargs))
     if not get_user_by_username(username=kwargs['username']):
         kwargs.update(dict(
             id=str(uuid4()),
@@ -65,6 +66,7 @@ def authenticate(username, password):
       "status_code": 401
     }
     """
+    log.info('Authentication Username: {}, Password: {}'.format(username, password))
     user = session.query(User).filter(User.username == username, User.deleted_on.is_(None)).first()
     if user:
         if user.password == password:

@@ -62,7 +62,7 @@
 
   </div>
 
-  <div class="col-xs-6 col-md-10">
+  <div class="col-xs-6 col-md-10" style="padding-right: 0px;padding-left: 10px;">
         <div class="panel panel-primary" ng-show="displayChat">
             <div class="panel-heading" style="font-size: 15px; margin-bottom:5px;">
                 <span>{{ channel_name }}</span>
@@ -103,7 +103,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-              <h4 class="modal-title" id="myModalLabel">Warning</h4>
+              <h4 class="modal-title" id="myModalLabel">Info</h4>
           </div>
           <div class="modal-body">
               <span>Welcome to Healthify Chat Portal!!!<br>
@@ -160,9 +160,10 @@
   <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">Create New Channel</h4>
+            <h4 class="modal-title" id="myModalLabel">Create/Join Channel</h4>
         </div>
           <div class="modal-body">
+            If the channel you are creating, already exists, then you will be joined to that channel.
             <form>
               <div class="form-group">
                 <label for="channel_name" class="control-label">Name:</label>

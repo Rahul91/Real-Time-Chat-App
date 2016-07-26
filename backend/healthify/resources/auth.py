@@ -65,7 +65,7 @@ class Singup(Resource):
         signup_request_format.add_argument('last_name', type=non_empty_str, required=False, help="SIGNUP-REQ-LASTNAME")
 
         params = signup_request_format.parse_args()
-        log.info(params)
+        log.info('SingUp kwargs: {}'.format(params))
         try:
             session.rollback()
             response = signup(**params)

@@ -18,6 +18,7 @@ log = get_logger()
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 @validation.not_empty('type', 'REQ-CHANNEL-TYPE', req=False)
 def create_channel(**kwargs):
+    log.info('Create Channel kwargs: {}'.format(kwargs))
     channel_name = kwargs['channel_name']
     user_id = kwargs['user_id']
     channel_obj = get_channel_by_name(channel_name=channel_name)
@@ -29,6 +30,7 @@ def create_channel(**kwargs):
             created_by=user_id,
             type=channel_type,
         )
+        log.info('Create channel payload: {}'.format(channel_create_params))
         channel = Channel(**channel_create_params)
         session.add(channel)
 
@@ -46,12 +48,14 @@ def create_channel(**kwargs):
 
 @validation.not_empty('channel_name', 'REQ-CHANNEL-NAME', req=True)
 def get_channel_by_name(**kwargs):
+    log.info('Get channel by name kwargs: {}'.format(kwargs))
     return session.query(Channel).filter(Channel.name == kwargs['channel_name'], Channel.deleted_on.is_(None))\
         .first()
 
 
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 def get_user_channels(**kwargs):
+    log.info('Get user channels kwargs: {}'.format(kwargs))
     user_id = kwargs['user_id']
     channel = get_user_channel_mapping(user_id=user_id)
     if not [get_channel_by_id(channel_id=a_channel.channel_id) for a_channel in channel]:
@@ -69,6 +73,7 @@ def get_user_channel_mapping(**kwargs):
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 @validation.not_empty('channel_id', 'REQ-CHANNEL-ID', req=True)
 def create_user_channel_mapping(**kwargs):
+    log.info('Create User Channel Mapping kwargs: {}'.format(kwargs))
     params = dict(
         id=str(uuid4()),
         user_id=kwargs['user_id'],
@@ -82,11 +87,15 @@ def create_user_channel_mapping(**kwargs):
 @validation.not_empty('channel_id', 'REQ-CHANNEL-ID', req=True)
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 def is_channel_unsubscribed(**kwargs):
+    log.info('Is channel unsubscribed kwargs: {}'.format(kwargs))
+    user_id = kwargs['user_id']
+    channel_id = kwargs['channel_id']
     channel_mapping = session.query(UserChannelMapping)\
-        .filter(UserChannelMapping.user_id == kwargs['user_id'], UserChannelMapping.channel_id == kwargs['channel_id'])\
+        .filter(UserChannelMapping.user_id == user_id, UserChannelMapping.channel_id == channel_id)\
         .first()
     if not channel_mapping:
-        channel_mapping = create_user_channel_mapping(user_id=kwargs['user_id'], channel_id=kwargs['channel_id'])
+        log.info('No channel mapping found for user: {} and channel: {}, creating a mapping'.format(user_id, channel_id))
+        channel_mapping = create_user_channel_mapping(user_id=user_id, channel_id=channel_id)
     if channel_mapping and channel_mapping.is_unsubscribed:
         return True
     return False
@@ -94,6 +103,7 @@ def is_channel_unsubscribed(**kwargs):
 
 @validation.not_empty('channel_id', 'REQ-CHANNEL-ID', req=True)
 def get_channel_by_id(**kwargs):
+    log.info('Get channel by id kwargs: {}'.format(kwargs))
     channel = session.query(Channel).filter(Channel.id == kwargs['channel_id'], Channel.deleted_on.is_(None))\
         .first()
     if not channel:
@@ -104,11 +114,12 @@ def get_channel_by_id(**kwargs):
 @validation.not_empty('channel_name', 'REQ-CHANNEL-NAME', req=True)
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 def unsubscribe_channel(**kwargs):
+    log.info('Unsubscribe Channel kwargs: {}'.format(kwargs))
     channel = get_channel_by_name(channel_name=kwargs['channel_name'])
     if not channel:
         raise ValueError('INVALID-CHANNEL-NAME')
-    user_id = kwargs['user_id']
 
+    user_id = kwargs['user_id']
     user_channel_obj = session.query(UserChannelMapping)\
         .filter(UserChannelMapping.user_id == user_id,
                 UserChannelMapping.channel_id == channel.id, UserChannelMapping.deleted_on.is_(None))\
@@ -116,6 +127,7 @@ def unsubscribe_channel(**kwargs):
     if not user_channel_obj:
         raise ValueError('INVALID-CHANNEL-MAPPING')
     else:
+        log.info('Unsubscribing User: {} from channel:{}'.format(user_id, kwargs['channel_name']))
         setattr(user_channel_obj, 'is_unsubscribed', True)
         session.add(user_channel_obj)
         return user_channel_obj
