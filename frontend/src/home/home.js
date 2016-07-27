@@ -5,6 +5,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.createNewChannel = false;
     $scope.showunsubscribechannel = false;
     $scope.showdeletechannel = false;
+    $scope.showInviteUser = false;
     $scope.displayChat = true;
     $scope.autoRefresh = true;
     $scope.fetchingChat = true;
@@ -160,6 +161,19 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.autoRefresh = false;
         $scope.displayChat = false;
     }
+    
+    $scope.triggerInviteUsers = function () {
+        $scope.showInviteUser = true;
+        $scope.autoRefresh = false;
+        $scope.displayChat = false;
+    }
+
+    $scope.dismissInviteUser = function () {
+        $scope.displayChat = true;
+        $scope.autoRefresh = true;
+        $scope.showInviteUser = false;
+        $scope.showunsubscribechannel = false;
+    }
 
     $scope.dismissDelete = function () {
         $scope.displayChat = true;
@@ -199,6 +213,30 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         );
      $scope.createNewChannel = false;
+     $scope.fetchingChat = false;
+     $scope.autoRefresh = true;
+    }
+
+    $scope.inviteUser = function (user_name, channel_name) {
+        $scope.displayChat = true;
+        if (channel_name == 'public'){
+            toaster.pop('warning', 'You cannnot send invitation for Public channel');
+        }else{
+            var channel = homeService.inviteUser(user_name, channel_name)
+            $scope.fetchingChat = true;
+            channel.then(function(response) {
+                if (response.status ==  200){
+                    toaster.pop('success',  'Inviation to: ' + user_name +  ' sent successfully');
+                }else{
+                    toaster.pop('error', response.data['message'])
+                }},
+                function(error) {
+                    toaster.pop('error', error.data['message'])
+                }
+            );
+        }
+     $scope.createNewChannel = false;
+     $scope.showInviteUser = false;
      $scope.fetchingChat = false;
      $scope.autoRefresh = true;
     }

@@ -43,6 +43,17 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
         }); 
     };
 
+    this.inviteUser = function (user_name, channel_name) {
+        return $http.post(url + "/channel/join", {
+            "channel_name": channel_name,
+            "invited_user_name": user_name,
+            }, {
+         "headers": {
+            "Authorization": 'JWT ' + token
+            }
+        }); 
+    };
+
     this.unsubscribeChannel = function (channel_name) {
         return $http.post(url + "/channel/unsubscribe", {
             "channel_name": channel_name,

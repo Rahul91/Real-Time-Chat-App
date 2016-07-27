@@ -60,6 +60,18 @@
   </ul>
 </div>
 
+<div class="sentInvitation" style="font-size:20px;color:white; cursor: pointer;" ng-click="triggerInviteUsers()">
+  Invite Users
+</div>
+<div class="acceptInvitation" style="font-size:19px;color:white;">
+  Pending Invitations
+  <ul>
+    <li ng-repeat = "channel in InvitationList" ng-click="triggerAcceptInvitation(InvitationList.channel_name)"><i class="fa fa-check-square" aria-hidden="true" style="font-size:20px;color:white;"></i>
+      <span style="font-size:15px;color:white;">{{InvitationList.channel_name}}</span>
+  </li>
+  </ul>
+</div>
+
   </div>
 
   <div class="col-xs-6 col-md-10" style="padding-right: 0px;padding-left: 10px;">
@@ -137,6 +149,29 @@
     </div>
 	</div>
 
+  <div class="inviteUsermodal" id="inviteUser" show="false" data-keyboard="false" data-backdrop="static" ng-show="showInviteUser" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">Info</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="username" class="control-label">UserName:</label>
+                <input type="text" class="form-control" id="username" placeholder="username" ng-model="userName">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer" style="max-height: 70px;">
+            <button type="button" class="btn btn-success" ng-click="inviteUser(userName, channel_name)"> <i class="fa fa-trash-o fa-lg"></i> Invite User</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismissInviteUser()" class="close">Dismiss
+            </button>
+          </div>
+        </div>
+    </div>
+	</div>
+
   <div class="unsubscribechannelmodal" id="unsubscribechannel" show="false" data-keyboard="false" data-backdrop="static" ng-show="showunsubscribechannel" >
     <div class="modal-dialog">
         <div class="modal-content">
@@ -163,7 +198,6 @@
             <h4 class="modal-title" id="myModalLabel">Create/Join Channel</h4>
         </div>
           <div class="modal-body">
-            If the channel you are creating, already exists, then you will be joined to that channel.
             <form>
               <div class="form-group">
                 <label for="channel_name" class="control-label">Name:</label>

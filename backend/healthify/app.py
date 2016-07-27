@@ -8,7 +8,7 @@ from healthify.functionality.auth import identity, authenticate
 from healthify.utils.logger import get_logger
 from healthify.resources.auth import Singup, User, ForgotPassword
 from healthify.resources.chat import Chat, MessageStream, FetchChat, DeleteChat
-from healthify.resources.channel import Channel, FetchChannel, UnsubscribeChannel
+from healthify.resources.channel import Channel, FetchChannel, UnsubscribeChannel, JoinChannelRequest
 
 __author__ = 'rahul'
 
@@ -34,6 +34,7 @@ api.add_resource(Channel, '/channel')
 api.add_resource(Channel, '/channel/create', endpoint='save_channel')
 api.add_resource(UnsubscribeChannel, '/channel/unsubscribe', endpoint='unsubscribe_channel')
 api.add_resource(FetchChannel, '/channel/<string:channel_name>', endpoint='get_channel_details')
+api.add_resource(JoinChannelRequest, '/channel/join')
 
 
 # @app.teardown_request

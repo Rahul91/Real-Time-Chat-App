@@ -1,9 +1,10 @@
 from uuid import uuid4
+from healthify.functionality.auth import get_user_by_id
 
 from healthify.models.chat import ChatHistory
 from healthify.models.common import UserChannelMapping
 from healthify.utils.logger import get_logger
-from healthify.models.channel import Channel
+from healthify.models.channel import Channel, ChannelJoinRequest
 from healthify.models.user import User
 from healthify.models.common import UserChannelMapping
 from healthify.models.configure import session
@@ -131,3 +132,35 @@ def unsubscribe_channel(**kwargs):
         setattr(user_channel_obj, 'is_unsubscribed', True)
         session.add(user_channel_obj)
         return user_channel_obj
+
+
+@validation.not_empty('channel_name', 'REQ-CHANNEL-NAME', req=True)
+@validation.not_empty('invited_user_name', 'REQ-USER-NAME', req=True)
+@validation.not_empty('user_id', 'REQ-USER-ID', req=True)
+def join_channel_request(**kwargs):
+    log.info('Send Invitation kwargs: {}'.format(kwargs))
+    channel = get_channel_by_name(channel_name=kwargs['channel_name'])
+    if not channel:
+        raise ValueError('INVALID-CHANNEL-NAME')
+    send_invite_payload = dict(
+        id=str(uuid4()),
+        requested_by=kwargs['user_id'],
+        requested_for=kwargs['invited_user_name'],
+        channel_id=channel.id,
+    )
+    invite_user = ChannelJoinRequest(**send_invite_payload)
+    session.add(invite_user)
+    return dict(
+        invitation_sent=True
+    )
+
+
+@validation.not_empty('user_id', 'REQ-USER-ID', req=True)
+def get_pending_invitation(**kwargs):
+    log.info('Get Pending Invitation kwargs: {}'.format(kwargs))
+    user_id = kwargs['user_id']
+    pending_invitation = session.query(ChannelJoinRequest).\
+        filter(ChannelJoinRequest.requested_for == get_user_by_id(user_id=user_id).username,
+               ChannelJoinRequest.rejected_on.is_(None), ChannelJoinRequest.deleted_on.is_(None)).\
+        all()
+    return pending_invitation

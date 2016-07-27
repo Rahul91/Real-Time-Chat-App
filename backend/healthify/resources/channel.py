@@ -5,7 +5,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from healthify.utils.logger import get_logger
 from healthify.functionality.channel import create_channel, get_user_channels, get_channel_by_name, unsubscribe_channel, \
-    get_channel_by_id
+    get_channel_by_id, join_channel_request
 from healthify.models.configure import session
 from healthify.utils.validation import non_empty_str
 
@@ -245,6 +245,7 @@ class FetchChannel(Resource):
       }
     }
     """
+    decorators = [jwt_required()]
 
     def get(self, channel_name):
         try:
@@ -253,6 +254,94 @@ class FetchChannel(Resource):
             response = get_channel_by_name(channel_name=channel_name)
             session.commit()
             return channel_response_transformation(response) if response else None
+        except ValueError as val_err:
+            log.error(repr(val_err))
+            session.rollback()
+            abort(400, message=val_err.message)
+        except KeyError as key_err:
+            log.error(repr(key_err))
+            session.rollback()
+            abort(400, message="GET-CHANNEL-INVALID-PARAM")
+        except IOError as io_err:
+            log.exception(io_err)
+            session.rollback()
+            abort(500, message="API-ERR-IO")
+        except SQLAlchemyError as sa_err:
+            log.exception(sa_err)
+            session.rollback()
+            abort(500, message="API-ERR-DB")
+        finally:
+            session.close()
+
+
+class JoinChannelRequest(Resource):
+    """
+    @api {post} /channel/join Fetch Channel
+    @apiName Unsubscribe Channel
+    @apiGroup Channel
+
+    @apiHeader {String} Authorization
+
+    @apiSuccessExample Success Response
+    HTTP/1.1 200 OK
+    {
+        "channel_id": "channel.id",
+        "channel_name": "channel_name",
+        "channel_type": "public",
+        "created_by": "test_user",
+        "created_on": "some date",
+    }
+
+    @apiErrorExample Invalid params Provided
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "GET-CHANNEL-INVALID-PARAM"
+      }
+    }
+    """
+    decorators = [jwt_required()]
+
+    def post(self):
+        join_channel_request_format = reqparse.RequestParser()
+        join_channel_request_format.add_argument('channel_name', type=non_empty_str, required=True,
+                                                        help="CHANNEL-REQ-NAME")
+        join_channel_request_format.add_argument('invited_user_name', type=non_empty_str, required=True,
+                                                        help="REQ-USER-NAME")
+        params = join_channel_request_format.parse_args()
+        params.update(dict(user_id=current_identity.id))
+        log.info('Channel Join Invitation request params: {}'.format(params))
+        try:
+            session.rollback()
+            response = join_channel_request(**params)
+            session.commit()
+            return response
+        except ValueError as val_err:
+            log.error(repr(val_err))
+            session.rollback()
+            abort(400, message=val_err.message)
+        except KeyError as key_err:
+            log.error(repr(key_err))
+            session.rollback()
+            abort(400, message="GET-CHANNEL-INVALID-PARAM")
+        except IOError as io_err:
+            log.exception(io_err)
+            session.rollback()
+            abort(500, message="API-ERR-IO")
+        except SQLAlchemyError as sa_err:
+            log.exception(sa_err)
+            session.rollback()
+            abort(500, message="API-ERR-DB")
+        finally:
+            session.close()
+
+    def get(self):
+        log.info('Getting pending invitation for: {}'.format(current_identity.id))
+        try:
+            session.rollback()
+            response = get_pending_invitation(user_id=current_identity.id)
+            session.commit()
+            return response
         except ValueError as val_err:
             log.error(repr(val_err))
             session.rollback()

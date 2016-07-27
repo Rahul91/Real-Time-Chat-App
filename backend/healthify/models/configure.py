@@ -28,6 +28,7 @@ CREATED_ON_WITH_SERVER_DEFAULT = Column(TIMESTAMP, nullable=False, server_defaul
 MODIFIED_ON = Column(TIMESTAMP, nullable=False, default=datetime.now(),
                      server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
 DELETED_ON = Column(DateTime)
+TIMESTAMP = Column(DateTime)
 
 BOOLEAN_TRUE = Column(TINYINT(1), default=1, nullable=False)
 BOOLEAN_FALSE = Column(TINYINT(1), default=0, nullable=False)
