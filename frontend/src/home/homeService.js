@@ -105,12 +105,12 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
         }); 
     };
 
-    // this.get_pending_request_for_user = function () {
-    //     return $http.get(url + "/channel/pending", {
-    //      "headers": {
-    //         "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
-    //         }
-    //     }); 
-    // };
+    this.get_pending_request_for_user = function () {
+        return $http.get(url + "/channel/pending", {
+         "headers": {
+            "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
+            }
+        }); 
+    };
     
 });

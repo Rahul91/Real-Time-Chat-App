@@ -42,7 +42,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         );
     }
-    // $scope.get_pending_request_for_user();
+    $scope.get_pending_request_for_user();
 
     $scope.get_channel_by_name = function (channel_name) {
         var result = homeService.get_channel_by_name(channel_name)
