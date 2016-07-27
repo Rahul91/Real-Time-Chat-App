@@ -65,9 +65,9 @@
 </div>
 <div class="acceptInvitation" style="font-size:19px;color:white;">
   Pending Invitations
-  <ul>
-    <li ng-repeat = "channel in InvitationList" ng-click="triggerAcceptInvitation(InvitationList.channel_name)"><i class="fa fa-check-square" aria-hidden="true" style="font-size:20px;color:white;"></i>
-      <span style="font-size:15px;color:white;">{{InvitationList.channel_name}}</span>
+  <ul style="list-style: none;">
+    <li ng-repeat = "channel in InvitationList" ng-click="triggerAcceptInvitation(channel.channel_name)"><i class="fa fa-check-square" aria-hidden="true" style="font-size:20px;color:white;"></i>
+      <span style="font-size:15px;color:white;">{{channel.channel_name}}</span>
   </li>
   </ul>
 </div>
@@ -164,7 +164,7 @@
             </form>
           </div>
           <div class="modal-footer" style="max-height: 70px;">
-            <button type="button" class="btn btn-success" ng-click="inviteUser(userName, channel_name)"> <i class="fa fa-trash-o fa-lg"></i> Invite User</button>
+            <button type="button" class="btn btn-success" ng-click="inviteUser(userName, channel_name)"> <i class="fa fa-plus"></i> Invite User</button>
               <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismissInviteUser()" class="close">Dismiss
             </button>
           </div>
@@ -190,6 +190,25 @@
         </div>
     </div>
 	</div>
+
+<!--<div class="unsubscribechannelmodal" id="acceptRequ" show="false" data-keyboard="false" data-backdrop="static" ng-show="showunsubscribechannel" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">Warning</h4>
+          </div>
+          <div class="modal-body">
+              <span>You can delete chat if you just want to delete the chat, unsubscribing will remove you from the feed.<br>
+          </div>
+          <div class="modal-footer" style="max-height: 70px;">
+            <button type="button" class="btn btn-warning" ng-click="unsubscibeChannel(channel_name)"> <i class="fa fa-exclamation-triangle"></i> Unsubscribe</button>
+            <button type="button" class="btn btn-danger" ng-click="deleteChat(channel_name)"> <i class="fa fa-trash-o fa-lg"></i> Delete</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismissDelete()" class="close">Dismiss
+            </button>
+          </div>
+        </div>
+    </div>
+	</div>-->
 
 <div class="channelModal" id="createChannel" show="false" data-keyboard="false" data-backdrop="static" ng-show="createNewChannel" >
   <div class="modal-dialog">

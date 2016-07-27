@@ -44,7 +44,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     };
 
     this.inviteUser = function (user_name, channel_name) {
-        return $http.post(url + "/channel/join", {
+        return $http.post(url + "/channel/invite", {
             "channel_name": channel_name,
             "invited_user_name": user_name,
             }, {
@@ -96,7 +96,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
             }
         }); 
     };
-
+    
     this.get_user = function () {
         return $http.get(url + "/user", {
          "headers": {
@@ -104,5 +104,13 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
             }
         }); 
     };
+
+    // this.get_pending_request_for_user = function () {
+    //     return $http.get(url + "/channel/pending", {
+    //      "headers": {
+    //         "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
+    //         }
+    //     }); 
+    // };
     
 });

@@ -34,7 +34,8 @@ api.add_resource(Channel, '/channel')
 api.add_resource(Channel, '/channel/create', endpoint='save_channel')
 api.add_resource(UnsubscribeChannel, '/channel/unsubscribe', endpoint='unsubscribe_channel')
 api.add_resource(FetchChannel, '/channel/<string:channel_name>', endpoint='get_channel_details')
-api.add_resource(JoinChannelRequest, '/channel/join')
+api.add_resource(JoinChannelRequest, '/channel/invite')
+api.add_resource(JoinChannelRequest, '/channel/pending', endpoint='get_pending_invitation')
 
 
 # @app.teardown_request

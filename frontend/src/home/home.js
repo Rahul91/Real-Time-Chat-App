@@ -2,6 +2,7 @@ var mainApp = angular.module("mainApp");
 mainApp.controller("homeController", function ($scope, toaster, $rootScope, $location, $document, $timeout, $interval, homeService) {
     $scope.channel_name = 'public';
     $scope.messageList = [];
+    $scope.InvitationList = [];
     $scope.createNewChannel = false;
     $scope.showunsubscribechannel = false;
     $scope.showdeletechannel = false;
@@ -27,6 +28,21 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         );
     }
     $scope.get_user();
+
+    $scope.get_pending_request_for_user = function () {
+        var userInfo = homeService.get_pending_request_for_user()
+        userInfo.then(function (response) {
+            if (response.status ==  200){
+                $scope.InvitationList = response.data;
+            }else{
+                toaster.pop('error', response.data['message'])
+            }
+        },function (error) {
+            toaster.pop('error', error.data['message'])
+            }
+        );
+    }
+    // $scope.get_pending_request_for_user();
 
     $scope.get_channel_by_name = function (channel_name) {
         var result = homeService.get_channel_by_name(channel_name)

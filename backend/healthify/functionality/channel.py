@@ -1,4 +1,5 @@
 from uuid import uuid4
+from datetime import datetime
 from healthify.functionality.auth import get_user_by_id
 
 from healthify.models.chat import ChatHistory
@@ -161,6 +162,31 @@ def get_pending_invitation(**kwargs):
     user_id = kwargs['user_id']
     pending_invitation = session.query(ChannelJoinRequest).\
         filter(ChannelJoinRequest.requested_for == get_user_by_id(user_id=user_id).username,
-               ChannelJoinRequest.rejected_on.is_(None), ChannelJoinRequest.deleted_on.is_(None)).\
+               ChannelJoinRequest.rejected_on.is_(None),
+               ChannelJoinRequest.accepted_on.is_(None),
+               ChannelJoinRequest.deleted_on.is_(None)).\
         all()
     return pending_invitation
+
+
+@validation.not_empty('user_id', 'REQ-USER-ID', req=True)
+@validation.not_empty('response', 'REQ-RESPONSE', req=True)
+@validation.not_empty('channel_name', 'REQ-CHANNEL-NAME', req=True)
+def approve_channel_request(**kwargs):
+    log.info('Approve Pending Invitation kwargs: {}'.format(kwargs))
+    user_id = kwargs['user_id']
+    channel_name = kwargs['channel_name']
+    channel_obj = get_channel_by_name(channel_name=channel_name)
+    pending_invitation = session.query(ChannelJoinRequest).\
+        filter(ChannelJoinRequest.requested_for == get_user_by_id(user_id=user_id).username,
+               ChannelJoinRequest.channel_id == channel_obj.id,
+               ChannelJoinRequest.rejected_on.is_(None),
+               ChannelJoinRequest.accepted_on.is_(None),
+               ChannelJoinRequest.deleted_on.is_(None)).\
+        first()
+    if kwargs['response'] == 'accepted':
+        setattr(pending_invitation, 'accepted_on', datetime.now())
+        create_user_channel_mapping(user_id=user_id, channel_id=channel_obj.id)
+    else:
+        setattr(pending_invitation, 'rejected_on', datetime.now())
+    return True

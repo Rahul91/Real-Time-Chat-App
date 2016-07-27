@@ -5,7 +5,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from healthify.utils.logger import get_logger
 from healthify.functionality.channel import create_channel, get_user_channels, get_channel_by_name, unsubscribe_channel, \
-    get_channel_by_id, join_channel_request
+    get_channel_by_id, join_channel_request, get_pending_invitation, approve_channel_request
 from healthify.models.configure import session
 from healthify.utils.validation import non_empty_str
 
@@ -21,6 +21,15 @@ def channel_response_transformation(channel):
         channel_type=channel.type,
         created_by=channel.created_by,
         created_on=str(channel.created_on),
+    )
+
+
+def transform_pending_requests(pending_item):
+    channel = get_channel_by_id(channel_id=pending_item.channel_id)
+    return dict(
+        channel_id=channel.id,
+        channel_name=channel.name,
+        requester=pending_item.requested_by,
     )
 
 
@@ -340,6 +349,68 @@ class JoinChannelRequest(Resource):
         try:
             session.rollback()
             response = get_pending_invitation(user_id=current_identity.id)
+            session.commit()
+            return [transform_pending_requests(pending_item) for pending_item in response] if response else None
+        except ValueError as val_err:
+            log.error(repr(val_err))
+            session.rollback()
+            abort(400, message=val_err.message)
+        except KeyError as key_err:
+            log.error(repr(key_err))
+            session.rollback()
+            abort(400, message="GET-CHANNEL-INVALID-PARAM")
+        except IOError as io_err:
+            log.exception(io_err)
+            session.rollback()
+            abort(500, message="API-ERR-IO")
+        except SQLAlchemyError as sa_err:
+            log.exception(sa_err)
+            session.rollback()
+            abort(500, message="API-ERR-DB")
+        finally:
+            session.close()
+
+
+class ApproveJoinRequest(Resource):
+    """
+    @api {post} /channel/join Fetch Channel
+    @apiName Unsubscribe Channel
+    @apiGroup Channel
+
+    @apiHeader {String} Authorization
+
+    @apiSuccessExample Success Response
+    HTTP/1.1 200 OK
+    {
+        "channel_id": "channel.id",
+        "channel_name": "channel_name",
+        "channel_type": "public",
+        "created_by": "test_user",
+        "created_on": "some date",
+    }
+
+    @apiErrorExample Invalid params Provided
+    HTTP/1.1 400 Bad Request
+    {
+      "message": {
+        "username": "GET-CHANNEL-INVALID-PARAM"
+      }
+    }
+    """
+    decorators = [jwt_required()]
+
+    def post(self):
+        approve_channel_request_format = reqparse.RequestParser()
+        approve_channel_request_format.add_argument('channel_name', type=non_empty_str, required=True,
+                                                        help="CHANNEL-REQ-NAME")
+        approve_channel_request_format.add_argument('response', type=non_empty_str, required=True,
+                                                        help="REQ-RESPONSE")
+        params = approve_channel_request_format.parse_args()
+        params.update(dict(user_id=current_identity.id))
+        log.info('Channel Join Invitation request params: {}'.format(params))
+        try:
+            session.rollback()
+            response = approve_channel_request(**params)
             session.commit()
             return response
         except ValueError as val_err:
