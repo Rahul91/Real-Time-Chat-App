@@ -45,6 +45,7 @@ def create_channel(**kwargs):
                                         channel_id=channel_obj.id)
             action = 'Created'
         else:
+            # get_pending_invitation()
             join_channel_request(channel_name=channel_obj.name, user_id=user_id, invited_user_name=get_user_by_id(user_id=channel_obj.created_by).username)
             action = 'Invitation Sent'
     return dict(
@@ -149,14 +150,15 @@ def join_channel_request(**kwargs):
     channel = get_channel_by_name(channel_name=kwargs['channel_name'])
     if not channel:
         raise ValueError('INVALID-CHANNEL-NAME')
-    send_invite_payload = dict(
-        id=str(uuid4()),
-        requested_by=kwargs['user_id'],
-        requested_for=kwargs['invited_user_name'],
-        channel_id=channel.id,
-    )
-    invite_user = ChannelJoinRequest(**send_invite_payload)
-    session.add(invite_user)
+    if not get_channel_pending_invitation(user_id=kwargs['user_id'], channel_id=channel.id):
+        send_invite_payload = dict(
+            id=str(uuid4()),
+            requested_by=kwargs['user_id'],
+            requested_for=kwargs['invited_user_name'],
+            channel_id=channel.id,
+        )
+        invite_user = ChannelJoinRequest(**send_invite_payload)
+        session.add(invite_user)
     return dict(
         invitation_sent=True
     )
@@ -173,6 +175,19 @@ def get_pending_invitation(**kwargs):
                ChannelJoinRequest.deleted_on.is_(None)).\
         all()
     return pending_invitation
+
+
+@validation.not_empty('user_id', 'REQ-USER-ID', req=True)
+@validation.not_empty('channel_id', 'REQ-CHANNEL-ID', req=True)
+def get_channel_pending_invitation(**kwargs):
+    log.info('Get Pending Invitation kwargs: {}'.format(kwargs))
+    return session.query(ChannelJoinRequest).\
+        filter(ChannelJoinRequest.requested_by == kwargs['user_id'],
+               ChannelJoinRequest.channel_id == kwargs['channel_id'],
+               ChannelJoinRequest.rejected_on.is_(None),
+               ChannelJoinRequest.accepted_on.is_(None),
+               ChannelJoinRequest.deleted_on.is_(None)).\
+        all()
 
 
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
