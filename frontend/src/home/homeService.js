@@ -17,7 +17,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
     this.get_channel_by_name = function (channel_name) {
         return $http.get(url + "/channel/" + channel_name, {
             "headers": {
-            "Authorization": 'JWT ' + token
+            "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
             }
         }); 
     };
@@ -28,7 +28,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
             "type": type
             }, {
          "headers": {
-            "Authorization": 'JWT ' + token
+            "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
             }
         }); 
     };
@@ -38,7 +38,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
             "channel_name": channel_name,
             }, {
          "headers": {
-            "Authorization": 'JWT ' + token
+            "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
             }
         }); 
     };
@@ -49,7 +49,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
             "invited_user_name": user_name,
             }, {
          "headers": {
-            "Authorization": 'JWT ' + token
+            "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
             }
         }); 
     };
@@ -59,7 +59,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
             "channel_name": channel_name,
             }, {
          "headers": {
-            "Authorization": 'JWT ' + token
+            "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
             }
         }); 
     };
@@ -71,7 +71,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
             "page_num": page_num
             }, {
          "headers": {
-            "Authorization": 'JWT ' + token
+            "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
             }
         }); 
     };
@@ -82,7 +82,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
             "channel_name": channel
             }, {
          "headers": {
-            "Authorization": 'JWT ' + token
+            "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
             }
         }); 
     };
@@ -92,7 +92,7 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
             "channel_name": channel_name,
             }, {
          "headers": {
-            "Authorization": 'JWT ' + token
+            "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
             }
         }); 
     };
