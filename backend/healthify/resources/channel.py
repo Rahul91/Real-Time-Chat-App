@@ -127,6 +127,7 @@ class Channel(Resource):
     """
     channel_creation_response_format = dict(
         channel_name=fields.String,
+        message=fields.String,
         type=fields.String,
     )
 

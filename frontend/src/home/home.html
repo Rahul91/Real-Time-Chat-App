@@ -66,7 +66,7 @@
 <div class="acceptInvitation" style="font-size:19px;color:white;">
   Pending Invitations
   <ul style="list-style: none; cursor: pointer;">
-    <li ng-repeat = "channel in InvitationList" ng-click="triggerAcceptInvitation()"><i class="fa fa-check-square" aria-hidden="true" style="font-size:20px;color:white;"></i>
+    <li ng-repeat = "channel in InvitationList" ng-click="triggerAcceptInvitation(channel.channel_name)"><i class="fa fa-check-square" aria-hidden="true" style="font-size:20px;color:white;"></i>
       <span style="font-size:15px;color:white;">{{channel.channel_name}}</span>
   </li>
   </ul>
@@ -201,8 +201,8 @@
               <span>Accpet if you want to be part of this channel.<br>
           </div>
           <div class="modal-footer" style="max-height: 70px;">
-            <button type="button" class="btn btn-warning" ng-click="Decline(channel_name)"> <i class="fa fa-exclamation-triangle"></i> Decline</button>
-            <button type="button" class="btn btn-sucess" ng-click="Accept(channel_name)"> <i class="fa fa-user"></i> Accept</button>
+            <button type="button" class="btn btn-success" ng-click="joinChannelResponse(requestedChannelName, 'declined')"> <i class="fa fa-user"></i> Accept</button>
+            <button type="button" class="btn btn-warning" ng-click="joinChannelResponse(requestedChannelName, 'accepted')"> <i class="fa fa-exclamation-triangle"></i> Decline</button>
           </div>
         </div>
     </div>

@@ -24,27 +24,33 @@ def create_channel(**kwargs):
     channel_name = kwargs['channel_name']
     user_id = kwargs['user_id']
     channel_obj = get_channel_by_name(channel_name=channel_name)
-    channel_type = kwargs.get('channel_type', 'public').lower()
+    channel_type = kwargs.get('type', 'public')
     if not channel_obj:
         channel_create_params = dict(
             id=str(uuid4()),
             name=channel_name,
             created_by=user_id,
-            type=channel_type,
+            type=channel_type.lower(),
         )
         log.info('Create channel payload: {}'.format(channel_create_params))
         channel = Channel(**channel_create_params)
         session.add(channel)
 
         create_user_channel_mapping(user_id=user_id,
-                                    channel_id=get_channel_by_name(channel_name=channel_name).id)
+                                    channel_id=channel_create_params['id'])
+        action = 'Created'
     else:
-        create_user_channel_mapping(user_id=user_id,
-                                    channel_id=get_channel_by_name(channel_name=channel_name).id)
+        if channel_obj.type == 'public':
+            create_user_channel_mapping(user_id=user_id,
+                                        channel_id=channel_obj.id)
+            action = 'Created'
+        else:
+            join_channel_request(channel_name=channel_obj.name, user_id=user_id, invited_user_name=get_user_by_id(user_id=channel_obj.created_by).username)
+            action = 'Invitation Sent'
     return dict(
         channel_name=channel_name,
         type=channel_type,
-        created=True
+        message=action,
     )
 
 

@@ -12,6 +12,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.autoRefresh = true;
     $scope.fetchingChat = true;
     $scope.page_num = 0
+    $scope.requestedChannelName = ''
     $document[0].body.style.backgroundColor = "white";
     
     $scope.get_user = function () {
@@ -182,10 +183,11 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.displayChat = false;
     }
 
-    $scope.triggerAcceptInvitation = function () {
-        $scope.invitationRequestModal = true;
-        $scope.autoRefresh = false;
+    $scope.triggerAcceptInvitation = function (requestedChannelName) {
         $scope.displayChat = false;
+        $scope.invitationRequestModal = true;
+        $scope.requestedChannelName = requestedChannelName;
+        $scope.autoRefresh = false;
     }
     
     $scope.triggerInviteUsers = function () {
@@ -227,10 +229,13 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.fetchingChat = true;
         channel.then(function(response) {
             if (response.status ==  200){
-                toaster.pop('success', channelName + ': created successfully');
-                $scope.channel_name = response.data['channel_name'];
-                $scope.get_all_channels();
-                $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
+                console.log(response.data);
+                toaster.pop('success', channelName + ': ' + response.data['message']);
+                if (response.data['message'] == 'Created'){
+                    $scope.channel_name = response.data['channel_name'];
+                    $scope.get_all_channels();
+                    $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
+                }
             }else{
                 toaster.pop('error', response.data['message'])
             }},
@@ -288,9 +293,9 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
          $scope.autoRefresh = true;
     }
 
-    $scope.approveRequest = function (channelName) {
+    $scope.joinChannelResponse = function (channelName, response) {
         $scope.displayChat = true;
-        var channel = homeService.save_user_invitation_response(channelName)
+        var channel = homeService.save_user_invitation_response(channelName, response)
         channel.then(function(response) {
         if (response.status ==  200){
             $scope.get_chat_by_channel_name(channelName, 0);
@@ -308,6 +313,27 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
          $scope.fetchingChat = false;
          $scope.autoRefresh = true;
     }
+
+    // $scope.declineRequest = function (channelName) {
+    //     $scope.displayChat = true;
+    //     var channel = homeService.save_user_invitation_response(channelName)
+    //     channel.then(function(response) {
+    //     if (response.status ==  200){
+    //         $scope.get_chat_by_channel_name(channelName, 0);
+    //         $scope.get_all_channels();
+    //     }else{
+    //         toaster.pop('error', response.data['message'])
+    //     }},
+    //     function(error) {
+    //         toaster.pop('error', error.data['message'])
+    //         console.log(error.data)
+    //     });
+    //      $scope.showdeletechannel = false;
+    //      $scope.showunsubscribechannel = false;
+    //      $scope.displayChat = true;
+    //      $scope.fetchingChat = false;
+    //      $scope.autoRefresh = true;
+    // }
 
     $scope.unsubscibeChannel = function (channelName) {
         $scope.displayChat = true;
