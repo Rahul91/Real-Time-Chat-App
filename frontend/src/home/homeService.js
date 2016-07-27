@@ -105,6 +105,17 @@ mainApp.service("homeService", function($http, $localStorage, appConfig){
         }); 
     };
 
+    this.save_user_invitation_response = function (requested_channel_name, response) {
+        return $http.post(url + "/channel/approve", {
+            "response": response,
+            "channel_name": requested_channel_name,
+        },{
+         "headers": {
+            "Authorization": 'JWT ' + localStorage['token'].replace(/['"]+/g, '')
+            }
+        }); 
+    };
+
     this.get_pending_request_for_user = function () {
         return $http.get(url + "/channel/pending", {
          "headers": {

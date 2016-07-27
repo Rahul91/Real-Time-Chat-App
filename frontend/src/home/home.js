@@ -5,6 +5,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.InvitationList = [];
     $scope.createNewChannel = false;
     $scope.showunsubscribechannel = false;
+    $scope.invitationRequestModal = false;
     $scope.showdeletechannel = false;
     $scope.showInviteUser = false;
     $scope.displayChat = true;
@@ -19,6 +20,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             if (response.status ==  200){
                 $rootScope.username = response.data['username'],
                 $rootScope.first_name = response.data['first_name']
+                $scope.get_pending_request_for_user();
             }else{
                 toaster.pop('error', response.data['message'])
             }
@@ -27,6 +29,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         );
     }
+    
     $scope.get_user();
 
     $scope.get_pending_request_for_user = function () {
@@ -42,7 +45,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         );
     }
-    $scope.get_pending_request_for_user();
+    // $scope.get_pending_request_for_user();
 
     $scope.get_channel_by_name = function (channel_name) {
         var result = homeService.get_channel_by_name(channel_name)
@@ -61,6 +64,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         );
     }
+
     $scope.get_channel_by_name($scope.channel_name);
 
     $scope.get_chat_by_channel_name = function (channel_name, page_num) {
@@ -177,6 +181,12 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.autoRefresh = false;
         $scope.displayChat = false;
     }
+
+    $scope.triggerAcceptInvitation = function () {
+        $scope.invitationRequestModal = true;
+        $scope.autoRefresh = false;
+        $scope.displayChat = false;
+    }
     
     $scope.triggerInviteUsers = function () {
         $scope.showInviteUser = true;
@@ -264,6 +274,27 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         if (response.status ==  200){
             toaster.pop('success', 'Chats deleted');
             $scope.get_chat_by_channel_name(channelName, 0);
+        }else{
+            toaster.pop('error', response.data['message'])
+        }},
+        function(error) {
+            toaster.pop('error', error.data['message'])
+            console.log(error.data)
+        });
+         $scope.showdeletechannel = false;
+         $scope.showunsubscribechannel = false;
+         $scope.displayChat = true;
+         $scope.fetchingChat = false;
+         $scope.autoRefresh = true;
+    }
+
+    $scope.approveRequest = function (channelName) {
+        $scope.displayChat = true;
+        var channel = homeService.save_user_invitation_response(channelName)
+        channel.then(function(response) {
+        if (response.status ==  200){
+            $scope.get_chat_by_channel_name(channelName, 0);
+            $scope.get_all_channels();
         }else{
             toaster.pop('error', response.data['message'])
         }},
