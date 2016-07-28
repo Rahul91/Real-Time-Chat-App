@@ -18,7 +18,8 @@ Async approach: I have used Rabbitmq and pika client to make the chat publish ay
   - User can unsubscribe any channel, expect for Public channel.
   - User can delete chat for any channel, however any conversation after deletion will be displayed in the feed.
   - Creation, Unsubscription and deletion are simple, a button is provided to do the same. However if you a trying to create a channel, that already exists, you will be automatically joined to that channel.
-  - New feature for inviting user has been added, once an invitation is sent, requested user can see the request for approval(Work in progress, checkout invite_feature branch for this feature, still in beta)
+  - New feature for inviting user has been added, once an invitation is sent, requested user can see the request for approval(Work in progress, checkout invite_feature branch for this feature) 
+  - You can join a public channel by creating it, but if the channel you want to join is Private, then the owner of that channel gets an request for approval, once approved, you will be joined to that channel. (checkout invite_feature branch)
 
 
 ## Installation/Project setup:
