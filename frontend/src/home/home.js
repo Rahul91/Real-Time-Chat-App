@@ -312,32 +312,11 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         });
          $scope.showdeletechannel = false;
          $scope.showunsubscribechannel = false;
-         $scope.displayChat = true;
+         $scope.invitationRequestModal = false;
          $scope.fetchingChat = false;
          $scope.autoRefresh = true;
-         $scope.get_pending_request_for_user()
+         $scope.get_pending_request_for_user();
     }
-
-    // $scope.declineRequest = function (channelName) {
-    //     $scope.displayChat = true;
-    //     var channel = homeService.save_user_invitation_response(channelName)
-    //     channel.then(function(response) {
-    //     if (response.status ==  200){
-    //         $scope.get_chat_by_channel_name(channelName, 0);
-    //         $scope.get_all_channels();
-    //     }else{
-    //         toaster.pop('error', response.data['message'])
-    //     }},
-    //     function(error) {
-    //         toaster.pop('error', error.data['message'])
-    //         console.log(error.data)
-    //     });
-    //      $scope.showdeletechannel = false;
-    //      $scope.showunsubscribechannel = false;
-    //      $scope.displayChat = true;
-    //      $scope.fetchingChat = false;
-    //      $scope.autoRefresh = true;
-    // }
 
     $scope.unsubscibeChannel = function (channelName) {
         $scope.displayChat = true;
@@ -383,7 +362,7 @@ mainApp.filter('timezone', function(){
 
  return function (val, offset) {
         if (val != null && val.length > 16) {
-    return val.substring(0, 24)
+    return val.substring(0, 26)
 }    
 return val;
     };

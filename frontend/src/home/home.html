@@ -40,8 +40,8 @@
   Channels
   <ul>
   <i class="fa fa-spinner fa-pulse fa-1x fa-fw" ng-show="fetchingChat"></i>
-  <li ng-repeat = "channel in channelList" ng-click="get_chat_by_channel_name(channel.channel_name, 0)"><i class="fa fa-check-square" aria-hidden="true" style="font-size:20px;color:white;"></i>
-    <span style="font-size:15px;color:white;">{{channel.channel_name}}</span>
+  <li ng-repeat = "channel in channelList" ng-click="get_chat_by_channel_name(channel.channel_name, 0)"><i class="fa fa-dot-circle-o" aria-hidden="true" style="font-size:20px;color:white;"></i>
+    <span style="font-size:12px;color:white;">{{channel.channel_name}}</span>
   </li>
   </ul>
 </div>
@@ -63,18 +63,18 @@
 <div class="sentInvitation" style="font-size:20px;color:white; cursor: pointer;" ng-click="triggerInviteUsers()">
   Invite Users
 </div>
-<div class="acceptInvitation" style="font-size:19px;color:white;">
+<div class="pendingInvitation" id="pendingInvitation"  style="font-size:19px;color:white;max-height: 150px;min-height: 100px;">
   Pending Invitations
-  <ul style="list-style: none; cursor: pointer;">
-    <li ng-repeat = "requestedChannel in InvitationList" ng-click="triggerAcceptInvitation(requestedChannel.channel_name, requestedChannel.requester)"><i class="fa fa-check-square" aria-hidden="true" style="font-size:20px;color:white;"></i>
-      <span style="font-size:15px;color:white;">{{requestedChannel.channel_name}}</span>
+  <ul style="list-style: none; cursor: pointer; overflow:auto;padding-left: 10%;">
+    <li ng-repeat = "requestedChannel in InvitationList" ng-click="triggerAcceptInvitation(requestedChannel.channel_name, requestedChannel.requester)"><i class="fa fa-dot-circle-o" aria-hidden="true" style="font-size:20px;color:white;"></i>
+      <span style="font-size:12px;color:white;">{{requestedChannel.channel_name}}</span>
   </li>
   </ul>
 </div>
 
   </div>
 
-  <div class="col-xs-6 col-md-10" style="padding-right: 0px;padding-left: 10px;">
+  <div class="col-xs-6 col-md-10" style="padding-right: 0px;padding-left: 10px; max-width:82%">
         <div class="panel panel-primary" ng-show="displayChat">
             <div class="panel-heading" style="font-size: 15px; margin-bottom:5px;">
                 <span>{{ channel_name }}</span>
@@ -90,7 +90,7 @@
                         </p>
                         <div class="header">
                             <small class="primary-font"><i class="fa fa-user" aria-hidden="true"></i>
-{{message.published_by_name}}</small> <small class="pull-right text-muted" style="padding-right:10px;">
+{{message.published_by_name}}</small> <small class="pull-right text-muted" style="padding-right:5%;">
                             <i class="fa fa-clock-o" aria-hidden="true"></i>{{message.created_on | timezone | date :'yyyy-MM-dd HH:mm:ss'}}</small>
                         </div>
                     </div>
@@ -156,6 +156,7 @@
               <h4 class="modal-title" id="myModalLabel">Info</h4>
           </div>
           <div class="modal-body">
+            This invitation is not SMART, provide correct username, otherwise your invitation will go to <b>/dev/null :)</b><br>
             <form>
               <div class="form-group">
                 <label for="username" class="control-label">UserName:</label>
@@ -198,13 +199,13 @@
               <h4 class="modal-title" id="myModalLabel">Info</h4>
           </div>
           <div class="modal-body">
-              <span>Accpet if you want to be part of this channel.<br>
-              Channel Name: {{requestedChannelName}}<br>
-              Requester Name: {{requsterName}}</span>
+              <span>Accpet if you want to be part of this channel.<br><br>
+              Channel Name: <b>{{requestedChannelName}}</b><br>
+              Requester Name: <b>{{requsterName}}</b></span>
           </div>
           <div class="modal-footer" style="max-height: 70px;">
-            <button type="button" class="btn btn-success" ng-click="joinChannelResponse(requestedChannelName, 'declined')"> <i class="fa fa-user"></i> Accept</button>
-            <button type="button" class="btn btn-warning" ng-click="joinChannelResponse(requestedChannelName, 'accepted')"> <i class="fa fa-exclamation-triangle"></i> Decline</button>
+            <button type="button" class="btn btn-success" ng-click="joinChannelResponse(requestedChannelName, 'accepted')"> <i class="fa fa-user"></i> Accept</button>
+            <button type="button" class="btn btn-warning" ng-click="joinChannelResponse(requestedChannelName, 'declined')"> <i class="fa fa-exclamation-triangle"></i> Decline</button>
           </div>
         </div>
     </div>

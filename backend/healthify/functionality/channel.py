@@ -24,7 +24,9 @@ def create_channel(**kwargs):
     channel_name = kwargs['channel_name']
     user_id = kwargs['user_id']
     channel_obj = get_channel_by_name(channel_name=channel_name)
-    channel_type = kwargs.get('type', 'public')
+    channel_type = 'public'
+    if kwargs['type']:
+        channel_type = kwargs['type']
     if not channel_obj:
         channel_create_params = dict(
             id=str(uuid4()),
@@ -46,7 +48,9 @@ def create_channel(**kwargs):
             action = 'Created'
         else:
             # get_pending_invitation()
-            join_channel_request(channel_name=channel_obj.name, user_id=user_id, invited_user_name=get_user_by_id(user_id=channel_obj.created_by).username)
+            join_channel_request(channel_name=channel_obj.name,
+                                 user_id=user_id,
+                                 invited_user_name=get_user_by_id(user_id=channel_obj.created_by).username)
             action = 'Invitation Sent'
     return dict(
         channel_name=channel_name,
@@ -75,7 +79,9 @@ def get_user_channels(**kwargs):
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 def get_user_channel_mapping(**kwargs):
     return session.query(UserChannelMapping).\
-        filter(UserChannelMapping.user_id == kwargs['user_id'], UserChannelMapping.is_unsubscribed == False).\
+        filter(UserChannelMapping.user_id == kwargs['user_id'],
+               UserChannelMapping.is_unsubscribed == False,
+               UserChannelMapping.deleted_on.is_(None)).\
         all()
 
 
@@ -180,7 +186,7 @@ def get_pending_invitation(**kwargs):
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
 @validation.not_empty('channel_id', 'REQ-CHANNEL-ID', req=True)
 def get_channel_pending_invitation(**kwargs):
-    log.info('Get Pending Invitation kwargs: {}'.format(kwargs))
+    log.info('Get Pending Channel Invitation kwargs: {}'.format(kwargs))
     return session.query(ChannelJoinRequest).\
         filter(ChannelJoinRequest.requested_by == kwargs['user_id'],
                ChannelJoinRequest.channel_id == kwargs['channel_id'],
@@ -212,5 +218,5 @@ def approve_channel_request(**kwargs):
     else:
         setattr(pending_invitation, 'rejected_on', datetime.now())
     return dict(
-        action=True,
+        user_preference=action,
     )

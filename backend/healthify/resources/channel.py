@@ -3,6 +3,7 @@ from flask_restful import marshal_with, reqparse, fields, abort
 from flask_restful import Resource
 from sqlalchemy.exc import SQLAlchemyError
 
+from healthify.functionality.auth import get_user_by_id
 from healthify.utils.logger import get_logger
 from healthify.functionality.channel import create_channel, get_user_channels, get_channel_by_name, unsubscribe_channel, \
     get_channel_by_id, join_channel_request, get_pending_invitation, approve_channel_request
@@ -29,7 +30,7 @@ def transform_pending_requests(pending_item):
     return dict(
         channel_id=channel.id,
         channel_name=channel.name,
-        requester=pending_item.requested_by,
+        requester=get_user_by_id(user_id=pending_item.requested_by).username,
     )
 
 
@@ -286,27 +287,25 @@ class FetchChannel(Resource):
 
 class JoinChannelRequest(Resource):
     """
-    @api {post} /channel/join Fetch Channel
+    @api {post} /channel/invite Channel
     @apiName Unsubscribe Channel
     @apiGroup Channel
 
     @apiHeader {String} Authorization
+    @apiParam {String} channel_name Channel Name
+    @apiParam {String} invited_user_name UserName of the person invited
 
     @apiSuccessExample Success Response
     HTTP/1.1 200 OK
     {
-        "channel_id": "channel.id",
-        "channel_name": "channel_name",
-        "channel_type": "public",
-        "created_by": "test_user",
-        "created_on": "some date",
+        invitation_sent=True
     }
 
     @apiErrorExample Invalid params Provided
     HTTP/1.1 400 Bad Request
     {
       "message": {
-        "username": "GET-CHANNEL-INVALID-PARAM"
+        "username": "JOIN-CHANNEL-INVALID-PARAM"
       }
     }
     """
@@ -333,7 +332,7 @@ class JoinChannelRequest(Resource):
         except KeyError as key_err:
             log.error(repr(key_err))
             session.rollback()
-            abort(400, message="GET-CHANNEL-INVALID-PARAM")
+            abort(400, message="JOIN-CHANNEL-INVALID-PARAM")
         except IOError as io_err:
             log.exception(io_err)
             session.rollback()
@@ -344,6 +343,31 @@ class JoinChannelRequest(Resource):
             abort(500, message="API-ERR-DB")
         finally:
             session.close()
+
+    """
+       @api {post} /channel/pending Get Pending Invitations
+       @apiName Pending Invitations
+       @apiGroup Channel
+
+       @apiHeader {String} Authorization
+
+       @apiSuccessExample Success Response
+       HTTP/1.1 200 OK
+       {
+            "channel_id": "0110101010101833",
+            "channel_name": "channel_name",
+            "requester": "someone@someone"
+       }
+
+       @apiErrorExample
+       Invalid params Provided
+       HTTP/1.1 400 Bad Request
+       {
+         "message": {
+           "username": "GET-INVITATION-CHANNEL-INVALID-PARAM"
+         }
+       }
+    """
 
     def get(self):
         log.info('Getting pending invitation for: {}'.format(current_identity.id))
@@ -359,7 +383,7 @@ class JoinChannelRequest(Resource):
         except KeyError as key_err:
             log.error(repr(key_err))
             session.rollback()
-            abort(400, message="GET-CHANNEL-INVALID-PARAM")
+            abort(400, message="GET-INVITATION-CHANNEL-INVALID-PARAM")
         except IOError as io_err:
             log.exception(io_err)
             session.rollback()
@@ -374,27 +398,29 @@ class JoinChannelRequest(Resource):
 
 class ApproveJoinRequest(Resource):
     """
-    @api {post} /channel/join Fetch Channel
-    @apiName Unsubscribe Channel
+    @api {post} /channel/approve Approve/Decline Channel Request
+    @apiName Approve.Decline Request
     @apiGroup Channel
 
     @apiHeader {String} Authorization
+    @apiParam {String} channel_name Channel Name
+    @apiParam {String} response accepted/declined
 
     @apiSuccessExample Success Response
     HTTP/1.1 200 OK
     {
-        "channel_id": "channel.id",
-        "channel_name": "channel_name",
-        "channel_type": "public",
-        "created_by": "test_user",
-        "created_on": "some date",
+        "accepted": True
+    }
+        HTTP/1.1 200 OK
+    {
+        "user_preference": "accepted"
     }
 
     @apiErrorExample Invalid params Provided
     HTTP/1.1 400 Bad Request
     {
       "message": {
-        "username": "GET-CHANNEL-INVALID-PARAM"
+        "username": "APPROVE-CHANNEL-INVALID-PARAM"
       }
     }
     """
@@ -421,7 +447,7 @@ class ApproveJoinRequest(Resource):
         except KeyError as key_err:
             log.error(repr(key_err))
             session.rollback()
-            abort(400, message="GET-CHANNEL-INVALID-PARAM")
+            abort(400, message="APPROVE-CHANNEL-INVALID-PARAM")
         except IOError as io_err:
             log.exception(io_err)
             session.rollback()
