@@ -37,22 +37,22 @@ def publish_message(**kwargs):
     # Comment the following part upto conneciton.close(), to make the process sync
     # And uncomment the below commented part, so that db call is done here and not in pika worker.
     
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=PIKA_RABBITMQ_HOST))
-    pika_channel = connection.channel()
-    pika_channel.exchange_declare(exchange=PIKA_RABBITMQ_EXCHANGE,
-                                  type=PIKA_RABBITMQ_TYPE)
+    # connection = pika.BlockingConnection(pika.ConnectionParameters(host=PIKA_RABBITMQ_HOST))
+    # pika_channel = connection.channel()
+    # pika_channel.exchange_declare(exchange=PIKA_RABBITMQ_EXCHANGE,
+    #                               type=PIKA_RABBITMQ_TYPE)
+    #
+    # pika_channel.basic_publish(exchange=PIKA_RABBITMQ_EXCHANGE,
+    #                            routing_key='',
+    #                            body=json.dumps(payload))
+    # connection.close()
 
-    pika_channel.basic_publish(exchange=PIKA_RABBITMQ_EXCHANGE,
-                               routing_key='',
-                               body=json.dumps(payload))
-    connection.close()
-
-    # payload.update(dict(
-    #     id=str(uuid4()),
-    # ))
-    # chat_obj = ChatHistory(**payload)
-    # session.add(chat_obj)
-    # session.flush()
+    payload.update(dict(
+        id=str(uuid4()),
+    ))
+    chat_obj = ChatHistory(**payload)
+    session.add(chat_obj)
+    session.flush()
 
     return dict(
         message_published=True

@@ -13,6 +13,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.fetchingChat = true;
     $scope.page_num = 0
     $scope.requestedChannelName = ''
+    $scope.requsterName = ''
     $document[0].body.style.backgroundColor = "white";
     
     $scope.get_user = function () {
@@ -183,10 +184,11 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.displayChat = false;
     }
 
-    $scope.triggerAcceptInvitation = function (requestedChannelName) {
+    $scope.triggerAcceptInvitation = function (requestedChannelName, requsterName) {
         $scope.displayChat = false;
         $scope.invitationRequestModal = true;
         $scope.requestedChannelName = requestedChannelName;
+        $scope.requsterName = requsterName;
         $scope.autoRefresh = false;
     }
     
@@ -286,6 +288,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             toaster.pop('error', error.data['message'])
             console.log(error.data)
         });
+         $scope.invitationRequestModal = false;
          $scope.showdeletechannel = false;
          $scope.showunsubscribechannel = false;
          $scope.displayChat = true;
@@ -312,6 +315,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
          $scope.displayChat = true;
          $scope.fetchingChat = false;
          $scope.autoRefresh = true;
+         $scope.get_pending_request_for_user()
     }
 
     // $scope.declineRequest = function (channelName) {
@@ -371,6 +375,17 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
 mainApp.filter('reverse', function() {
     return function(items) {
     return items.slice().reverse();
+    };
+});
+
+
+mainApp.filter('timezone', function(){
+
+ return function (val, offset) {
+        if (val != null && val.length > 16) {
+    return val.substring(0, 24)
+}    
+return val;
     };
 });
 

@@ -66,8 +66,8 @@
 <div class="acceptInvitation" style="font-size:19px;color:white;">
   Pending Invitations
   <ul style="list-style: none; cursor: pointer;">
-    <li ng-repeat = "channel in InvitationList" ng-click="triggerAcceptInvitation(channel.channel_name)"><i class="fa fa-check-square" aria-hidden="true" style="font-size:20px;color:white;"></i>
-      <span style="font-size:15px;color:white;">{{channel.channel_name}}</span>
+    <li ng-repeat = "requestedChannel in InvitationList" ng-click="triggerAcceptInvitation(requestedChannel.channel_name, requestedChannel.requester)"><i class="fa fa-check-square" aria-hidden="true" style="font-size:20px;color:white;"></i>
+      <span style="font-size:15px;color:white;">{{requestedChannel.channel_name}}</span>
   </li>
   </ul>
 </div>
@@ -90,8 +90,8 @@
                         </p>
                         <div class="header">
                             <small class="primary-font"><i class="fa fa-user" aria-hidden="true"></i>
-{{message.published_by_name}}</small> <small class="pull-right text-muted">
-                            <i class="fa fa-clock-o" aria-hidden="true"></i>{{message.created_on | date :'yyyy-MM-dd HH:mm:ss'}}</small>
+{{message.published_by_name}}</small> <small class="pull-right text-muted" style="padding-right:10px;">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>{{message.created_on | timezone | date :'yyyy-MM-dd HH:mm:ss'}}</small>
                         </div>
                     </div>
                   </li>
@@ -199,6 +199,8 @@
           </div>
           <div class="modal-body">
               <span>Accpet if you want to be part of this channel.<br>
+              Channel Name: {{requestedChannelName}}<br>
+              Requester Name: {{requsterName}}</span>
           </div>
           <div class="modal-footer" style="max-height: 70px;">
             <button type="button" class="btn btn-success" ng-click="joinChannelResponse(requestedChannelName, 'declined')"> <i class="fa fa-user"></i> Accept</button>
