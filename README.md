@@ -9,12 +9,14 @@ There should be an option for the user to clear chat, which should only clear th
 ## My approach
 
 Technological Stack:
+- Flask(Flask-Restful) + MySql(db) + sqlAlchemy(ORM) + Alembic(DB Migration) 
+- Angularjs(Js) + Bootstrap(CSS)
+- Apidoc(Documentation) 
+- ~~RabbitMq (broker) + Pika (MessagingClient)~~ 
 
-	1. Flask(Flask-Restful) + MySql(db) + sqlAlchemy(ORM) + Alembic(DB Migration) 
-	2. Angularjs(Js) + Bootstrap(CSS)
-	3. RabbitMq (broker) + Pika (MessagingClient)
-	4. Apidoc(Documentation) 
-	 
+RabbitMq (broker) + Pika (MessagingClient): This async approach was dropped because of the extra overhead of rabbitmq and pika, Also it increase your point of failures. In our case, async worker was not much but an DB write, so I have moved the async part and made the db call synchronous.
+
+
 ## Project Setup
   1. Clone project: $ git clone https://github.com/Rahul91/healthify.git .
   2. For backend setup, please follow README.md in healthify/backend/
