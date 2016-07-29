@@ -2,6 +2,7 @@ from flask_jwt import jwt_required, current_identity
 from flask_restful import marshal_with, reqparse, fields, abort
 from flask_restful import Resource
 from sqlalchemy.exc import SQLAlchemyError
+from flask_restful.inputs import boolean
 
 from healthify.functionality.auth import get_user_by_id
 from healthify.utils.logger import get_logger
@@ -432,6 +433,7 @@ class ApproveJoinRequest(Resource):
                                                         help="CHANNEL-REQ-NAME")
         approve_channel_request_format.add_argument('response', type=non_empty_str, required=True,
                                                         help="REQ-RESPONSE")
+
         params = approve_channel_request_format.parse_args()
         params.update(dict(user_id=current_identity.id))
         log.info('Channel Join Invitation request params: {}'.format(params))

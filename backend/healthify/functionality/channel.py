@@ -1,6 +1,7 @@
 from uuid import uuid4
 from datetime import datetime
 from healthify.functionality.auth import get_user_by_id
+from flask_restful.inputs import boolean
 
 from healthify.models.chat import ChatHistory
 from healthify.models.common import UserChannelMapping
@@ -214,7 +215,7 @@ def approve_channel_request(**kwargs):
         first()
     if action == 'accepted':
         setattr(pending_invitation, 'accepted_on', datetime.now())
-        create_user_channel_mapping(user_id=user_id, channel_id=channel_obj.id)
+        create_user_channel_mapping(user_id=pending_invitation.requested_by, channel_id=channel_obj.id)
     else:
         setattr(pending_invitation, 'rejected_on', datetime.now())
     return dict(
