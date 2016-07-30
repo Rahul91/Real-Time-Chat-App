@@ -9,8 +9,8 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.showdeletechannel = false;
     $scope.showInviteUser = false;
     $scope.displayChat = true;
-    $scope.autoRefresh = true;
     $scope.fetchingChat = true;
+    $scope.autoRefresh = true;
     $scope.page_num = 0
     $scope.requestedChannelName = ''
     $scope.requsterName = ''
@@ -72,6 +72,11 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
 
     $scope.get_chat_by_channel_name = function (channel, page_num) {
         $scope.channel = channel;
+        $scope.createNewChannel = false;
+        $scope.showunsubscribechannel = false;
+        $scope.invitationRequestModal = false;
+        $scope.showdeletechannel = false;
+        $scope.showInviteUser = false;
         var result = homeService.get_chat_by_channel_name(channel.channel_name, page_num)
         result.then(function(response) {
             if (response.status ==  200){
