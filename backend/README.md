@@ -1,5 +1,5 @@
 # Chat App:
-An app build on top of flask-restful framework coupled with Mysql and rabbitmq. I have used pika client to make the message publish async.
+Production ready chat app build on top of flask-restful framework coupled with Mysql and Angularjs.
 
 ## Architecture:
 The overall services are divided into 2 parts:
@@ -25,11 +25,6 @@ Async approach: [RabbitMq (broker) + Pika (MessagingClient)] This  approach was 
 
 
 ## Installation/Project setup:
-Installing supervisor : 
-
-    sudo apt-get install supervisor
-    sudo apt-get install rabbitmq-server
-
 
   1. Clone project from github, https://github.com/Rahul91/healthify and checkout invite_feature branch.
   2. Create virtualenv, activate it and install requriement using pip from healthify/backend/requirements.txt
@@ -47,10 +42,10 @@ Installing supervisor :
         
             $ sudo service restart nginx
     
-Or go to /doc and use SimpleHTTPServer to host the files
-        
+  Or go to /doc and use SimpleHTTPServer to host the files
+
             $ python -m SimpleHTTPServer 8989
     
-This will host the apidoc on localhost:8989
+  This will host the apidoc on localhost:8989
     
   7. Backend stack is ready to serve the request now.
