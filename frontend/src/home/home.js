@@ -15,6 +15,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.requestedChannelName = ''
     $scope.requsterName = ''
     $document[0].body.style.backgroundColor = "white";
+    $scope.channel = {"channel_name": "public", "channel_type": "public"};
     
     $scope.get_user = function () {
         var userInfo = homeService.get_user()
@@ -67,21 +68,21 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         );
     }
 
-    $scope.get_channel_by_name($scope.channel_name);
+    $scope.get_channel_by_name($scope.channel.channel_name);
 
-    $scope.get_chat_by_channel_name = function (channel_name, page_num) {
-        var result = homeService.get_chat_by_channel_name(channel_name, page_num)
+    $scope.get_chat_by_channel_name = function (channel, page_num) {
+        $scope.channel = channel;
+        var result = homeService.get_chat_by_channel_name(channel.channel_name, page_num)
         result.then(function(response) {
-            $scope.channel_name = channel_name;
             if (response.status ==  200){
                 $scope.fetchingChat = false;
-                $scope.messageList = response.data;
+                if (page_num > 0){
+                    $scope.messageList = $scope.messageList.concat(response.data);
+                }else{
+                    $scope.messageList = response.data;
+                }
                 if ($scope.messageList.length > 0){
                     $scope.displayChat = true;
-                    $scope.channel_name = channel_name;
-                }else{
-                    $scope.channel_name = channel_name;
-                    // toaster.pop('warning', 'No chat found, start a conversation');
                 }
                 $scope.displayChat = true;
             }else{
@@ -96,10 +97,10 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         ); 
     }
 
-    $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
+    $scope.get_chat_by_channel_name($scope.channel, $scope.page_num);
     $scope.fetchMessage = $interval(function () {
         if ($scope.autoRefresh == true){
-            $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
+            $scope.get_chat_by_channel_name($scope.channel, $scope.page_num);
         }
     }, 10000);
 
@@ -137,8 +138,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                 $scope.messageList.unshift({
                                 'message_text': message,
                                 'created_on': new Date(),
-                                'published_by_name': $rootScope['first_name'],
-                                'direction': "outgoing"
+                                'published_by_name': 'me',
                             });
             }else{
                 toaster.pop('error', response.data['message'])
@@ -233,11 +233,12 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     $scope.fetchPreviousChat = function () {
         $scope.page_num +=1;
         $scope.autoRefresh = false;
-        $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
+        $scope.get_chat_by_channel_name($scope.channel, $scope.page_num);
     }
 
     $scope.createChannel = function (channelName, type) {
         $scope.displayChat = true;
+        $scope.channel.channel_name = channelName;
         var channel = homeService.createChannel(channelName, type)
         $scope.fetchingChat = true;
         channel.then(function(response) {
@@ -247,7 +248,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                 if (response.data['message'] == 'Created'){
                     $scope.channel_name = response.data['channel_name'];
                     $scope.get_all_channels();
-                    $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
+                    $scope.get_chat_by_channel_name($scope.channel , $scope.page_num);
                 }
             }else{
                 toaster.pop('error', response.data['message'])
@@ -287,11 +288,12 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
 
     $scope.deleteChat = function (channelName) {
         $scope.displayChat = true;
+        $scope.channel.channel_name = channelName
         var channel = homeService.deleteChat(channelName)
         channel.then(function(response) {
         if (response.status ==  200){
             toaster.pop('success', 'Chats deleted');
-            $scope.get_chat_by_channel_name(channelName, 0);
+            $scope.get_chat_by_channel_name($scope.channel, 0);
         }else{
             toaster.pop('error', response.data['message'])
         }},
@@ -309,11 +311,12 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
 
     $scope.joinChannelResponse = function (channelName, response) {
         $scope.displayChat = true;
+        $scope.channel.channel_name = channelName
         var channel = homeService.save_user_invitation_response(channelName, response)
         channel.then(function(response) {
         if (response.status ==  200){
             if (response.data.user_preference == 'accepted'){
-                $scope.get_chat_by_channel_name(channelName, 0);
+                $scope.get_chat_by_channel_name($scope.channel, 0);
                 $scope.get_all_channels();
             }
         }else{
@@ -341,7 +344,8 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             channel.then(function(response) {
             if (response.status ==  200){
                 toaster.pop('success', channelName + ' Successfully Unsuscribed');
-                $scope.get_chat_by_channel_name('public', 0);
+                $scope.channel = {"channel_name": "public", "channel_type": "public"};
+                $scope.get_chat_by_channel_name($scope.channel, 0);
                 $scope.get_all_channels();
             }else{
                 toaster.pop('error', response.data['message'])

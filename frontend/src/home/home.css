@@ -209,3 +209,15 @@ html {
 ul li {
     cursor: pointer;
 }
+
+.fa-fa-exclamation-triangle:hover {
+    color: #ed9c28;
+}
+
+.fa-trash-o fa-lg:hover {
+    color: #d9534f;
+}
+
+.fa-plus:hover {
+    color: #5cb85c;
+}
