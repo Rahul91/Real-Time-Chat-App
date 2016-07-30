@@ -199,13 +199,14 @@
               <h4 class="modal-title" id="myModalLabel">Info</h4>
           </div>
           <div class="modal-body">
-              <span>Accpet if you want to be part of this channel.<br><br>
+              <span>You have got invitation. Do the needful !!!<br><br>
               Channel Name: <b>{{requestedChannelName}}</b><br>
               Requester Name: <b>{{requsterName}}</b></span>
           </div>
           <div class="modal-footer" style="max-height: 70px;">
             <button type="button" class="btn btn-success" ng-click="joinChannelResponse(requestedChannelName, 'accepted')"> <i class="fa fa-user"></i> Accept</button>
             <button type="button" class="btn btn-warning" ng-click="joinChannelResponse(requestedChannelName, 'declined')"> <i class="fa fa-exclamation-triangle"></i> Decline</button>
+            <button type="button" class="btn btn-primary" ng-click="laterInvitation()"> <i class="fa fa-meh-o"></i> Not Now !!</button>
           </div>
         </div>
     </div>

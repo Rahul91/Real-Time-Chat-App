@@ -6,7 +6,7 @@ __author__ = 'rahul'
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Flask #
-FLASK_APP_NAME = "healhify"
+FLASK_APP_NAME = "healthify"
 FLASK_DEBUG = True
 ERROR_404_HELP = False
 FLASK_PORT = 3434
@@ -15,8 +15,8 @@ FLASK_PORT = 3434
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'healthify.db')
 # SQLALCHEMY_DATABASE_URI = 'postgresql://rahul:root@localhost:5433/healthify'
 
-SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:tunna@localhost/healthify'
-# SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:root@localhost/healthify'
+# SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:tunna@localhost/healthify'
+SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:root@localhost/healthify'
 
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_POOL_CYCLE = 3600

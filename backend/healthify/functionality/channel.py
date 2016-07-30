@@ -26,7 +26,7 @@ def create_channel(**kwargs):
     user_id = kwargs['user_id']
     channel_obj = get_channel_by_name(channel_name=channel_name)
     channel_type = 'public'
-    if kwargs['type']:
+    if kwargs['type'] == 'private' or kwargs['type'] == 'Private':
         channel_type = kwargs['type']
     if not channel_obj:
         channel_create_params = dict(

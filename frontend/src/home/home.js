@@ -95,8 +95,8 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         ); 
     }
-    // $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
 
+    $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
     $scope.fetchMessage = $interval(function () {
         if ($scope.autoRefresh == true){
             $scope.get_chat_by_channel_name($scope.channel_name, $scope.page_num);
@@ -123,6 +123,11 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         );
     }
+
+    $scope.fetchChannel = $interval(function () {
+        $scope.get_pending_request_for_user();
+        $scope.get_all_channels();
+    }, 120000);
     // $scope.get_all_channels();
 
     $scope.publish = function (message, channel_name) {
@@ -219,6 +224,12 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.showunsubscribechannel = false;
     }
 
+    $scope.laterInvitation = function(){
+        $scope.invitationRequestModal = false;
+        $scope.displayChat = true;
+        $scope.autoRefresh = true;
+    }
+
     $scope.fetchPreviousChat = function () {
         $scope.page_num +=1;
         $scope.autoRefresh = false;
@@ -301,8 +312,10 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         var channel = homeService.save_user_invitation_response(channelName, response)
         channel.then(function(response) {
         if (response.status ==  200){
-            $scope.get_chat_by_channel_name(channelName, 0);
-            $scope.get_all_channels();
+            if (response.data.user_preference == 'accepted'){
+                $scope.get_chat_by_channel_name(channelName, 0);
+                $scope.get_all_channels();
+            }
         }else{
             toaster.pop('error', response.data['message'])
         }},

@@ -1,5 +1,71 @@
 define({ "api": [
   {
+    "type": "post",
+    "url": "/channel/approve",
+    "title": "Approve/Decline Channel Request",
+    "name": "Approve_Decline_Request",
+    "group": "Channel",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "channel_name",
+            "description": "<p>Channel Name</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "response",
+            "description": "<p>accepted/declined</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success Response",
+          "content": "HTTP/1.1 200 OK\n{\n    \"accepted\": True\n}\n    HTTP/1.1 200 OK\n{\n    \"user_preference\": \"accepted\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Invalid params Provided",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"APPROVE-CHANNEL-INVALID-PARAM\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "healthify/resources/channel.py",
+    "groupTitle": "Channel",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3434/channel/approve"
+      }
+    ]
+  },
+  {
     "type": "get",
     "url": "/channel",
     "title": "Channel",
@@ -113,6 +179,98 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "/channel/pending",
+    "title": "Get Pending Invitations",
+    "name": "Pending_Invitations",
+    "group": "Channel",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success Response",
+          "content": "HTTP/1.1 200 OK\n{\n     \"channel_id\": \"0110101010101833\",\n     \"channel_name\": \"channel_name\",\n     \"requester\": \"someone@someone\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Invalid params Provided",
+          "content": "Invalid params Provided\nHTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"GET-INVITATION-CHANNEL-INVALID-PARAM\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "healthify/resources/channel.py",
+    "groupTitle": "Channel",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3434/channel/pending"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/channel/{channel_name}",
+    "title": "Fetch Channel",
+    "name": "Unsubscribe_Channel",
+    "group": "Channel",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success Response",
+          "content": "HTTP/1.1 200 OK\n{\n    \"channel_id\": \"channel.id\",\n    \"channel_name\": \"channel_name\",\n    \"channel_type\": \"public\",\n    \"created_by\": \"test_user\",\n    \"created_on\": \"some date\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Invalid params Provided",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"GET-CHANNEL-INVALID-PARAM\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "healthify/resources/channel.py",
+    "groupTitle": "Channel",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3434/channel/{channel_name}"
+      }
+    ]
+  },
+  {
+    "type": "post",
     "url": "/channel/unsubscribe",
     "title": "Unsubscribe Channel",
     "name": "Unsubscribe_Channel",
@@ -171,9 +329,9 @@ define({ "api": [
     ]
   },
   {
-    "type": "get",
-    "url": "/channel/{channel_name}",
-    "title": "Fetch Channel",
+    "type": "post",
+    "url": "/channel/invite",
+    "title": "Channel",
     "name": "Unsubscribe_Channel",
     "group": "Channel",
     "header": {
@@ -189,11 +347,31 @@ define({ "api": [
         ]
       }
     },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "channel_name",
+            "description": "<p>Channel Name</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "invited_user_name",
+            "description": "<p>UserName of the person invited</p>"
+          }
+        ]
+      }
+    },
     "success": {
       "examples": [
         {
           "title": "Success Response",
-          "content": "HTTP/1.1 200 OK\n{\n    \"channel_id\": \"channel.id\",\n    \"channel_name\": \"channel_name\",\n    \"channel_type\": \"public\",\n    \"created_by\": \"test_user\",\n    \"created_on\": \"some date\",\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    invitation_sent=True\n}",
           "type": "json"
         }
       ]
@@ -202,7 +380,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Invalid params Provided",
-          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"GET-CHANNEL-INVALID-PARAM\"\n  }\n}",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": {\n    \"username\": \"JOIN-CHANNEL-INVALID-PARAM\"\n  }\n}",
           "type": "json"
         }
       ]
@@ -212,7 +390,7 @@ define({ "api": [
     "groupTitle": "Channel",
     "sampleRequest": [
       {
-        "url": "http://localhost:3434/channel/{channel_name}"
+        "url": "http://localhost:3434/channel/invite"
       }
     ]
   },
