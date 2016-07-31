@@ -1,6 +1,6 @@
 from uuid import uuid4
 from datetime import datetime
-from healthify.functionality.auth import get_user_by_id
+from healthify.functionality.auth import get_user_by_id, get_user_by_username
 from flask_restful.inputs import boolean
 
 from healthify.models.chat import ChatHistory
@@ -109,9 +109,11 @@ def is_channel_unsubscribed(**kwargs):
     channel_mapping = session.query(UserChannelMapping)\
         .filter(UserChannelMapping.user_id == user_id, UserChannelMapping.channel_id == channel_id)\
         .first()
-    if not channel_mapping:
-        log.info('No channel mapping found for user: {} and channel: {}, creating a mapping'.format(user_id, channel_id))
-        channel_mapping = create_user_channel_mapping(user_id=user_id, channel_id=channel_id)
+    # if not channel_mapping:
+    #     log.info('No channel mapping found for user: {} and channel: {}, creating a mapping'.format(user_id, channel_id))
+    #     channel_mapping = create_user_channel_mapping(user_id=user_id, channel_id=channel_id)
+    # if channel_mapping and channel_mapping.is_unsubscribed:
+    #     return True
     if channel_mapping and channel_mapping.is_unsubscribed:
         return True
     return False
@@ -215,9 +217,24 @@ def approve_channel_request(**kwargs):
         first()
     if action == 'accepted':
         setattr(pending_invitation, 'accepted_on', datetime.now())
-        create_user_channel_mapping(user_id=pending_invitation.requested_by, channel_id=channel_obj.id)
+        if if_user_channel_mapping(user_id=pending_invitation.requested_by, channel_id=channel_obj.id):
+            create_user_channel_mapping(user_id=get_user_by_username(username=pending_invitation.requested_for).id,
+                                        channel_id=channel_obj.id)
+        else:
+            create_user_channel_mapping(user_id=pending_invitation.requested_by, channel_id=channel_obj.id)
     else:
         setattr(pending_invitation, 'rejected_on', datetime.now())
     return dict(
         user_preference=action,
     )
+
+
+@validation.not_empty('user_id', 'REQ-USER-ID', req=True)
+@validation.not_empty('channel_id', 'REQ-CHANNEL-ID', req=True)
+def if_user_channel_mapping(**kwargs):
+    return session.query(UserChannelMapping)\
+        .filter(UserChannelMapping.user_id == kwargs['user_id'],
+                UserChannelMapping.channel_id == kwargs['channel_id'],
+                UserChannelMapping.is_unsubscribed == False,
+                UserChannelMapping.deleted_on.is_(None))\
+        .first()

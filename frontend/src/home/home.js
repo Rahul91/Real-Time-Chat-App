@@ -243,7 +243,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
 
     $scope.createChannel = function (channelName, type) {
         $scope.displayChat = true;
-        $scope.channel.channel_name = channelName;
+        $scope.channel.channel_type = type;
         var channel = homeService.createChannel(channelName, type)
         $scope.fetchingChat = true;
         channel.then(function(response) {
@@ -251,7 +251,8 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                 console.log(response.data);
                 toaster.pop('success', channelName + ': ' + response.data['message']);
                 if (response.data['message'] == 'Created'){
-                    $scope.channel_name = response.data['channel_name'];
+                    $scope.channel.channel_name = response.data['channel_name'];
+                    // $scope.channel_name = response.data['channel_name'];
                     $scope.get_all_channels();
                     $scope.get_chat_by_channel_name($scope.channel , $scope.page_num);
                 }
@@ -314,13 +315,13 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
          $scope.autoRefresh = true;
     }
 
-    $scope.joinChannelResponse = function (channelName, response) {
+    $scope.joinChannelResponse = function (channelName, user_response) {
         $scope.displayChat = true;
-        $scope.channel.channel_name = channelName
-        var channel = homeService.save_user_invitation_response(channelName, response)
+        var channel = homeService.save_user_invitation_response(channelName, user_response)
         channel.then(function(response) {
         if (response.status ==  200){
             if (response.data.user_preference == 'accepted'){
+                $scope.channel.channel_name = channelName
                 $scope.get_chat_by_channel_name($scope.channel, 0);
                 $scope.get_all_channels();
             }
