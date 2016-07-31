@@ -90,6 +90,8 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                     $scope.displayChat = true;
                 }
                 $scope.displayChat = true;
+            }else if(response.data['message'] == "'NoneType' object has no attribute '__getitem__'"){
+                toaster.pop('success', 'Registering User with Public Channel');
             }else{
                 $scope.fetchingChat = false;
                 toaster.pop('error', response.data['message'])
