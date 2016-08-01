@@ -36,85 +36,86 @@
 
 <div class="row">
   <div class="col-xs-6 col-sm-3 col-md-2 sidenavbar">
-<div class="channels" style="font-size:20px;color:white;">
-  Channels
-  <ul>
-  <i class="fa fa-spinner fa-pulse fa-1x fa-fw" ng-show="fetchingChat"></i>
-  <li ng-repeat = "channel in channelList" ng-click="get_chat_by_channel_name(channel, 0)">
-    <span style="font-size:13px;color:white;display: inline-block;">
-    <span ng-if="channel.channel_type == 'private'"><i class="fa fa-lock" aria-hidden="true"></i></span>
-    <span ng-if="channel.channel_type == 'public'"><i class="fa fa-globe" aria-hidden="true"></i></span>
-      {{channel.channel_name}}</span>
-  </li>
-  </ul>
-</div>
+    <div class="channels" style="font-size:20px;color:white;">
+      Channels
+      <ul>
+      <i class="fa fa-spinner fa-pulse fa-1x fa-fw" ng-show="fetchingChat"></i>
+      <li ng-repeat = "channel in channelList" ng-click="get_chat_by_channel_name(channel, 0)">
+        <span style="font-size:13px;color:white;display: inline-block;">
+        <span ng-if="channel.channel_type == 'private'"><i class="fa fa-lock" aria-hidden="true"></i></span>
+        <span ng-if="channel.channel_type == 'public'"><i class="fa fa-globe" aria-hidden="true"></i></span>
+          {{channel.channel_name}}</span>
+      </li>
+      </ul>
+    </div>
 
-<div class="settings" style="font-size:20px;color:white;">
-  Settings
-  <ul>
-    <li ng-click="triggerChannelCreation()"><i class="fa fa-plus" aria-hidden="true" style="font-size:20px;color:white;"></i>
-    <span style="font-size:15px;color:white;">Add Channel</span>
-    <li ng-click="triggerChannelUnsubscription()"><i class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size:20px;color:white;"></i>
-    <span style="font-size:15px;color:white;">Unsubscribe </span>
-  </li>
-  <li ng-click="triggerChatDeletion()"><i class="fa fa-trash-o" aria-hidden="true" style="font-size:20px;color:white;"></i>
-    <span style="font-size:15px;color:white;"> Delete Chat</span>
-  </li>
-  </ul>
-</div>
+    <div class="settings" style="font-size:20px;color:white;">
+      Settings
+      <ul>
+        <li ng-click="triggerChannelCreation()"><i class="fa fa-plus" aria-hidden="true" style="font-size:20px;color:white;"></i>
+        <span style="font-size:15px;color:white;">Add Channel</span>
+        <li ng-click="triggerChannelUnsubscription()"><i class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size:20px;color:white;"></i>
+        <span style="font-size:15px;color:white;">Unsubscribe </span>
+      </li>
+      <li ng-click="triggerChatDeletion()"><i class="fa fa-trash-o" aria-hidden="true" style="font-size:20px;color:white;"></i>
+        <span style="font-size:15px;color:white;"> Delete Chat</span>
+      </li>
+      </ul>
+    </div>
 
-<div class="sentInvitation" style="font-size:20px;color:white; cursor: pointer;" ng-click="triggerInviteUsers()">
-  Invite Users
-</div>
-<div class="pendingInvitation" id="pendingInvitation"  style="font-size:19px;color:white;max-height: 150px;min-height: 100px;">
-  Pending Invitations
-  <ul style="list-style: none; cursor: pointer; overflow:auto;padding-left: 10%;">
-    <li ng-repeat = "requestedChannel in InvitationList" ng-click="triggerAcceptInvitation(requestedChannel.channel_name, requestedChannel.requester)"><i class="fa fa-dot-circle-o" aria-hidden="true" style="font-size:20px;color:white;"></i>
-      <span style="font-size:12px;color:white;">{{requestedChannel.channel_name}}</span>
-  </li>
-  </ul>
-</div>
-
+    <div class="sentInvitation" style="font-size:20px;color:white; cursor: pointer;" ng-click="triggerInviteUsers()">
+      Invite Users
+    </div>
+    <div class="pendingInvitation" id="pendingInvitation" ng-if="InvitationList.length > 0" style="font-size:19px;color:white;max-height: 150px;min-height: 100px;">
+      Pending Invitations
+      <ul style="list-style: none; cursor: pointer; overflow:auto;padding-left: 10%;">
+        <li ng-repeat = "requestedChannel in InvitationList" ng-click="triggerAcceptInvitation(requestedChannel.channel_name, requestedChannel.requester)"><i class="fa fa-dot-circle-o" aria-hidden="true" style="font-size:20px;color:white;"></i>
+          <span style="font-size:12px;color:white;">{{requestedChannel.channel_name}}</span>
+      </li>
+      </ul>
+    </div>
+    <div ng-if="InvitationList.length == 0" style="font-size:17px;color:white;">No Pending Invitations
+    </div>
   </div>
 
   <div class="col-xs-6 col-md-10" style="padding-right: 0px;padding-left: 10px; max-width:82%">
-        <div class="panel panel-primary" ng-show="displayChat">
-            <div class="panel-heading" style="font-size: 15px; margin-bottom:5px;">
-                <span ng-if="channel.channel_type == 'private'"><i class="fa fa-lock" aria-hidden="true"></i></span>
-                <span ng-if="channel.channel_type == 'public'"><i class="fa fa-globe" aria-hidden="true"></i></span>
-                <span>{{ channel.channel_name }}</span>
-            </div>
-            <div class="panel-body">
-              <div class="loader" ng-show="messageList.length % 20 == 0 && messageList.length >=20"  ng-click="fetchPreviousChat()">Load Previous Conversation</div>
-              <span ng-show="fetchingChat" style="font-size:30px; padding-left:40%"><i class="fa fa-spinner fa-pulse fa-5x fa-fw" style="margin-top: 10%;"></i></span>
-              <ul class="chat">
-                  <li ng-repeat = "message in messageList | reverse" class="left clearfix"><span class="chat-img pull-left">
-                  </span>
-                    <div class="chat-body clearfix">
-                      <p><i class="fa fa-comment" aria-hidden="true"></i> {{message.message_text}}
-                        </p>
-                        <div class="header">
-                            <small class="primary-font"><i class="fa fa-user" aria-hidden="true"></i>
-                            <span ng-if="message.published_by_name == first_name">me</span>
-                            <span ng-if="message.published_by_name != first_name">{{message.published_by_name}}</span>
-                            </small> <small class="pull-right text-muted" style="padding-right:5%;">
-                            <i class="fa fa-clock-o" aria-hidden="true"></i>{{message.created_on | timezone | date :'yyyy-MM-dd HH:mm:ss'}}</small>
-                        </div>
+    <div class="panel panel-primary" ng-show="displayChat">
+        <div class="panel-heading" style="font-size: 15px; margin-bottom:5px;">
+            <span ng-if="channel.channel_type == 'private'"><i class="fa fa-lock" aria-hidden="true"></i></span>
+            <span ng-if="channel.channel_type == 'public'"><i class="fa fa-globe" aria-hidden="true"></i></span>
+            <span>{{ channel.channel_name }}</span>
+        </div>
+        <div class="panel-body">
+          <div class="loader" ng-show="messageList.length % 20 == 0 && messageList.length >=20"  ng-click="fetchPreviousChat()">Load Previous Conversation</div>
+          <span ng-show="fetchingChat" style="font-size:30px; padding-left:40%"><i class="fa fa-spinner fa-pulse fa-5x fa-fw" style="margin-top: 10%;"></i></span>
+          <ul class="chat">
+              <li ng-repeat = "message in messageList | reverse" class="left clearfix"><span class="chat-img pull-left">
+              </span>
+                <div class="chat-body clearfix">
+                  <p><i class="fa fa-comment" aria-hidden="true"></i> {{message.message_text}}
+                    </p>
+                    <div class="header">
+                        <small class="primary-font"><i class="fa fa-user" aria-hidden="true"></i>
+                        <span ng-if="message.published_by_name == first_name">me</span>
+                        <span ng-if="message.published_by_name != first_name">{{message.published_by_name}}</span>
+                        </small> <small class="pull-right text-muted" style="padding-right:5%;">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>{{message.created_on | timezone | date :'yyyy-MM-dd HH:mm:ss'}}</small>
                     </div>
-                  </li>
-              </ul>
-            </div>
-            <div class="panel-footer">
-                <div class="input-group">
-                    <textarea id="btn-input" ng-model="message" type="text" style="max-width: 95%;height: 50px;font-size: 20px;" class="form-control input-sm" placeholder="Type your message here..." />
-                    </textarea> 
-                    <span class="input-group-btn">
-                        <button class="btn btn-warning btn-lg" id="btn-chat" ng-disabled="!message" ng-click="publish(message, channel.channel_name)">
-                            Send</button>
-                    </span>
                 </div>
+              </li>
+          </ul>
+        </div>
+        <div class="panel-footer">
+            <div class="input-group">
+                <textarea id="btn-input" ng-model="message" type="text" style="max-width: 95%;height: 50px;font-size: 20px;" class="form-control input-sm" placeholder="Type your message here..." />
+                </textarea> 
+                <span class="input-group-btn">
+                    <button class="btn btn-warning btn-lg" id="btn-chat" ng-disabled="!message" ng-click="publish(message, channel.channel_name)">
+                        Send</button>
+                </span>
             </div>
         </div>
+    </div>
   </div>
 
 

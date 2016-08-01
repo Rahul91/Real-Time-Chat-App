@@ -376,7 +376,7 @@ class JoinChannelRequest(Resource):
             session.rollback()
             response = get_pending_invitation(user_id=current_identity.id)
             session.commit()
-            return [transform_pending_requests(pending_item) for pending_item in response] if response else None
+            return [transform_pending_requests(pending_item) for pending_item in response] if response else []
         except ValueError as val_err:
             log.error(repr(val_err))
             session.rollback()
