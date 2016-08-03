@@ -47,5 +47,5 @@ api.add_resource(ApproveJoinRequest, '/channel/approve', endpoint='save_user_inv
 # app.teardown_appcontext(close_session)
 
 if __name__ == "__main__":
-    app.run(debug=config.FLASK_DEBUG, port=config.FLASK_PORT)
+    app.run(debug=config.FLASK_DEBUG, port=config.FLASK_PORT, threaded=True)
 

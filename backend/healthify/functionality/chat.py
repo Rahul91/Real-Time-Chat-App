@@ -3,6 +3,8 @@ from uuid import uuid4
 from datetime import datetime
 from sqlalchemy import desc
 import pika
+from zmq import green as zmq
+# from flask import Response
 
 from healthify.functionality.channel import (create_channel, get_channel_by_name,
                                              is_channel_unsubscribed, get_channel_by_id)
@@ -14,10 +16,16 @@ from healthify.models.common import UserChannelMapping
 from healthify.models.user import User
 from healthify.utils import validation
 from healthify.functionality.auth import get_user_by_id
+# from healthify.worker.stream_fetch import MessageProcessor
+# from healthify.worker.stream_fetch import message_list
 
 __author__ = 'rahul'
 
 log = get_logger()
+
+ctx = zmq.Context()
+pubsock = ctx.socket(zmq.PUB)
+pubsock.bind('inproc://pub')
 
 
 @validation.not_empty('message', 'PUB-REQ-MESSAGE-PAYLOAD', req=True)
@@ -46,6 +54,8 @@ def publish_message(**kwargs):
     #                            routing_key='',
     #                            body=json.dumps(payload))
     # connection.close()
+    global pubsock
+    pubsock.send_json(payload)
 
     payload.update(dict(
         id=str(uuid4()),
@@ -88,16 +98,24 @@ def fetch_message(**kwargs):
     return message_list
 
 
-@validation.not_empty('user_id', 'REQ-USER-ID', req=True)
-@validation.not_empty('channel_id', 'REQ-CHANNEL-ID', req=True)
+# @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
+# @validation.not_empty('channel_id', 'REQ-CHANNEL-ID', req=True)
 def fetch_stream_messages(**kwargs):
     log.info('Fetch Message Stream kwargs: {}'.format(kwargs))
-    return dict(
-        message=kwargs['message'],
-        channel=get_channel_by_id(channel_id=kwargs['channel']),
-        published_by_name=get_user_by_id(user_id=kwargs['published_by']).first_name,
-        created_on=datetime.now(),
-    )
+    subsock = ctx.socket(zmq.SUB)
+    subsock.setsockopt(zmq.SUBSCRIBE, '')
+    subsock.connect('inproc://pub')
+    message_stream = subsock.recv_json()
+    log.info('Fetch Message Stream kwargs: {}'.format(message_stream))
+    # if json.loads(message_stream).channel
+    return message_stream
+
+
+def fetch_stream(**kwargs):
+    channel_obj = get_channel_by_name(channel_name=kwargs['channel_name'])
+    return session.query(ChatHistory)\
+        .filter(ChatHistory.channel == channel_obj.id, ChatHistory.deleted_on.is_(None)) \
+        .order_by(desc(ChatHistory.created_on))
 
 
 @validation.not_empty('user_id', 'REQ-USER-ID', req=True)

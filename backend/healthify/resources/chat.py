@@ -260,7 +260,7 @@ class DeleteChat(Resource):
 
 class MessageStream(Resource):
 
-    # decorators = [jwt_required()]
+    decorators = [jwt_required()]
 
     message_response_format = dict(
         message_id=fields.String,
@@ -269,12 +269,12 @@ class MessageStream(Resource):
         created_on=fields.DateTime,
     )
 
-    @marshal_with(message_response_format)
+    # @marshal_with(message_response_format)
     def post(self):
         fetch_message_stream_request_format = reqparse.RequestParser()
-        fetch_message_stream_request_format.add_argument('channel', type=non_empty_str, required=True, help="MSG-STREAM-REQ-CHANNEL")
-        fetch_message_stream_request_format.add_argument('published_by', type=non_empty_str, required=True, help="MSG-STREAM-REQ-PUBLISHER")
-        fetch_message_stream_request_format.add_argument('message', type=non_empty_str, required=True, help="MSG-STREAM-REQ-MESSAGE")
+        fetch_message_stream_request_format.add_argument('channel_name', type=non_empty_str, required=True, help="MSG-STREAM-REQ-CHANNEL-NAME")
+        # fetch_message_stream_request_format.add_argument('published_by', type=non_empty_str, required=True, help="MSG-STREAM-REQ-PUBLISHER")
+        # fetch_message_stream_request_format.add_argument('message', type=non_empty_str, required=True, help="MSG-STREAM-REQ-MESSAGE")
 
         params = fetch_message_stream_request_format.parse_args()
         try:

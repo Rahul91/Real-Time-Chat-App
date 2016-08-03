@@ -6,6 +6,7 @@ from pika.exceptions import AMQPConnectionError, ConnectionClosed
 from flask_restful import abort
 
 from healthify.utils.logger import get_logger
+from healthify.functionality.chat import fetch_stream
 from healthify.models.chat import ChatHistory
 from healthify.models.user import User
 from healthify.models.channel import Channel
@@ -34,17 +35,27 @@ class MessageProcessor(object):
 
             pika_channel.queue_bind(exchange=PIKA_RABBITMQ_EXCHANGE,
                                     queue=queue_name)
+            message_list = []
 
             def callback_function(ch, method, properties, body):
+                global message_list
                 log.info('Pika Client Message payload: {}'.format(body))
                 payload = json.loads(body)
                 payload.update(dict(
                     id=str(uuid4()),
                 ))
+                print payload
+                try:
+                    message_list.append(payload)
+                except:
+                    message_list = [payload]
+                # fetch_stream(data=payload)
 
-                chat_obj = ChatHistory(**payload)
-                session.add(chat_obj)
-                session.commit()
+                # yield payload
+
+                # chat_obj = ChatHistory(**payload)
+                # session.add(chat_obj)
+                # session.commit()
 
             pika_channel.basic_consume(callback_function,
                                        queue=queue_name,

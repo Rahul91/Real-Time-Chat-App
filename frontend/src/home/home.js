@@ -105,11 +105,11 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     }
 
     $scope.get_chat_by_channel_name($scope.channel, $scope.page_num);
-    $scope.fetchMessage = $interval(function () {
-        if ($scope.autoRefresh == true){
-            $scope.get_chat_by_channel_name($scope.channel, $scope.page_num);
-        }
-    }, 10000);
+    // $scope.fetchMessage = $interval(function () {
+    //     if ($scope.autoRefresh == true){
+    //         $scope.get_chat_by_channel_name($scope.channel, $scope.page_num);
+    //     }
+    // }, 120000);
 
 
     if ($rootScope.showWelcomeMessage == true){
@@ -156,6 +156,25 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         );
         $scope.message=''; 
     }
+
+    $scope.fetchStream = function(channel_name){
+        var result = homeService.streamFetch(channel_name)
+        result.then(function(response) {
+            if (response.status ==  200){
+                $scope.messageList = $scope.messageList.concat(response.data);
+            }else{
+                toaster.pop('error', response.data['message'])
+            }},
+            function(error) {
+                toaster.pop('error', error.data['message'])
+            }
+        );
+        $scope.fetchStream($scope.channel.channel_name);
+    }
+    $scope.fetchStream($scope.channel.channel_name);
+    // $interval(function () {
+    //     $scope.fetchStream($scope.channel.channel_name)
+    //  }, 50); 
 
     $scope.close = function () {
         var modalClass = angular.element(document.querySelector('.modal'));
