@@ -48,7 +48,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             }
         );
     }
-    // $scope.get_pending_request_for_user();
 
     $scope.get_channel_by_name = function (channel_name) {
         var result = homeService.get_channel_by_name(channel_name)
@@ -90,6 +89,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                     $scope.displayChat = true;
                 }
                 $scope.displayChat = true;
+                $scope.fetchStream($scope.channel.channel_name);
             }else if(response.data['message'] == "'NoneType' object has no attribute '__getitem__'"){
                 toaster.pop('success', 'Registering User with Public Channel');
             }else{
@@ -105,12 +105,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
     }
 
     $scope.get_chat_by_channel_name($scope.channel, $scope.page_num);
-    // $scope.fetchMessage = $interval(function () {
-    //     if ($scope.autoRefresh == true){
-    //         $scope.get_chat_by_channel_name($scope.channel, $scope.page_num);
-    //     }
-    // }, 120000);
-
 
     if ($rootScope.showWelcomeMessage == true){
         $scope.welcomeMessage = true;
@@ -136,17 +130,12 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         $scope.get_pending_request_for_user();
         $scope.get_all_channels();
     }, 120000);
-    // $scope.get_all_channels();
 
     $scope.publish = function (message, channel_name) {
         var result = homeService.publish(message, channel_name)
         result.then(function(response) {
             if (response.status ==  200){
-                $scope.messageList.unshift({
-                                'message_text': message,
-                                'created_on': new Date(),
-                                'published_by_name': 'me',
-                            });
+                $scope.fetchStream($scope.channel.channel_name)
             }else{
                 toaster.pop('error', response.data['message'])
             }},
@@ -161,7 +150,9 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         var result = homeService.streamFetch(channel_name)
         result.then(function(response) {
             if (response.status ==  200){
-                $scope.messageList = $scope.messageList.concat(response.data);
+                if (response.data.message_text.length > 0){
+                    $scope.messageList.unshift(response.data);
+                }
             }else{
                 toaster.pop('error', response.data['message'])
             }},
@@ -169,12 +160,7 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                 toaster.pop('error', error.data['message'])
             }
         );
-        $scope.fetchStream($scope.channel.channel_name);
     }
-    $scope.fetchStream($scope.channel.channel_name);
-    // $interval(function () {
-    //     $scope.fetchStream($scope.channel.channel_name)
-    //  }, 50); 
 
     $scope.close = function () {
         var modalClass = angular.element(document.querySelector('.modal'));
@@ -273,7 +259,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
                 toaster.pop('success', channelName + ': ' + response.data['message']);
                 if (response.data['message'] == 'Created'){
                     $scope.channel.channel_name = response.data['channel_name'];
-                    // $scope.channel_name = response.data['channel_name'];
                     $scope.get_all_channels();
                     $scope.get_chat_by_channel_name($scope.channel , $scope.page_num);
                 }
