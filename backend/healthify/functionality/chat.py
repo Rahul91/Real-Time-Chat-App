@@ -99,16 +99,18 @@ def fetch_message(**kwargs):
 
 
 # @validation.not_empty('user_id', 'REQ-USER-ID', req=True)
-# @validation.not_empty('channel_id', 'REQ-CHANNEL-ID', req=True)
+@validation.not_empty('channel_name', 'REQ-CHANNEL-NAME', req=True)
 def fetch_stream_messages(**kwargs):
     log.info('Fetch Message Stream kwargs: {}'.format(kwargs))
     subsock = ctx.socket(zmq.SUB)
     subsock.setsockopt(zmq.SUBSCRIBE, '')
     subsock.connect('inproc://pub')
     message_stream = subsock.recv_json()
-    log.info('Fetch Message Stream kwargs: {}'.format(message_stream))
-    # if json.loads(message_stream).channel
-    return message_stream
+    if kwargs['channel_name'] == get_channel_by_id(channel_id=message_stream['channel']).name:
+        log.info('Fetch Message Stream kwargs: {}'.format(message_stream))
+        return message_stream
+    else:
+        return None
 
 
 def fetch_stream(**kwargs):

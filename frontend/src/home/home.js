@@ -135,7 +135,6 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
         var result = homeService.publish(message, channel_name)
         result.then(function(response) {
             if (response.status ==  200){
-                $scope.fetchStream($scope.channel.channel_name)
             }else{
                 toaster.pop('error', response.data['message'])
             }},
@@ -152,9 +151,11 @@ mainApp.controller("homeController", function ($scope, toaster, $rootScope, $loc
             if (response.status ==  200){
                 if (response.data.message_text.length > 0){
                     $scope.messageList.unshift(response.data);
+                    $scope.fetchStream($scope.channel.channel_name)
                 }
             }else{
                 toaster.pop('error', response.data['message'])
+                $scope.fetchStream($scope.channel.channel_name)
             }},
             function(error) {
                 toaster.pop('error', error.data['message'])
