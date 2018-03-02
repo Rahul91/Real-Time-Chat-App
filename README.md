@@ -19,9 +19,9 @@ RabbitMq (broker) + Pika (MessagingClient): This async approach was dropped beca
 
 ## Project Setup
   1. Clone project: $ git clone https://github.com/Rahul91/healthify.git and checkout invite_feature branch.
-  2. For backend setup, please follow README.md in healthify/backend/
-  3. For frontend setup, do npm install in healthify/frontend, make sure you have package.json in your current directory
-  4. Change constant in healthify/frontend/src/mainApp.js to point to your flask api
+  2. For backend setup, please follow README.md in /backend.
+  3. For frontend setup, do npm install in /frontend, make sure you have package.json in your current directory.
+  4. Change constant in /frontend/src/mainApp.js to point to your flask api.
   5. Start server using $python -m SimpleHTTPServer port_no. in frontend folder, make sure you have index.html there.
 
 ## Suggestion: 
