@@ -18,7 +18,7 @@ RabbitMq (broker) + Pika (MessagingClient): This async approach was dropped beca
 
 
 ## Project Setup
-  1. Clone project: $ git clone https://github.com/Rahul91/healthify.git and checkout invite_feature branch.
+  1. Clone project: $ git clone https://github.com/Rahul91/Real-Time-Chat-App.git and checkout invite_feature branch.
   2. For backend setup, please follow README.md in /backend.
   3. For frontend setup, do npm install in /frontend, make sure you have package.json in your current directory.
   4. Change constant in /frontend/src/mainApp.js to point to your flask api.
